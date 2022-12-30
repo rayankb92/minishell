@@ -6,12 +6,17 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:25:58 by rferradi          #+#    #+#             */
-/*   Updated: 2022/12/30 05:18:21 by rferradi         ###   ########.fr       */
+/*   Updated: 2022/12/30 05:27:59 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 #define CHARSET "$<>| "
+
+// en gros quand une cote est mal fermer dans bash il va te print a la ligne
+// >
+// et il attend que tu ferme les cote
+// nous on doit pas gerer ca on ecrit juste syntax error si y a heja
 
 int	check_quote(char *str)
 {
