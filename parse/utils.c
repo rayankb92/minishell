@@ -1,28 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2022/12/30 06:58:53 by rferradi         ###   ########.fr       */
+/*   Created: 2022/12/30 06:37:10 by rferradi          #+#    #+#             */
+/*   Updated: 2022/12/30 07:06:05 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include "../libft/libft.h"
+#include "../include/minishell.h"
 
-// typedef struct t_cmd{
-// 	char	*cmd;
-// 	char	*args;
-// }
+int	is_in_charset(char c, char *charset)
+{
+	int	i;
 
-int	check_quote(char *str);
-int	check_operateur(char *str);
-int	is_in_charset(char c, char *charset);
-int	error_msg(char *str);
+	i = -1;
+	while (charset[++i])
+		if (c == charset[i])
+			return (1);
+	return (0);
+}
 
-
+int	error_msg(char *str)
+{
+	ft_putstr_fd(str, 2);
+	return (1);
+}

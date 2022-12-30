@@ -6,12 +6,13 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:25:58 by rferradi          #+#    #+#             */
-/*   Updated: 2022/12/30 05:27:59 by rferradi         ###   ########.fr       */
+/*   Updated: 2022/12/30 07:05:52 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 #define CHARSET "$<>| "
+#define CHEVRON "<>"
 
 // en gros quand une cote est mal fermer dans bash il va te print a la ligne
 // >
@@ -41,6 +42,28 @@ int	check_quote(char *str)
 	if (singleopen == 1 || doubleopen == 1)
 		printf("Syntax Error\n");
 	return (1);
+}
+
+int	check_operateur(char *str)
+{
+	int	i;
+
+	i = -1;
+	if (ft_strnstr(str, "<>", -1))
+		return (error_msg("Syntax error\n"));
+	while (str[++i])
+	{
+		if (str[i] == '<' || str[i] == '>')
+		{
+			if (str[i + 1] == '<' || str[i + 1] == '>')
+				i++;
+			while ((str[++i]) && (str[i] == ' ' || str[i] == '\n'));
+			if (!str[i])
+				return (error_msg("Shellzer: syntax error near unexpected token `newline'\n"));
+			i--;
+		}
+	}
+	return (0);
 }
 
 // 
