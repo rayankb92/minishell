@@ -1,24 +1,41 @@
-SRCS	= ft_bzero.c ft_isalpha.c ft_isdigit.c ft_memchr.c ft_memcpy.c ft_memset.c \
-			ft_atoi.c ft_isalnum.c ft_isascii.c ft_isprint.c ft_memcmp.c ft_memmove.c ft_strlen.c \
-			ft_strdup.c ft_strncmp.c ft_toupper.c ft_tolower.c ft_calloc.c ft_strnstr.c \
-			ft_strchr.c ft_strrchr.c ft_strlcpy.c ft_strlcat.c ft_substr.c ft_strjoin.c \
-			ft_strtrim.c ft_split.c ft_itoa.c ft_strmapi.c ft_striteri.c ft_putchar_fd.c \
-			ft_putstr_fd.c ft_putendl_fd.c ft_putnbr_fd.c ft_strcmp.c ft_strlendouble.c ft_displaystrstr.c \
-			$(addprefix ft_printf/, ft_hexaptr.c ft_printf.c ft_putcharstr.c ft_putnbr.c) \
-			$(addprefix get_next_line/, get_next_line.c get_next_line_utils.c)
+SRCS	=	ft_striteri.c		ft_strtrim.c	ft_strmapi.c		ft_atoi.c		\
+			ft_isalpha.c		ft_memchr.c		ft_strchr.c			ft_strlen.c		\
+			ft_tolower.c		ft_bzero.c		ft_isascii.c 		ft_memcmp.c		\
+			ft_strdup.c			ft_strncmp.c	ft_toupper.c		ft_calloc.c		\
+			ft_isdigit.c		ft_memcpy.c		ft_strlcat.c		ft_strnstr.c	\
+			ft_isalnum.c 		ft_isprint.c	ft_memset.c			ft_memmove.c	\
+			ft_strlcpy.c		ft_strrchr.c	ft_strnrchr.c		ft_substr.c		\
+			ft_split.c			ft_strjoin.c	ft_itoa.c			ft_putchar_fd.c	\
+			ft_putstr_fd.c		ft_putendl_fd.c	ft_putnbr_fd.c
 
-BONUS	= ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c ft_lstadd_back.c ft_lstdelone.c \
-			ft_lstclear.c ft_lstiter.c ft_lstmap.c
+ADDED	=	ft_putchar.c		ft_putstr.c		ft_putnstr.c		ft_putnstr_fd.c \
+			ft_putendl.c		ft_putnendl.c	ft_putnendl_fd.c	ft_putnbr.c		\
+			ft_strcpy.c			ft_isspace.c	ft_swap.c			ft_strcmp.c		\
+			ft_memdel.c			ft_arraydel.c	ft_strcat.c
 
-NAME	= libft.a
+BONUS	=	ft_lstnew.c			ft_lstadd_front.c	ft_lstsize.c	ft_lstlast.c	\
+			ft_lstadd_back.c	ft_lstdelone.c		ft_lstclear.c	ft_lstiter.c	\
+			ft_lstmap.c
 
-OBJS	= ${SRCS:.c=.o}
+GNL		=	$(addprefix ./get_next_line/,	get_next_line.c		get_next_line_utils.c)
 
-OBJS_BONUS = ${BONUS:.c=.o}
+PRINTF	=	$(addprefix ./ft_printf/,		ft_printf.c			extract_spec_info.c	\
+			accept.c		explain_specification.c	algo_flag.c		exec_integer.c	\
+			exec_octal.c	exec_binary.c			exec_unsigned.c	exec_double.c	\
+			exec_string.c	calc_len.c				operations.c	color.c			\
+			precision.c		print.c) 
+
+NAME	=	libft.a
+
+OBJS		= ${SRCS:.c=.o} ${ADDED:.c=.o} 
+
+OBJS_BONUS	= ${BONUS:.c=.o}
+
+OBJS_GNL	= ${GNL:.c=.o}
+
+OBJS_PRINTF	= ${PRINTF:.c=.o}
 
 HEADERS	= ./
-
-CFLAGS = -Wall -Wextra -Werror
 
 .c.o	:
 		gcc -Wall -Wextra -Werror -I ${HEADERS} -c $< -o ${<:.c=.o}
@@ -28,14 +45,20 @@ ${NAME} : ${OBJS}
 
 all : ${NAME}
 
-so:
-	gcc -nostartfiles -shared -o libft.so ${CFLAGS} ${SRCS} ${BONUS}
-
-bonus : $(OBJS) $(OBJS_BONUS)
+bonus	: $(OBJS) $(OBJS_BONUS)
 		ar rcs $(NAME) $(OBJS) $(OBJS_BONUS)
 
+gnl		: $(OBJS_GNL)
+		ar rcs $(NAME) $(OBJS_GNL)
+
+printf	: $(OBJS_PRINTF)
+		ar rcs $(NAME) $(OBJS_PRINTF)
+
+any		: $(OBJS) $(OBJS_BONUS) $(OBJS_GNL) $(OBJS_PRINTF)
+		ar rcs $(NAME) $(OBJS) $(OBJS_BONUS) $(OBJS_GNL) $(OBJS_PRINTF)
+
 clean :
-		rm -rf ${OBJS} ${OBJS_BONUS}
+		rm -rf ${OBJS} ${OBJS_BONUS} $(OBJS_GNL) $(OBJS_PRINTF)
 
 fclean : clean
 		rm -rf ${NAME}

@@ -3,25 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/06 15:59:39 by rferradi          #+#    #+#             */
-/*   Updated: 2022/12/19 02:19:03 by rferradi         ###   ########.fr       */
+/*   Created: 2022/09/06 22:09:02 by ooxn              #+#    #+#             */
+/*   Updated: 2022/12/31 13:11:54 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "includes/libft.h"
 
-int	ft_strcmp(const char *s1, const char *s2)
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	size_t	i;
+	unsigned char	*copy;
+	unsigned char	*copy2;
 
-	i = 0;
-	while ((s1[i] || s2[i]))
+	copy = (unsigned char *)s1;
+	copy2 = (unsigned char *)s2;
+	while ((*copy || *copy2) && n-- > 0)
 	{
-		if (s1[i] != s2[i])
-			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-		i++;
+		if (*copy != *copy2)
+			return (*copy - *copy2);
+		copy++;
+		copy2++;
 	}
 	return (0);
 }

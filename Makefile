@@ -1,39 +1,30 @@
-SRCS =	$(addprefix parse/, parse.c utils.c) main.c \
-		$(addprefix builtins/, pwd.c)
+SRCS	=	$(addprefix parse/, parse.c utils.c) main.c \
+			$(addprefix builtins/, pwd.c)				
 
-NAME = minishell
+NAME	=	minishell
 
+FLAGS	=	-g3 -lreadline #-Wall -Werror -Wextra -lreadline
 
-INC = -I ./include
+OBJS	=	${SRCS:.c=.o}
 
-FLAGS = -g3 -Wall -Werror -Wextra 
+INC		= -I ./include
 
-OBJS = ${SRCS:.c=.o}
+all:	${NAME}
 
-LIBFT = libft/libft.a
-
-${NAME} : ${OBJS} ${LIBFT}
-			make -C libft/ all
-			gcc ${FLAGS} ${INC} $(OBJS) -o $(NAME) libft/libft.a -lreadline
-
-${LIBFT}:
-	make -C libft/ all
-
-all : ${NAME}
+${NAME}:	${OBJS}
+		make -C ./libft/ fclean
+		make -C ./libft/ any
+		cc ${FLAGS} ${INC} ${OBJS} -o ${NAME} ./libft/libft.a
 
 %.o:%.c
-		gcc ${FLAGS} -c $< -o $@
+	cc ${FLAGS} -c $< -o $@
 
-bonus: ${NAME_BONUS}
+clean:
+	make -C ./libft/ clean
+	rm -rf ${OBJS}
 
+fclean:	clean
 
-clean :
-		make -C ./libft/ clean
-		rm -rf ${OBJS} 
-fclean : clean
-		rm -rf ${NAME} ${NAME_BONUS}
-		make -C ./libft/ fclean
+re:	fclean all
 
-re : fclean all
-
-.PHONY : all bonus clean fclean re bonus INC libft NAME NAME_BONUS
+.PHONY:	all clean fclean re

@@ -3,94 +3,117 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/16 00:10:20 by rferradi          #+#    #+#             */
-/*   Updated: 2022/11/11 16:14:58 by rferradi         ###   ########.fr       */
+/*   Created: 2022/10/01 01:05:09 by nxoo              #+#    #+#             */
+/*   Updated: 2022/12/31 13:09:47 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "../includes/ft_printf.h"
 
-int	modulo_put(va_list *argls, char *str)
+enum
 {
-	int		count;
-	va_list	dest;
+	STRING,
+	SPECIFICATION,
+	COLOR
+}
+e_state;
 
-	va_copy(dest, *argls);
-	count = 0;
-	if (*str == 's')
-		count = ft_putstr((char *)va_arg(*argls, char *));
-	if (*str == 'i' || *str == 'd')
-		count = ft_putnbr(va_arg(*argls, int), &count);
-	if (*str == 'c')
-		count = ft_putchar((char)va_arg(*argls, int));
-	if (*str == 'u')
-		count = ft_putnbr_u((unsigned int)va_arg(*argls, int), &count);
-	if (*str == '%')
-		count = write(1, "%", 1);
-	if (*str == 'x' || *str == 'X' || *str == 'p')
-		count = hexa_ptr(argls, &dest, *str, &count);
-	return (count);
+static int	print_substring(const char *start, const char *end)
+{
+	return (ft_putnstr_fd(start, end - start, 2));
 }
 
-int	ft_printf(const char *str, ...)
+static int	is_specifier(char c)
 {
-	va_list	arglst;
-	int		i;
-	char	*strptr;
+	static const char *const	names[256] = {
+	['c'] = "char",
+	['s'] = "char *",
+	['p'] = "pointer",
+	['d'] = "int",
+	['i'] = "int",
+	['u'] = "unsigned",
+	['x'] = "unsigned hexa",
+	['X'] = "unsigned hexa",
+	['f'] = "float / double",
+	['o'] = "octal",
+	['b'] = "binary",
+	['%'] = "percent",
+	};
 
-	strptr = (char *)str;
-	i = 0;
-	va_start(arglst, str);
-	while (*strptr)
+	return (names[(unsigned)c] != NULL);
+}
+
+static t_bool	case_string_specification(const char **start, const char **end, \
+											int *len, va_list *params)
+{
+	if (e_state == STRING)
 	{
-		if (*strptr != '%' && *strptr)
+		if (**end == '%' || **end == '{')
 		{
-			ft_putchar(*strptr);
-			strptr++;
-			i++;
-		}
-		else
-		{
-			strptr++;
-			i += modulo_put(&arglst, strptr);
-			strptr++;
+			*len += print_substring(*start, *end);
+			if (**end == '%')
+				e_state = SPECIFICATION;
+			else
+				e_state = COLOR;
+			*start = *end;
 		}
 	}
-	va_end(arglst);
-	return (i);
+	else if (e_state == SPECIFICATION)
+	{
+		if (is_specifier(**end))
+		{
+			*len += explain_specification(*start, *end + 1, params);
+			e_state = STRING;
+			*start = *end + 1;
+		}
+	}
+	return (e_state == STRING || e_state == SPECIFICATION);
 }
-// int main()
-// {
-// 	printf("la fonction = %i\n", ft_printf(" %d %d %d %d %d %d %d", 
-	// INT_MAX, INT_MIN,
-	//  LONG_MAX, LONG_MIN, ULONG_MAX, 0, -42));
-// 	return 0;
-// }
 
-// int main(int argc, char const *argv[])
-// {
-// 	char nom[] = "Ferradi";
-// 	char prenom[] = "Rayan";
-// 	int	age = -54;
-// 	int	vrai;
-// 	int maversion;
-// 	unsigned int unsint = 4294967295;
+static void	main_printf(const char *start, const char *end, \
+							int *len, va_list *params)
+{
+	while (*end != '\0')
+	{
+		if (!case_string_specification(&start, &end, len, params))
+		{
+			if (*end == '}')
+			{
+				if (ft_strnrchr(start, '{', end - start) != start)
+				{
+					print_substring(start, \
+						ft_strnrchr(start, '{', end - start));
+					start = ft_strnrchr(start, '{', end - start);
+				}
+				if (end[-1] == '{')
+					print_substring(start - 1, end + 1);
+				if (explain_color(start, end + 1))
+					e_state = STRING;
+				else
+					*len += print_substring(start, end + 1);
+				start = end + 1;
+			}
+		}
+		end++;
+	}
+	*len += print_substring(start, end);
+}
 
-// 	// age = ft_putnbr(123456789);
-// 	// ft_putchar_fd('\n', 1);
-// 	// ft_putnbr(age);
-// 	// ft_putstr_fd("je test\n", 1);
-// 	maversion = ft_printf("Bonjour je m'appelle %s %s, et j'ai %i ans un char 
-	// = %c 2400 hexa = %p\n", prenom, nom, age, 'R', &age);
-// 	vrai = printf("Bonjour je m'appelle %s %s, et j'ai %i ans un char = %p\n",
-	//  prenom, nom, age, &age);
-// 	// ft_putnbr(maversion);
-// 	// ft_putchar_fd('\n', 1);
-// 	// ft_putnbr(vrai);
-// 	// ft_putchar_fd('\n', 1);
-// 	// convert_hex(240093, "0123456789ABCDEF");
-// 	// printf("la j'affiche un\n");
-// 	return 0;
-// }
+int	ft_printf(const char *format, ...)
+{
+	va_list		params;
+	int			len;
+	const char	*p;
+	const char	*start;
+
+	p = format;
+	start = format;
+	e_state = STRING;
+	len = 0;
+	va_start(params, format);
+	main_printf(start, p, &len, &params);
+	va_end(params);
+	return (len);
+}

@@ -3,63 +3,54 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/25 23:58:00 by rferradi          #+#    #+#             */
-/*   Updated: 2022/09/26 01:37:28 by rferradi         ###   ########.fr       */
+/*   Created: 2022/09/11 22:10:53 by ooxn              #+#    #+#             */
+/*   Updated: 2022/12/31 13:11:54 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "includes/libft.h"
 
-int	itoa_len(int n)
+int	length_integer(unsigned int nb)
 {
-	int	i;
+	static int	len;
 
-	i = 0;
-	if (n <= 0)
-		i = 1;
-	while (n != 0)
-	{
-		n /= 10;
-		i++;
-	}
-	return (i);
+	len = 0;
+	if (nb >= 10)
+		length_integer(nb / 10);
+	len++;
+	return (len);
 }
 
-void	itostr(char **res, int n, int index)
+void	set_nb(int n, char **res, int pos)
 {
-	long long int	nb;
+	unsigned int	nb;
 
-	nb = (long long int)n;
-	if (nb < 0)
+	nb = n;
+	if (n < 0)
 	{
+		nb = n * -1;
 		(*res)[0] = '-';
-		nb *= -1;
 	}
-	if (nb > 9)
-		itostr(res, (nb / 10), index - 1);
-	(*res)[index] = (nb % 10) + '0';
+	if (nb >= 10)
+		set_nb(nb / 10, res, pos - 1);
+	(*res)[pos] = nb % 10 + '0';
 }
 
 char	*ft_itoa(int n)
 {
+	size_t	len;
 	char	*res;
-	int		len;
 
-	len = itoa_len(n);
-	res = malloc(sizeof(char) * len + 1);
+	if (n < 0)
+		len = 1 + length_integer(n * -1);
+	else
+		len = length_integer(n);
+	res = malloc(len + 1);
 	if (!res)
-		return (NULL);
+		return (res);
 	res[len] = 0;
-	itostr(&res, n, --len);
+	set_nb(n, &res, len - 1);
 	return (res);
 }
-// int main(int argc, char const *argv[])
-// {
-// 	char *res;
-
-// 	res = ft_itoa(-12);
-// 	printf("%s\n", res);
-// 	return 0;
-// }

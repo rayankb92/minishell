@@ -3,50 +3,51 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/22 23:02:27 by rferradi          #+#    #+#             */
-/*   Updated: 2022/11/08 20:03:06 by rferradi         ###   ########.fr       */
+/*   Created: 2022/09/06 21:14:43 by ooxn              #+#    #+#             */
+/*   Updated: 2022/12/31 13:11:54 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include <bsd/string.h>
+#include "includes/libft.h"
 
-size_t	ft_strlcat(char *dest, const char *src, size_t size)
+static char	*ft_strncat(char *dst, const char *src, size_t nb)
 {
-	size_t	i;
-	size_t	len;
+	char	*start;
 
-	i = 0;
-	if (!size)
-		return (ft_strlen(src));
-	len = ft_strlen(dest);
-	if (len >= size)
-		return (size + ft_strlen(src));
-	while ((src[i]) && (len < size - 1))
-	{
-		dest[len++] = src[i++];
-	}
-	dest[len] = '\0';
-	return (len + ft_strlen(&src[i]));
+	start = dst;
+	while (*start)
+		start++;
+	while (*src && nb-- > 0)
+		*start++ = *src++;
+	*start = 0;
+	return (dst);
 }
 
-// int main()
-// {
-// 	const char src[] = "salut";
-// 	char *dest;
-// 	const char src2[] = "salut";
-// 	char *dest2;
-// 	dest = malloc(sizeof(char) * 15);
-// 	dest2 = malloc(sizeof(char) * 15);
-// 		memset(dest, 'r', 15);
-// 		memset(dest2, 'r', 15);
-// 		dest[10] = 'a';
-// 		dest2[10] = 'a';
-// 	printf("FT: return %ld DEST = %s\n", 
-// 		ft_strlcat(dest, "lorem", 15), dest);
-// 	printf("VR: return %ld DEST = %s\n", 
-// 		strlcat(dest2, "lorem", 15), dest2);
-// 	return 0;
-// }
+size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
+{
+	size_t	len_dst;
+	size_t	len_src;
+	size_t	n;
+	size_t	i;
+
+	len_src = ft_strlen(src);
+	if (dstsize == 0)
+		return (len_src);
+	len_dst = ft_strlen(dst);
+	n = dstsize;
+	i = 0;
+	if (dstsize > 0)
+	{	
+		while (dst[i] && dstsize > 0)
+		{
+			i++;
+			dstsize--;
+		}
+		if (dstsize == 0)
+			return (n + len_src);
+		ft_strncat(dst, src, dstsize - 1);
+	}
+	return (len_src + len_dst);
+}

@@ -3,25 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/21 23:39:35 by rferradi          #+#    #+#             */
-/*   Updated: 2022/11/10 14:27:32 by rferradi         ###   ########.fr       */
+/*   Created: 2022/09/06 22:35:29 by ooxn              #+#    #+#             */
+/*   Updated: 2022/12/31 13:11:54 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "includes/libft.h"
+#define MAXV	18446744073709551615UL
 
-void	*ft_calloc(size_t elem, size_t elemsize)
+void	*ft_calloc(size_t count, size_t size)
 {
-	void		*res;
+	void	*s;
 
-	if (elem > MAXSIZE || elemsize > MAXSIZE)
+	if (count >= MAXV || size >= MAXV)
 		return (NULL);
-	res = malloc(elem * elemsize);
-	if (!res)
-		return (NULL);
-	if (res)
-		ft_bzero(res, elem * elemsize);
-	return (res);
+	s = malloc(count * size);
+	if (s)
+		ft_bzero(s, count * size);
+	return (s);
 }

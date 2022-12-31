@@ -1,127 +1,128 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line.c                              		:+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nxoo <nxoo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/09 17:25:16 by rferradi          #+#    #+#             */
-/*   Updated: 2022/12/07 19:01:10 by rferradi         ###   ########.fr       */
+/*   Created: 2022/09/23 19:10:05 by ooxn              #+#    #+#             */
+/*   Updated: 2022/09/28 01:15:55 by nxoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "../includes/get_next_line.h"
 
-char	*fill_buffer(char *bufferleft, int fd)
+char	**create_buffer(char **buffer, int fd)
 {
-	char	*temp;
-	int		reader;
+	int		size;
 
-	temp = malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (!temp)
-		return (NULL);
-	reader = 1;
-	while (reader != 0 && !ft_strchr_gnl(bufferleft, '\n'))
+	size = fd;
+	if (fd == 0)
+		size = 2;
+	buffer = malloc(sizeof(char *) * size);
+	if (buffer)
 	{
-		reader = read(fd, temp, BUFFER_SIZE);
-		if (reader < 0)
+		buffer[--size] = 0;
+		while (--size >= 0)
 		{
-			free(temp);
-			return (NULL);
+			buffer[size] = malloc(1);
+			if (!buffer[size])
+			{
+				ft_freetab(&buffer, 1);
+				return (NULL);
+			}
+			buffer[size][0] = '\0';
 		}
-		temp[reader] = 0;
-		bufferleft = ft_strjoin_gnl(bufferleft, temp);
 	}
-	free(temp);
-	return (bufferleft);
+	return (buffer);
 }
 
-char	*cut_line(char *bufferleft)
+char	**pop_mem(char **src, int msize)
 {
-	int		i;
-	char	*newline;
+	char	**res;
+	int		k;
 
-	i = 0;
-	if (!bufferleft[i])
-		return (NULL);
-	newline = malloc(sizeof(char *) * (count_line(bufferleft) + 2));
-	if (!newline)
-		return (NULL);
-	while (bufferleft[i] && bufferleft[i] != '\n')
+	res = malloc(sizeof(char *) * msize);
+	if (res)
 	{
-		newline[i] = bufferleft[i];
-		i++;
+		k = -1;
+		while (src[++k])
+			res[k] = ft_strdupcpy(NULL, NULL, src[k], -1);
+		while (k < msize - 1)
+		{
+			res[k] = ft_strdupcpy(NULL, NULL, "", -1);
+			k++;
+		}
+		res[k] = NULL;
 	}
-	if (bufferleft[i] == '\n')
-		newline[i++] = '\n';
-	newline[i] = 0;
-	return (newline);
+	ft_freetab(&src, 1);
+	return (res);
 }
 
-char	*new_buff(char *bufferleft)
+char	**check_line_by_fd(char **buffer, int fd)
 {
-	int		i;
-	int		j;
-	char	*newbuff;
+	int		pos;
 
-	i = 0;
-	j = 0;
-	while (bufferleft[i] && bufferleft[i] != '\n')
-		i++;
-	if (!bufferleft[i])
+	if (!buffer)
 	{
-		free(bufferleft);
-		bufferleft = NULL;
-		return (NULL);
+		buffer = create_buffer(buffer, fd);
+		if (!buffer)
+			return (NULL);
 	}
-	newbuff = malloc(sizeof(char *) * (ft_strlen_gnl(bufferleft) - i + 1));
-	if (!newbuff)
-		return (NULL);
-	while (bufferleft[i])
-		newbuff[j++] = bufferleft[++i];
-	newbuff[j] = 0;
-	free(bufferleft);
-	return (newbuff);
+	pos = fd;
+	if (fd != 0)
+		pos = fd - 2;
+	if (buffer[pos] != NULL)
+		return (buffer);
+	buffer = pop_mem(buffer, fd);
+	return (buffer);
 }
 
-char	*get_next_line(int fd, int i)
+char	*next_line(char ***buffer, int pos)
 {
-	static char	*bufferleft;
-	char		*line;
+	char	*endl;
+	char	*tmp;
+	char	*temp;
 
-	if (!i)
+	endl = ft_strchr((*buffer)[pos], '\n');
+	if (!endl)
 	{
-		free(bufferleft);
-		return (NULL);
+		tmp = NULL;
+		if ((*buffer)[pos][0])
+			tmp = ft_strdupcpy(NULL, NULL, (*buffer)[pos], -1);
+		ft_freetab(buffer, 0);
+		if (*buffer && (*buffer)[pos])
+		{
+			free((*buffer)[pos]);
+			(*buffer)[pos] = ft_strdupcpy(NULL, NULL, "", -1);
+		}
+		return (tmp);
 	}
-	if (BUFFER_SIZE < 0 || fd < 0 || read(fd, NULL, 0) < 0)
-		return (NULL);
-	bufferleft = fill_buffer(bufferleft, fd);
-	if (bufferleft == NULL)
-	{
-		free(bufferleft);
-		return (NULL);
-	}
-	line = cut_line(bufferleft);
-	bufferleft = new_buff(bufferleft);
-	return (line);
+	temp = ft_strdupcpy(NULL, NULL, (*buffer)[pos], endl - (*buffer)[pos] + 1);
+	tmp = ft_strdupcpy(NULL, NULL, endl + 1, -1);
+	free((*buffer)[pos]);
+	(*buffer)[pos] = tmp;
+	return (temp);
 }
 
-// int main(int argc, char const *argv[])
-// {
-// 	// printf("laaa");
-// 	int		opn;
-// 	char	*buffer;
-// 	int		i;
+char	*get_next_line(int fd, int destroy)
+{
+	static char		**buffer;
+	int				pos;
 
-// 	i = -1;
-// 	opn = open(argv[1], 0);
-// 	while (++i <  atoi(argv[2]))
-// 	{
-// 		buffer = get_next_line(opn);
-// 		printf("%s",buffer);
-// 		free(buffer);
-// 	}
-
-// 	return 0;
-// }
+	if ((fd < 3 && fd != 0) || destroy)
+	{
+		ft_freetab(&buffer, 1);
+		return (NULL);
+	}
+	buffer = check_line_by_fd(buffer, fd);
+	pos = fd;
+	if (fd != 0)
+		pos = fd - 2;
+	if (!buffer || !buffer[pos] || !readuntil(buffer + pos, fd))
+	{
+		ft_freetab(&buffer, 0);
+		return (NULL);
+	}
+	return (next_line(&buffer, pos));
+}

@@ -1,76 +1,112 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils.c                        		:+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nxoo <nxoo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/09 17:53:28 by rferradi          #+#    #+#             */
-/*   Updated: 2022/11/24 15:43:54 by rferradi         ###   ########.fr       */
+/*   Created: 2022/09/15 23:23:20 by ooxn              #+#    #+#             */
+/*   Updated: 2022/09/29 21:16:54 by nxoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "../includes/get_next_line.h"
 
-size_t	ft_strlen_gnl(const char *str)
+char	*ft_strdupcpy(char *d1, char *s1, char *s2, int n)
 {
-	size_t	i;
-
-	if (str == NULL)
-		return (0);
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
-}
-
-int	ft_strchr_gnl(char *str, char c)
-{
-	int	i;
+	char	*res;
+	int		i;
 
 	i = -1;
-	if (!str)
-		return (0);
-	while (str[++i])
-		if (str[i] == c)
-			return (1);
-	return (0);
+	if (!s2)
+	{
+		while ((++i < n && n != -1 && s1[i]) || (s1[i] && n == -1))
+			d1[i] = s1[i];
+		d1[i] = 0;
+		return (d1);
+	}
+	if (n != -1)
+		res = malloc(n + 1);
+	else
+	{
+		while (s2[++i])
+			;
+		res = malloc(i + 1);
+	}
+	if (n == -1)
+		return (ft_strdupcpy(res, s2, NULL, i));
+	return (ft_strdupcpy(res, s2, NULL, n));
 }
 
-int	count_line(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i] && str[i] != '\n')
-		i++;
-	return (i);
-}
-
-char	*ft_strjoin_gnl(char *s1, char *s2)
+void	ft_freetab(char ***ptr, int force)
 {
 	int		i;
-	int		j;
-	char	*res;
-	size_t	lens1;
+	int		res;
 
-	lens1 = ft_strlen_gnl(s1);
-	res = malloc(sizeof(char) * (lens1 + ft_strlen_gnl(s2)) + 1);
-	if (!res)
-		return (NULL);
-	i = 0;
-	j = -1;
-	if (s1 != NULL)
+	if (!*ptr)
+		return ;
+	i = -1;
+	res = 0;
+	while (!force && (*ptr)[++i] != NULL)
 	{
-		while (s1[++j])
-			res[j] = s1[j];
+		if ((*ptr)[i][0] != '\0')
+			res++;
 	}
-	else
-		j = 0;
-	i = 0;
-	while (s2[i])
-		res[j++] = s2[i++];
-	res[j] = '\0';
-	free(s1);
-	return (res);
+	if (res == 0)
+	{
+		i = -1;
+		while ((*ptr)[++i] != NULL)
+		{
+			free((*ptr)[i]);
+			(*ptr)[i] = NULL;
+		}
+		free(*ptr);
+		*ptr = NULL;
+	}
+}
+
+void	ft_strnjoin(char **line, const char *s1, int size)
+{
+	char	*res;
+	int		i;
+
+	if (*line && **line)
+	{
+		i = 0;
+		while ((*line)[i])
+			i++;
+		res = malloc(size + i + 1);
+		if (res)
+		{
+			ft_strdupcpy(res, *line, NULL, -1);
+			ft_strdupcpy(res + i, (char *)s1, NULL, -1);
+			free(*line);
+			*line = res;
+		}
+		return ;
+	}
+	if (*line && !**line)
+		free(*line);
+	*line = ft_strdupcpy(NULL, NULL, (char *)s1, -1);
+}
+
+int	readuntil(char **bufferline, int fd)
+{
+	char	buff[BUFFER_SIZE + 1];
+	int		byteread;
+
+	byteread = 1;
+	while (byteread)
+	{
+		byteread = read(fd, buff, BUFFER_SIZE);
+		if (byteread < 0)
+			return (0);
+		buff[byteread] = 0;
+		if (byteread == 0)
+			break ;
+		ft_strnjoin(bufferline, buff, byteread);
+		if (ft_strchr(buff, '\n'))
+			break ;
+	}
+	return (1);
 }

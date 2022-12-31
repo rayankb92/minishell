@@ -3,35 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/21 02:58:17 by rferradi          #+#    #+#             */
-/*   Updated: 2022/09/21 03:21:49 by rferradi         ###   ########.fr       */
+/*   Created: 2022/09/06 22:31:59 by ooxn              #+#    #+#             */
+/*   Updated: 2022/12/31 13:11:54 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "includes/libft.h"
 
-char	*ft_strdup(const char *s)
+char	*ft_strdup(const char *s1)
 {
-	char	*res;
-	int		i;
+	size_t	length;
+	char	*s;
 
-	i = -1;
-	res = malloc(sizeof(char) * ft_strlen(s) + 1);
-	if (!res)
-		return (0);
-	while (s[++i])
-		res[i] = s[i];
-	res[i] = '\0';
-	return (res);
+	length = ft_strlen(s1);
+	s = malloc(length + 1);
+	if (s)
+	{
+		while (*s1)
+			*s++ = *s1++;
+		*s = 0;
+		s -= length;
+	}
+	return (s);
 }
-
-// int main(int argc, char const *argv[])
-// {
-// 	char	test[] = "lorem ipsum dolor sit amet";
-// 	char	*res;
-// 	res = ft_strdup(test);
-// 	printf("%s\n", res);
-// 	return 0;
-// }

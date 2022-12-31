@@ -3,45 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/25 18:10:25 by rferradi          #+#    #+#             */
-/*   Updated: 2022/11/08 20:11:08 by rferradi         ###   ########.fr       */
+/*   Created: 2022/09/07 21:48:57 by ooxn              #+#    #+#             */
+/*   Updated: 2022/12/31 13:11:54 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "includes/libft.h"
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+char	*ft_substr(char const *str, unsigned int start, size_t len)
 {
-	size_t	i;
-	char	*res;
-	size_t	slen;
+	char		*temp;
+	char		*res;
+	size_t		i;
 
-	if (!s)
-		return (NULL);
-	slen = ft_strlen(s);
-	if (start > slen || !s)
-		return (ft_strdup(""));
-	if (start + len > slen)
-		len = slen - start;
-	res = malloc(sizeof(char) * len + 1);
-	if (!res)
+	if (!str)
 		return (NULL);
 	i = 0;
-	while ((s[start]) && (i < len))
-		res[i++] = s[start++];
-	res[i] = 0;
+	while (str[i] != '\0' && i < start)
+		i++;
+	if (!str[i] || i != start)
+		return (ft_strdup(""));
+	temp = malloc(len + 1);
+	if (!temp)
+		return (temp);
+	i = 0;
+	while (str[start + i] != '\0' && i < len)
+	{
+		temp[i] = str[start + i];
+		i++;
+	}
+	temp[i] = '\0';
+	res = ft_strdup(temp);
+	free(temp);
 	return (res);
 }
-
-	// temp = ft_strdup(res);
-	// return (temp);
-// int main(int argc, char const *argv[])
-// {
-// 	char *res;
-// 	res = ft_substr("tripouille", 0, 4200);
-// 	printf("%s\n", res);
-// 	free(res);
-// 	return 0;
-// }

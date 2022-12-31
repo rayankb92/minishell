@@ -3,58 +3,57 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/25 18:51:26 by rferradi          #+#    #+#             */
-/*   Updated: 2022/11/08 14:56:01 by rferradi         ###   ########.fr       */
+/*   Created: 2022/09/11 22:42:51 by ooxn              #+#    #+#             */
+/*   Updated: 2022/12/31 13:11:54 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "includes/libft.h"
 
-int	is_in_set(const char *set, char c)
+static int	is_set(const char *set, char c)
 {
-	int	i;
+	while (*set && *set != c)
+		set++;
+	return (*set != '\0');
+}
 
-	i = -1;
-	while (set[++i])
-	{
-		if (set[i] == c)
-			return (1);
-	}
-	return (0);
+static char	*ft_strsub(char const *str, unsigned int start, unsigned int end)
+{
+	char		*res;
+	char		*s;
+	size_t		size;
+	int			i;
+
+	size = end - start;
+	res = malloc(size + 1);
+	if (!res)
+		return (res);
+	s = (char *)str + start;
+	i = 0;
+	while (*s && end-- > start)
+		res[i++] = *s++;
+	res[i] = 0;
+	return (res);
 }
 
 char	*ft_strtrim(char const *s1, char const *set)
 {
-	int		i;
-	int		j;
-	char	*str;
+	char	*start;
+	char	*s;
 
-	i = 0;
 	if (!s1 || !set)
 		return (NULL);
-	j = ft_strlen(s1);
-	while (s1[i] && is_in_set(set, s1[i]))
-		i++;
-	while (s1[--j] && is_in_set(set, s1[j]))
+	s = (char *)s1;
+	while (*s && is_set(set, *s))
+		s++;
+	if (!*s)
+		return (ft_strdup(s));
+	start = s;
+	while (*s)
+		s++;
+	while (is_set(set, *--s))
 		;
-	if ((++j - i) < 1)
-	{
-		str = malloc(1);
-		if (!str)
-			return (NULL);
-		str[0] = 0;
-		return (str);
-	}
-	return (str = ft_substr(s1, (unsigned int)i, (j - i)));
+	return (ft_strsub(start, 0, ++s - start));
 }
-
-// int main(int argc, char const *argv[])
-// {
-// 	char *s;
-
-// 	s = ft_strtrim("   xxx   xxx", " x");
-// 	printf("%s\n", s);
-// 	return 0;
-// }
