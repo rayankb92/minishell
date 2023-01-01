@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2022/12/31 13:19:13 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/01 11:37:05 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 // }
 
 //	parse.c
-int			check_quote(char *str);
+int			check_quote(const char *str);
 int			check_operateur(char *str);
 int			is_in_charset(char c, char *charset);
 int			error_msg(char *str);

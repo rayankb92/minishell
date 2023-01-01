@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:25:58 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/01 11:21:09 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/01 11:37:01 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 // et il attend que tu ferme les cote
 // nous on doit pas gerer ca on ecrit juste syntax error si y a heja
 
-int	check_quote(char *str)
+int	check_quote(const char *str)
 {
 	int	i;
 
