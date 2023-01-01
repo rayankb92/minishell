@@ -1,5 +1,5 @@
 SRCS	=	$(addprefix parse/, parse.c utils.c) main.c \
-			$(addprefix builtins/, pwd.c)				
+			$(addprefix builtins/, pwd.c cd.c export.c unset.c)
 
 NAME	=	minishell
 

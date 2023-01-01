@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:25:58 by rferradi          #+#    #+#             */
-/*   Updated: 2022/12/31 12:20:28 by rferradi         ###   ########.fr       */
+/*   Updated: 2022/12/31 16:53:51 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,31 +64,6 @@ int	check_operateur(char *str)
 		}
 	}
 	return (0);
-}
-
-int	check_quote(char *str)
-{
-	int	i;
-
-	i = -1;
-	int singleopen = 0;
-	int	doubleopen = 0;
-	while (str[++i])
-	{
-		if ((i > 0 && str[i] == '"' && str[i - 1] != '\\') && singleopen == 0 && doubleopen == 0)
-			doubleopen = 1;
-		else if ((i > 0 && str[i] == '"' && str[i - 1] != '\\') && singleopen == 0 && doubleopen == 1)
-			doubleopen = 0;
-		else if ((i > 0 && str[i] == 39 && str[i - 1] != '\\') && doubleopen == 0 && singleopen == 0)
-			singleopen = 1;
-		else if ((i > 0 && str[i] == 39 && str[i - 1] != '\\') && doubleopen == 1 && singleopen == 1)
-			singleopen = 0;
-		else if ((i > 0 && str[i] == 39 && str[i - 1] != '\\') && doubleopen == 0 && singleopen == 1)
-			singleopen = 0;
-	}
-	if (singleopen == 1 || doubleopen == 1)
-		printf("Syntax Error\n");
-	return (1);
 }
 
 // 
