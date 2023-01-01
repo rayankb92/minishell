@@ -1,5 +1,5 @@
-SRCS	=	$(addprefix parse/, parse.c utils.c) main.c \
-			$(addprefix builtins/, pwd.c)				
+SRCS	=	$(addprefix parse/, parse.c utils.c set_data.c) main.c \
+			$(addprefix builtins/, pwd.c export.c unset.c exit.c)				
 
 NAME	=	minishell
 
@@ -13,7 +13,7 @@ all:	${NAME}
 
 ${NAME}:	${OBJS}
 		make -C ./libft/
-		cc ${FLAGS} ${INC} ${OBJS} -o ${NAME} ./libft/libft.a
+		cc ${FLAGS} ${INC} ${OBJS} -o ${NAME} ./libft/libft.a -lreadline
 
 %.o:%.c
 	cc ${FLAGS} -c $< -o $@

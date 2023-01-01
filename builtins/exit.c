@@ -1,46 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset.c                                            :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/01 01:38:06 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/01 23:53:39 by rferradi         ###   ########.fr       */
+/*   Created: 2023/01/02 00:01:55 by rferradi          #+#    #+#             */
+/*   Updated: 2023/01/02 00:03:31 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	var_name_len(char *name)
+void exit_(t_data *data)
 {
-	int	i;
-
-	i = 0;
-	while (name[i] && name[i] != '=')
-		i++;
-	return (i);
+    // appeler fonction qui free la structure
+    exit(1);
 }
-
-int	unset(t_data *data, char *name)
-{
-	int	len;
-	t_list	*tmp;
-
-	tmp = data->env;
-	len = var_name_len(name);
-	while (tmp)
-	{
-		if (tmp->next && ft_strncmp(name, tmp->next->content, len) == 0)
-		{
-			free(tmp->next->content);
-			tmp->next = tmp->next->next;
-			break;
-		}
-		tmp = tmp->next;
-	}
-}
-
-// rayan=okok
-// J=wefwe
-// moha=2efois
