@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:25:58 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/01 11:37:01 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/01 11:43:53 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ int	check_chevron(const char *str, const char c)
 			i++;
 		while (str[i + j] == c)
 			j++;
+		while (ft_isspace(str[i + j]))
+			i++;
 		if (j == 3)
 			return (ft_printf("bash: syntax error near unexpected token '%c'\n", c));
 		else if (j >= 4)
