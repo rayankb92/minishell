@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/01 11:37:05 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/01 11:40:54 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 #define MINISHELL_H
 
 # include "../libft/includes/libft.h"
-# include "../libft/includes/get_next_line.h"
-# include "../libft/includes/ft_printf.h"
 
 # include <stdio.h>
 # include <readline/readline.h>
@@ -35,5 +33,9 @@ int			check_chevrons(const char *str);
 
 //	builtins.c
 const char	*pwd(void);
+int			cd(const char *path);
+int			unset(char **env, char *name);
+void		echo(char * str, char opt);
+void		export(char **env, char *name, char *value);
 
 #endif
