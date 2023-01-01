@@ -6,7 +6,7 @@ SRCS	=	ft_striteri.c		ft_strtrim.c	ft_strmapi.c		ft_atoi.c		\
 			ft_isalnum.c 		ft_isprint.c	ft_memset.c			ft_memmove.c	\
 			ft_strlcpy.c		ft_strrchr.c	ft_strnrchr.c		ft_substr.c		\
 			ft_split.c			ft_strjoin.c	ft_itoa.c			ft_putchar_fd.c	\
-			ft_putstr_fd.c		ft_putendl_fd.c	ft_putnbr_fd.c
+			ft_putstr_fd.c		ft_putendl_fd.c	ft_putnbr_fd.c		ft_displaydouble.c
 
 ADDED	=	ft_putchar.c		ft_putstr.c		ft_putnstr.c		ft_putnstr_fd.c \
 			ft_putendl.c		ft_putnendl.c	ft_putnendl_fd.c	ft_putnbr.c		\

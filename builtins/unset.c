@@ -1,41 +1,52 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export.c                                           :+:      :+:    :+:   */
+/*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/31 14:35:41 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/01 02:01:38 by rferradi         ###   ########.fr       */
+/*   Created: 2023/01/01 01:38:06 by rferradi          #+#    #+#             */
+/*   Updated: 2023/01/01 03:05:24 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	export(char **env, char *name, char *value)
+int	var_name_len(char *name)
 {
 	int	i;
-	char	*export;
-	int		len;
 
 	i = 0;
-	len = ft_strlen(name);
-	export = ft_strjoin(ft_strjoin(name, "="), value);
-	printf("valeur de export = %s\n\n\n", export);
-	while (env[i])
-	{
-		if ((ft_strncmp(name, env[i], len) == 0) && (env[i][len] == '='))
-		{
-			env[i] = export;
-			break;
-		}
-		else if (!env[i + 1])
-		{
-			env[i + 1] = export;
-			env[i + 2] = 0;
-			break;
-		}
+	while (name[i] && name[i] != '=')
 		i++;
-	}
-	printf("\n\n\n");
+	return (i);
 }
+
+int	unset(char **env, char *name)
+{
+	int	len;
+	int	i;
+
+	len = var_name_len(name);
+	i = 0;
+	while (env[++i])
+	{
+		if (ft_strncmp(name, env[i], len) == 0)
+		{
+			ft_printf("laa\n");
+			// free(env[i]);
+			// env[i] = env[++i];
+			while (env[i] && env[i + 1])
+			{
+					env[i] = env[i + 1];
+					i++;
+			}
+			env[i] = 0;
+			break;
+		}
+	}
+}
+
+// rayan=okok
+// J=wefwe
+// moha=2efois
