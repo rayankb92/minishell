@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:25:58 by rferradi          #+#    #+#             */
-/*   Updated: 2022/12/31 12:20:28 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/01 11:21:09 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,52 +43,36 @@ int	check_quote(char *str)
 		printf("Syntax Error\n");
 	return (1);
 }
-
-int	check_operateur(char *str)
+		
+int	check_chevron(const char *str, const char c)
 {
 	int	i;
+	int	j;
+	int	len;
 
-	i = -1;
-	if (ft_strnstr(str, "<>", -1))
-		return (error_msg("Syntax error\n"));
-	while (str[++i])
+	len = 0;
+	i = 0;
+	while (str[i])
 	{
-		if (str[i] == '<' || str[i] == '>')
-		{
-			if (str[i + 1] == '<' || str[i + 1] == '>')
-				i++;
-			while ((str[++i]) && (str[i] == ' ' || str[i] == '\n'));
-			if (!str[i])
-				return (error_msg("Shellzer: syntax error near unexpected token `newline'\n"));
-			i--;
-		}
+		j = 0;
+		while (ft_isspace(str[i]))
+			i++;
+		while (str[i + j] == c)
+			j++;
+		if (j == 3)
+			return (ft_printf("bash: syntax error near unexpected token '%c'\n", c));
+		else if (j >= 4)
+			return (ft_printf("bash: syntax error near unexpected token '%c%c'\n", c, c));
+		if (!str[i + j] && j > 0)
+			return (ft_printf("bash: syntax error near unexpected token 'newline'\n"));
+		i++;
 	}
 	return (0);
 }
-
-int	check_quote(char *str)
+// pas fini, gere pas tous les cas
+int	check_chevrons(const char *str)
 {
-	int	i;
-
-	i = -1;
-	int singleopen = 0;
-	int	doubleopen = 0;
-	while (str[++i])
-	{
-		if ((i > 0 && str[i] == '"' && str[i - 1] != '\\') && singleopen == 0 && doubleopen == 0)
-			doubleopen = 1;
-		else if ((i > 0 && str[i] == '"' && str[i - 1] != '\\') && singleopen == 0 && doubleopen == 1)
-			doubleopen = 0;
-		else if ((i > 0 && str[i] == 39 && str[i - 1] != '\\') && doubleopen == 0 && singleopen == 0)
-			singleopen = 1;
-		else if ((i > 0 && str[i] == 39 && str[i - 1] != '\\') && doubleopen == 1 && singleopen == 1)
-			singleopen = 0;
-		else if ((i > 0 && str[i] == 39 && str[i - 1] != '\\') && doubleopen == 0 && singleopen == 1)
-			singleopen = 0;
-	}
-	if (singleopen == 1 || doubleopen == 1)
-		printf("Syntax Error\n");
-	return (1);
+	int ret = check_chevron(str, '<');
+	int ret2 = check_chevron(str, '>');
+	return (ret == 0 || ret2 == 0);
 }
-
-// 

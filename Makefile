@@ -12,8 +12,7 @@ INC		= -I ./include
 all:	${NAME}
 
 ${NAME}:	${OBJS}
-		make -C ./libft/ fclean
-		make -C ./libft/ any
+		make -C ./libft/
 		cc ${FLAGS} ${INC} ${OBJS} -o ${NAME} ./libft/libft.a
 
 %.o:%.c

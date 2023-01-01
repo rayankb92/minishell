@@ -40,8 +40,8 @@ HEADERS	= ./
 .c.o	:
 		gcc -Wall -Wextra -Werror -I ${HEADERS} -c $< -o ${<:.c=.o}
 
-${NAME} : ${OBJS}
-		ar rcs ${NAME} ${OBJS}
+${NAME} : $(OBJS) $(OBJS_BONUS) $(OBJS_GNL) $(OBJS_PRINTF)
+		ar rcs $(NAME) $(OBJS) $(OBJS_BONUS) $(OBJS_GNL) $(OBJS_PRINTF)
 
 all : ${NAME}
 
