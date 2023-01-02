@@ -1,9 +1,10 @@
-SRCS	=	$(addprefix parse/, parse.c utils.c set_data.c) main.c \
-			$(addprefix builtins/, pwd.c export.c unset.c exit.c)				
+SRCS	=	$(addprefix parse/, parse.c utils.c ) main.c \
+			$(addprefix builtins/, pwd.c export.c unset.c exit.c) \
+			$(addprefix src/, set_data.c)
 
 NAME	=	minishell
 
-FLAGS	=	-g3 -lreadline #-Wall -Werror -Wextra -lreadline
+FLAGS	=	-g3  #-Wall -Werror -Wextra -lreadline
 
 OBJS	=	${SRCS:.c=.o}
 

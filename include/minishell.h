@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/02 00:12:42 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/02 11:17:36 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,15 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
+typedef struct t_cmd{
+	char	*cmd;
+	char	**args;
+}				t_cmd;
+
 typedef struct t_data{
 	t_list	        *env;
+	char			*entry;
+	t_cmd			*cmd;
 	struct s_lst    *next;
 }               t_data;
 

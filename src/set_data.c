@@ -1,47 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset.c                                            :+:      :+:    :+:   */
+/*   set_data.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/01 01:38:06 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/02 11:40:25 by rferradi         ###   ########.fr       */
+/*   Created: 2023/01/02 11:22:50 by rferradi          #+#    #+#             */
+/*   Updated: 2023/01/02 11:37:35 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	var_name_len(char *name)
+t_list	*copy_env(char **env)
 {
-	int	i;
+	int		i;
+	t_list	*new;
 
 	i = 0;
-	while (name[i] && name[i] != '=')
-		i++;
-	return (i);
+	new = ft_lstnew(env[i]);
+	while (env[++i])
+		ft_lstadd_back(&new, ft_lstnew(env[i]));
+	return (new);
 }
 
-int	unset(t_data *data, char *name)
+void		set_data(char **env, t_data *data)
 {
-	int	len;
-	t_list	*tmp;
-
-	tmp = data->env;
-	len = var_name_len(name);
-	while (tmp)
-	{
-		if (tmp->next && ft_strncmp(name, tmp->next->content, len) == 0)
-		{
-			free(tmp->next->content);
-			tmp->next = tmp->next->next;
-			break;
-		}
-		tmp = tmp->next;
-	}
-	return (1);
+	data->env = copy_env(env);
 }
-
-// rayan=okok
-// J=wefwe
-// moha=2efois

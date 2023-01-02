@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 05:47:36 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/01 11:42:26 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/02 11:53:10 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,12 @@ int main(int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 	const char	*str;
+	t_data	data;
 
 	if (!env || !*env)
 		return (0);
+	set_data(env, &data);
+	export(&data, "rayan", "valeur");
 	while (1)
 	{
 		str = readline("Fumier >$ ");
