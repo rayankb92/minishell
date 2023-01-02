@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 11:22:50 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/02 11:37:35 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/02 12:09:13 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ t_list	*copy_env(char **env)
 	t_list	*new;
 
 	i = 0;
-	new = ft_lstnew(env[i]);
+	new = ft_lstnew(ft_strdup(env[i]));
 	while (env[++i])
-		ft_lstadd_back(&new, ft_lstnew(env[i]));
+		ft_lstadd_back(&new, ft_lstnew(ft_strdup(env[i])));
 	return (new);
 }
 

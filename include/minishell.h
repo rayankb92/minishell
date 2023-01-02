@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/02 11:17:36 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/02 13:45:01 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,9 @@
 # include <readline/history.h>
 
 typedef struct t_cmd{
-	char	*cmd;
-	char	**args;
+	char			*cmd;
+	char			**args;
+	struct t_cmd	*next;
 }				t_cmd;
 
 typedef struct t_data{
@@ -46,6 +47,8 @@ int			unset(t_data *data, char *name);
 void		echo(char * str, char opt);
 void		export(t_data *data, char *name, char *value);
 void		display_list(t_list *lst);
-void		display_list(t_list *lst);
 void		exit_(t_data *data);
+
+char	**parse_cmd(char *str);
+t_cmd	*cmdnew(char *content);
 #endif

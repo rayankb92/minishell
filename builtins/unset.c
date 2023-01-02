@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 01:38:06 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/02 11:40:25 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/02 12:12:50 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	unset(t_data *data, char *name)
 {
 	int	len;
 	t_list	*tmp;
+	t_list	*del;
 
 	tmp = data->env;
 	len = var_name_len(name);
@@ -33,8 +34,10 @@ int	unset(t_data *data, char *name)
 	{
 		if (tmp->next && ft_strncmp(name, tmp->next->content, len) == 0)
 		{
-			free(tmp->next->content);
+			del = tmp->next;
 			tmp->next = tmp->next->next;
+			free(del->content);
+			free(del);
 			break;
 		}
 		tmp = tmp->next;
