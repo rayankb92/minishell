@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 11:22:50 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/02 12:09:13 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/03 18:16:59 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,7 @@ t_list	*copy_env(char **env)
 
 void		set_data(char **env, t_data *data)
 {
+	data->cmd = malloc(sizeof(t_cmd));
 	data->env = copy_env(env);
+
 }

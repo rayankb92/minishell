@@ -6,13 +6,12 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:25:58 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/03 11:28:34 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/03 16:24:44 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-#define CHARSET "$<>| "
-#define CHEVRON "<>"
+
 
 // en gros quand une cote est mal fermer dans bash il va te print a la ligne
 // >
