@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:25:58 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/02 11:19:31 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/03 10:55:28 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,17 +79,17 @@ int	check_chevrons(const char *str)
 	return (ret == 0 || ret2 == 0);
 }
 
-int	parse_cmd(t_data *data)
-{
-	int	i;
-	int	j;
+// int	parse_cmd(t_data *data)
+// {
+// 	int	i;
+// 	int	j;
 
-	i = 0;
-	j = 0;
-	while (ft_isspace(data->entry[i]) || !is_in_charset(data->entry[i], CHARSET))
-		i++;
-	while (!ft_isspace(data->entry[i]) || is_in_charset(data->entry[i], CHARSET))
-		j++;
-	data->cmd->args = ft_split(ft_substr(data->entry, i, (i + j)), ' ');
-	return (1);
-}
+// 	i = 0;
+// 	j = 0;
+// 	while (ft_isspace(data->entry[i]) || !is_in_charset(data->entry[i], CHARSET))
+// 		i++;
+// 	while (!ft_isspace(data->entry[i]) || is_in_charset(data->entry[i], CHARSET))
+// 		j++;
+// 	data->cmd->args = ft_split(ft_substr(data->entry, i, (i + j)), ' ');
+// 	return (1);
+// }

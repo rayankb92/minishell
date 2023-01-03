@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/02 13:45:01 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/03 10:54:51 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,6 @@ void		export(t_data *data, char *name, char *value);
 void		display_list(t_list *lst);
 void		exit_(t_data *data);
 
-char	**parse_cmd(char *str);
+int		parse_cmd(t_data *data);
 t_cmd	*cmdnew(char *content);
 #endif

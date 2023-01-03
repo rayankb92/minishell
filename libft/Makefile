@@ -42,6 +42,8 @@ HEADERS	= ./
 
 ${NAME} : $(OBJS) $(OBJS_BONUS) $(OBJS_GNL) $(OBJS_PRINTF)
 		ar rcs $(NAME) $(OBJS) $(OBJS_BONUS) $(OBJS_GNL) $(OBJS_PRINTF)
+		mkdir objs
+		mv *.o objs
 
 all : ${NAME}
 
@@ -58,7 +60,7 @@ any		: $(OBJS) $(OBJS_BONUS) $(OBJS_GNL) $(OBJS_PRINTF)
 		ar rcs $(NAME) $(OBJS) $(OBJS_BONUS) $(OBJS_GNL) $(OBJS_PRINTF)
 
 clean :
-		rm -rf ${OBJS} ${OBJS_BONUS} $(OBJS_GNL) $(OBJS_PRINTF)
+		rm -rf objs
 
 fclean : clean
 		rm -rf ${NAME}

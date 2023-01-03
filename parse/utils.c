@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 06:37:10 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/02 18:15:49 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/03 10:55:19 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,30 +54,30 @@ void	display_lst(t_list *lst)
 }
 
 // commande en cours
-char	**parse_cmd(char *str)
-{
-	int	i;
-	int	j;
-	char	**res;
+// char	**parse_cmd(char *str)
+// {
+// 	int	i;
+// 	int	j;
+// 	char	**res;
 
-	i = 0;
-	j = 0;
-	while (str[i + j])
-	{
+// 	i = 0;
+// 	j = 0;
+// 	while (str[i + j])
+// 	{
 
-		while (str[i + j] && ft_isspace(str[i + j]) && !is_in_charset(str[i + j], CHARSET))
-		{
+// 		while (str[i + j] && ft_isspace(str[i + j]) && !is_in_charset(str[i + j], CHARSET))
+// 		{
 
-			i++;
-		}
-		while (str[i + j] && !ft_isspace(str[i + j]) && !is_in_charset(str[i + j], CHARSET))
-		{
-			ft_printf("la\n");
-			j++;
+// 			i++;
+// 		}
+// 		while (str[i + j] && !ft_isspace(str[i + j]) && !is_in_charset(str[i + j], CHARSET))
+// 		{
+// 			ft_printf("la\n");
+// 			j++;
 
-		}
-	}
-	res= ft_split(ft_substr(str, 0, (i + j)), ' ');
-	return (res);
-}
+// 		}
+// 	}
+// 	res= ft_split(ft_substr(str, 0, (i + j)), ' ');
+// 	return (res);
+// }
 	
