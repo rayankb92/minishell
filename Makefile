@@ -48,6 +48,7 @@ SRCS_DIRS = $(SRCS_DIR)\
 
 SRC_FILES =	$(addprefix parse/, parse.c utils.c ) main.c \
 			$(addprefix builtins/, pwd.c export.c unset.c exit.c) \
+			$(addprefix signal/, ctrl.c) \
 			$(addprefix src/, set_data.c)
 				
 
