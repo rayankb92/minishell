@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 01:38:06 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/01 03:05:24 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/02 12:12:50 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,29 +22,27 @@ int	var_name_len(char *name)
 	return (i);
 }
 
-int	unset(char **env, char *name)
+int	unset(t_data *data, char *name)
 {
 	int	len;
-	int	i;
+	t_list	*tmp;
+	t_list	*del;
 
+	tmp = data->env;
 	len = var_name_len(name);
-	i = 0;
-	while (env[++i])
+	while (tmp)
 	{
-		if (ft_strncmp(name, env[i], len) == 0)
+		if (tmp->next && ft_strncmp(name, tmp->next->content, len) == 0)
 		{
-			ft_printf("laa\n");
-			// free(env[i]);
-			// env[i] = env[++i];
-			while (env[i] && env[i + 1])
-			{
-					env[i] = env[i + 1];
-					i++;
-			}
-			env[i] = 0;
+			del = tmp->next;
+			tmp->next = tmp->next->next;
+			free(del->content);
+			free(del);
 			break;
 		}
+		tmp = tmp->next;
 	}
+	return (1);
 }
 
 // rayan=okok

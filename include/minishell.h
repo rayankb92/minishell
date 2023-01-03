@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/01 02:03:40 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/03 11:29:18 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,23 +19,36 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
+typedef struct t_cmd{
+	char			*cmd;
+	char			**args;
+	struct t_cmd	*next;
+}				t_cmd;
+
 typedef struct t_data{
-	char	**env;
-	char	*entry;
-}				t_data;
+	t_list	        *env;
+	char			*entry;
+	t_cmd			*cmd;
+	struct s_lst    *next;
+}               t_data;
 
 //	parse.c
-int			check_quote(char *str);
+int			check_quote(const char *str);
 int			check_operateur(char *str);
 int			is_in_charset(char c, char *charset);
 int			error_msg(char *str);
 int			check_chevrons(const char *str);
+void		set_data(char **env, t_data *data);
 
 //	builtins.c
 const char	*pwd(void);
-void		echo(char * str, char opt);
 int			cd(const char *path);
-void		export(char **env, char *name, char *value);
-int			unset(char **env, char *name);
-int			unset(char **env, char *name);
+int			unset(t_data *data, char *name);
+void		echo(char * str, char opt);
+void		export(t_data *data, char *name, char *value);
+void		display_list(t_list *lst);
+void		exit_(t_data *data);
+
+int		parse_cmd(t_data *data);
+t_cmd	*cmdnew(char *content);
 #endif

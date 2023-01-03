@@ -1,33 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   set_data.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/31 12:33:46 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/01 11:42:20 by jewancti         ###   ########.fr       */
+/*   Created: 2023/01/02 11:22:50 by rferradi          #+#    #+#             */
+/*   Updated: 2023/01/02 12:09:13 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-const char	*pwd(void)
+t_list	*copy_env(char **env)
 {
-	char		*path;
-	int			i;
+	int		i;
+	t_list	*new;
 
-	path = calloc(1, 1);
-	if (!path)
-		return (0);
 	i = 0;
-	while (1)
-	{
-		if (getcwd(path, i))
-			break ;
-		free(path);
-		path = calloc(i, 1);
-		i++;
-	}
-	return ((const char *)path);
+	new = ft_lstnew(ft_strdup(env[i]));
+	while (env[++i])
+		ft_lstadd_back(&new, ft_lstnew(ft_strdup(env[i])));
+	return (new);
+}
+
+void		set_data(char **env, t_data *data)
+{
+	data->env = copy_env(env);
 }

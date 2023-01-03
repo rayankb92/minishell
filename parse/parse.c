@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:25:58 by rferradi          #+#    #+#             */
-/*   Updated: 2022/12/31 16:53:51 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/03 11:28:34 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 // et il attend que tu ferme les cote
 // nous on doit pas gerer ca on ecrit juste syntax error si y a heja
 
-int	check_quote(char *str)
+int	check_quote(const char *str)
 {
 	int	i;
 
@@ -43,27 +43,53 @@ int	check_quote(char *str)
 		printf("Syntax Error\n");
 	return (1);
 }
-
-int	check_operateur(char *str)
+		
+int	check_chevron(const char *str, const char c)
 {
 	int	i;
+	int	j;
+	int	len;
 
-	i = -1;
-	if (ft_strnstr(str, "<>", -1))
-		return (error_msg("Syntax error\n"));
-	while (str[++i])
+	len = 0;
+	i = 0;
+	while (str[i])
 	{
-		if (str[i] == '<' || str[i] == '>')
-		{
-			if (str[i + 1] == '<' || str[i + 1] == '>')
-				i++;
-			while ((str[++i]) && (str[i] == ' ' || str[i] == '\n'));
-			if (!str[i])
-				return (error_msg("Shellzer: syntax error near unexpected token `newline'\n"));
-			i--;
-		}
+		j = 0;
+		while (ft_isspace(str[i]))
+			i++;
+		while (str[i + j] == c)
+			j++;
+		while (ft_isspace(str[i + j]))
+			i++;
+		if (j == 3)
+			return (ft_printf("bash: syntax error near unexpected token '%c'\n", c));
+		else if (j >= 4)
+			return (ft_printf("bash: syntax error near unexpected token '%c%c'\n", c, c));
+		if (!str[i + j] && j > 0)
+			return (ft_printf("bash: syntax error near unexpected token 'newline'\n"));
+		i++;
 	}
 	return (0);
 }
+// pas fini, gere pas tous les cas
+int	check_chevrons(const char *str)
+{
+	int ret = check_chevron(str, '<');
+	int ret2 = check_chevron(str, '>');
+	return (ret == 0 || ret2 == 0);
+}
 
-// 
+// int	parse_cmd(t_data *data)
+// {
+// 	int	i;
+// 	int	j;
+
+// 	i = 0;
+// 	j = 0;
+// 	while (ft_isspace(data->entry[i]) || !is_in_charset(data->entry[i], CHARSET))
+// 		i++;
+// 	while (!ft_isspace(data->entry[i]) || is_in_charset(data->entry[i], CHARSET))
+// 		j++;
+// 	data->cmd->args = ft_split(ft_substr(data->entry, i, (i + j)), ' ');
+// 	return (1);
+// }

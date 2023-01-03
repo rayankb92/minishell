@@ -6,36 +6,34 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/31 14:35:41 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/01 02:01:38 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/02 00:00:06 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	export(char **env, char *name, char *value)
+void	export(t_data *data, char *name, char *value)
 {
-	int	i;
 	char	*export;
 	int		len;
+	t_list	*tmp;
 
-	i = 0;
+	tmp = data->env;
 	len = ft_strlen(name);
 	export = ft_strjoin(ft_strjoin(name, "="), value);
-	printf("valeur de export = %s\n\n\n", export);
-	while (env[i])
+	while (tmp)
 	{
-		if ((ft_strncmp(name, env[i], len) == 0) && (env[i][len] == '='))
+		if ((ft_strncmp(name, tmp->content, len) == 0) && (tmp->content[len] == '='))
 		{
-			env[i] = export;
+			tmp->content = export;
 			break;
 		}
-		else if (!env[i + 1])
+		else if (!tmp->next)
 		{
-			env[i + 1] = export;
-			env[i + 2] = 0;
+			tmp->next = ft_lstnew(export);
+			tmp->next->next = NULL;
 			break;
 		}
-		i++;
+		tmp = tmp->next;
 	}
-	printf("\n\n\n");
 }
