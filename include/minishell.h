@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/04 02:36:14 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/04 16:52:32 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,17 @@ typedef struct s_sequence
 	const char	*redirect;
 	int			index_redirect;
 
-	const char	**suite_args;
+	const char	*suite_args;
 	int			args_is_specified;
 }	t_sequence;
 
 typedef struct s_cmd
 {
-	char			*cmd;
-	char			**args;
+	char			*command;
+	char			*args;
 	
 	t_sequence		*sequence;
+	int				length_sequence;
 	struct s_cmd	*next;
 }	t_cmd;
 
@@ -77,7 +78,8 @@ void		ctrlc(int sig);
 //	int
 void		interpret_input(const char *input);
 void		is_exit(const char *entry);
-
+//	print.c
+void		print_cmd(t_cmd *cmd);
 
 int		parse_cmd(t_data *data);
 t_cmd	*cmdnew(char *content);

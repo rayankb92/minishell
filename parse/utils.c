@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 06:37:10 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/03 10:55:19 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/04 14:14:30 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_cmd	*cmdnew(char *content)
 	cmd = malloc(sizeof(t_cmd));
 	if (!cmd)
 		return (NULL);
-	cmd->args = ft_split(content, ' ');
+	//cmd->args = ft_split(content, ' ');
 	return (cmd);
 }
 	

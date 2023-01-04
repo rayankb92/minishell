@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:25:58 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/03 10:55:28 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/04 20:53:03 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,10 @@ int	check_quote(const char *str)
 			singleopen = 0;
 	}
 	if (singleopen == 1 || doubleopen == 1)
-		printf("Syntax Error\n");
+		return printf("Syntax Error\n");
 	return (1);
 }
-		
+// a modifier: OK SI PIPE AVANT		
 int	check_chevron(const char *str, const char c)
 {
 	int	i;
@@ -76,7 +76,7 @@ int	check_chevrons(const char *str)
 {
 	int ret = check_chevron(str, '<');
 	int ret2 = check_chevron(str, '>');
-	return (ret == 0 || ret2 == 0);
+	return (ret > 0 || ret2 > 0);
 }
 
 // int	parse_cmd(t_data *data)

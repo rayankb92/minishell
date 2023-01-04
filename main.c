@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 05:47:36 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/04 02:43:59 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/04 22:30:10 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,48 +14,41 @@
 
 int		count_occurence(const char *str, const char c)
 {
-	int	i;
-	int	occur;
+	size_t	i;
+	size_t	size;
+	int		occur;
 
 	i = 0;
 	occur = 0;
+	size = ft_strlen(str);
 	while (str[i])
 	{
-		if (str[i] == c)
+		if (i < size - 2 && str[i] == c)
+		{
+			if (str[i + 1] == c)
+				i++;
 			occur++;
+		}
 		i++;
 	}
 	return (occur);
 }
 
-void	parse_cmd_jm(const char *input, t_cmd *cmd)
+void	attribute_sequence(const int start, const char *input, t_sequence *sequence, const int size)
 {
-	int		i;
-	int		last;
-	char	*command;
+	int	i;
+	int	index;
+	int	begin;
+	int	index_redirect;
 
-	(void)cmd;
-	i = 0;
-	while (input[i] && input[i] != ' ')	
-		i++;
-	last = i;
-	command = ft_strndup(input, (input + i) - input);
-	ft_printf("command: %s\n", command);
-	while (input[i] && input[i] != '>' && input[i] != '<' && input[i] != '|')	
-		i++;
-	char *args = ft_strndup(input + last + 1, (input + i - 1) - (input + last));
-	ft_printf("args: %s\n", args);
-	// debut redirection
-	int	occur = count_occurence(input + i, '>');
-	//cmd -> sequence = malloc(sizeof(t_sequence *) * (occur + 1));
-	
-	for (int index = 0; index < occur; index++)
+	i = start;
+	index = 0;
+	while (index < size)
 	{
-		// split to cmd -> args
-		int index_redirect = 0;
+		index_redirect = 0;
 		while (input[i] && input[i] == '>')
 		{
-			index_redirect++;
+			index_redirect ++;
 			i++;
 		}
 		if (index_redirect == 0)
@@ -65,27 +58,77 @@ void	parse_cmd_jm(const char *input, t_cmd *cmd)
 			index_redirect++;
 			i++;
 		}
-		// set to cmd -> sequence -> index_redirect
-		ft_printf("index_redirect: %d\n", index_redirect);
+		sequence[index] . index_redirect = index_redirect;
 		while (input[i] && input[i] == ' ')
 			i++;
-		last = i;
+		begin = i;
 		while (input[i] && input[i] != ' ')
 			i++;
-		// set to cmd -> sequence -> redirect
-		char *redirect = ft_strndup(input + last, (input + i) - (input + last));
-		ft_printf("redirect: %s\n", redirect);
+		sequence[index] . redirect = ft_strndup(input + begin, i - begin);
 		while (input[i] && input[i] == ' ')
 			i++;
-		last = i;
+		begin = i;
 		while (input[i] && input[i] != '>' && input[i] != '<' && input[i] != '|')
 			i++;
-		char *suite_args = ft_strndup(input + last, (input + i) - (input + last));
-		// set to cmd -> sequence -> suite_args
-		ft_printf("suite_args: %s\n", suite_args);
+		sequence[index] . suite_args = ft_strndup(input + begin, i - begin);
+		index++;
 	}
 }
 
+int		array_len(char **ptr)
+{
+	int	i;
+
+	i = -1;
+	while (ptr[++i])
+		;
+	return (i);
+}
+
+void	parse_input(const char *input, t_cmd *cmd)
+{
+	int		i;
+	int		index;
+	int		last;
+	int		occur;
+	char	**inputs;
+	char	*input_tmp;
+	char	*command;
+	t_cmd	*tmp;
+
+	if (!*input)
+		return ;
+	inputs = ft_split(input, '|');
+	if (!inputs)
+		return ;
+	index = -1;
+	tmp = cmd;
+	while (inputs[++index])
+	{
+		i = 0;
+		input_tmp = inputs[index];
+		while (input_tmp[i] && input_tmp[i] != ' ')	
+			i++;
+		last = i;
+		tmp -> command = ft_strndup(input_tmp, (input_tmp + i) - input_tmp);
+		while (input_tmp[i] && input_tmp[i] != '>' && input_tmp[i] != '<' && input_tmp[i] != '|')	
+			i++;
+		tmp -> args = ft_strndup(input_tmp + last, i - last);
+		// debut redirection
+		occur = count_occurence(input_tmp + i, '>') + count_occurence(input_tmp + i, '<');
+		if (occur > 0)
+		{
+			tmp -> sequence = calloc(occur, sizeof(t_sequence));
+			tmp -> length_sequence = occur;
+		}
+		attribute_sequence(i, input_tmp, tmp -> sequence, tmp -> length_sequence);
+		if (index + 1 == array_len(inputs))
+			break ;
+		tmp -> next = calloc(sizeof(t_cmd), 1);
+		tmp = tmp -> next;
+		tmp -> next = 0;
+	}
+}
 
 int main(int ac, char **av, char **env)
 {
@@ -100,16 +143,27 @@ int main(int ac, char **av, char **env)
 	set_data(env, & data);
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, & ctrlc);
+	cmd = calloc(sizeof(t_cmd), 1);
+	if (!cmd)
+		return (EXIT_FAILURE);
+	cmd -> next = 0; // !!
 	while (1)
 	{
 		str = readline("Fumier$ ");
-		if (!str /*|| ft_strcmp(str, "exit") == 0*/)
+		if (!str)
 			break ;
-		check_chevrons(str);
-		parse_cmd_jm(str, cmd);
-		add_history(str);
-		is_exit(str);
-		//check_quote(str); // tres propre gere tout les cas cote non fermer
+		if (!check_chevrons(str))
+		{
+			if (check_quote(str) == 1)
+			{
+				parse_input(str, cmd);
+				print_cmd(cmd);
+				add_history(str);
+				is_exit(str);
+			}
+		}
+		
+		; // tres propre gere tout les cas cote non fermer
 	}
 	return (1);
 }
