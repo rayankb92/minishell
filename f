@@ -1,0 +1,24 @@
+total 1504
+drwxr-xr-x 12 jewancti 2022_paris    4096 Jan  4 01:11 .
+drwxr-xr-x 23 jewancti 2022_paris    4096 Jan  3 11:26 ..
+-rw-r--r--  1 jewancti 2022_paris       4 Jan  4 01:09 a
+-rw-r--r--  1 jewancti 2022_paris       0 Jan  4 01:06 Aa
+-rw-r--r--  1 jewancti 2022_paris       0 Jan  3 23:46 b
+drwxr-xr-x  2 jewancti 2022_paris    4096 Jan  3 11:26 builtins
+-rw-r--r--  1 jewancti 2022_paris    2310 Jan  3 15:57 done
+-rw-r--r--  1 jewancti 2022_paris       0 Jan  4 01:11 e
+-rw-r--r--  1 jewancti 2022_paris       0 Jan  4 01:15 f
+-rw-r--r--  1 jewancti 2022_paris 1310885 Jan  3 11:26 fr.subject.pdf
+drwxr-xr-x  8 jewancti 2022_paris    4096 Jan  3 11:31 .git
+drwxr-xr-x  2 jewancti 2022_paris    4096 Jan  3 11:26 include
+drwxr-xr-x  2 jewancti 2022_paris    4096 Jan  3 21:14 interpret_input
+drwxr-xr-x  6 jewancti 2022_paris    4096 Jan  4 00:42 libft
+-rw-r--r--  1 jewancti 2022_paris    2162 Jan  4 01:10 main.c
+-rw-r--r--  1 jewancti 2022_paris    2978 Jan  3 23:54 Makefile
+-rwxr-xr-x  1 jewancti 2022_paris  159424 Jan  4 01:10 minishell
+drwxr-xr-x  7 jewancti 2022_paris    4096 Jan  4 01:10 objets
+drwxr-xr-x  2 jewancti 2022_paris    4096 Jan  3 11:26 parse
+drwxr-xr-x  2 jewancti 2022_paris    4096 Jan  3 11:28 signal
+drwxr-xr-x  2 jewancti 2022_paris    4096 Jan  3 11:26 src
+-rw-r--r--  1 jewancti 2022_paris       0 Jan  4 01:11 t
+drwxr-xr-x  2 jewancti 2022_paris    4096 Jan  4 00:08 .vscode

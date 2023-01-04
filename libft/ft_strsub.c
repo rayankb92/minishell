@@ -1,40 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strtrim.c                                       :+:      :+:    :+:   */
+/*   ft_strsub.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/11 22:42:51 by ooxn              #+#    #+#             */
-/*   Updated: 2023/01/03 17:52:10 by jewancti         ###   ########.fr       */
+/*   Created: 2023/01/03 17:37:24 by jewancti          #+#    #+#             */
+/*   Updated: 2023/01/03 17:38:07 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/libft.h"
 
-static int	is_set(const char *set, char c)
+char	*ft_strsub(const char *str, unsigned int start, size_t end)
 {
-	while (*set && *set != c)
-		set++;
-	return (*set != '\0');
-}
+	char		*res;
+	int			i;
 
-char	*ft_strtrim(char const *s1, char const *set)
-{
-	char	*start;
-	char	*s;
-
-	if (!s1 || !set)
-		return (NULL);
-	s = (char *)s1;
-	while (*s && is_set(set, *s))
-		s++;
-	if (!*s)
-		return (ft_strdup(s));
-	start = s;
-	while (*s)
-		s++;
-	while (is_set(set, *--s))
-		;
-	return (ft_strsub(start, 0, ++s - start));
+	res = malloc((end - start) + 1);
+	if (!res)
+		return (0);
+	res[end - start] = 0;
+	i = 0;
+	while (str[start] != '\0' && start < end)
+		res[i++] = str[start++];
+	return (res);
 }

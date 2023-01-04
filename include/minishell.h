@@ -6,31 +6,53 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/03 11:29:55 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/04 02:36:14 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 #define MINISHELL_H
 
-# include "../libft/includes/libft.h"
+# include "libft.h"
 
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <signal.h>
 
-typedef struct t_cmd{
+enum redirect_index
+{
+	GREAT = 1,
+	DGREAT,
+	LESS,
+	DLESS,
+};
+
+typedef struct s_sequence
+{
+	const char	*redirect;
+	int			index_redirect;
+
+	const char	**suite_args;
+	int			args_is_specified;
+}	t_sequence;
+
+typedef struct s_cmd
+{
 	char			*cmd;
 	char			**args;
-	struct t_cmd	*next;
-}				t_cmd;
+	
+	t_sequence		*sequence;
+	struct s_cmd	*next;
+}	t_cmd;
 
-typedef struct t_data{
+typedef struct t_data
+{
 	t_list	        *env;
 	char			*entry;
 	t_cmd			*cmd;
 	struct s_lst    *next;
-}               t_data;
+}	t_data;
 
 //	parse.c
 int			check_quote(const char *str);
@@ -50,6 +72,11 @@ void		display_list(t_list *lst);
 void		exit_(t_data *data);
 
 //	signal.c
+void		ctrlc(int sig);
+//	dir: interpret_input
+//	int
+void		interpret_input(const char *input);
+void		is_exit(const char *entry);
 
 
 int		parse_cmd(t_data *data);

@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 12:41:29 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/03 11:30:04 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/04 00:06:42 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,7 @@
 
 void	ctrlc(int sig)
 {
-	if (sig == SIGQUIT)
-	{
-		rl_on_new_line();
-		rl_replace_line("", 1);
-		rl_redisplay();
-	}
-	else if (sig == SIGINT)
+	if (sig == SIGINT)
 	{
 		ft_putchar('\n');
 		rl_on_new_line();
@@ -28,5 +22,3 @@ void	ctrlc(int sig)
 		rl_redisplay();
 	}
 }
-
-// 0784074337

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 20:13:10 by ooxn              #+#    #+#             */
-/*   Updated: 2023/01/02 11:37:13 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/03 20:31:52 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,11 @@ ssize_t	ft_putnendl_fd(const char *s, size_t len, int fd);
 void	ft_putnbr(int n);
 void	ft_swap(void *a, void *b, size_t const n);
 char	*ft_strcpy(char *dest, const char *src);
+char	*ft_strncpy(char *dest, const char *src, size_t n);
 char	*ft_strcat(char *dst, const char *src);
+char	*ft_strsub(const char *str, unsigned int start, size_t end);
+char	*ft_strndup(const char *s1, size_t n);
+char	*ft_strstr(const char *haystack, const char *needle);
 void	ft_memdel(void **ptr);
 void	ft_arraydel(void **ptr);
 /* ********** */
