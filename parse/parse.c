@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:25:58 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/03 16:24:44 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/05 05:11:44 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,10 @@ int	check_quote(const char *str)
 			singleopen = 0;
 	}
 	if (singleopen == 1 || doubleopen == 1)
+	{
 		printf("Syntax Error\n");
+		return (0);
+	}
 	return (1);
 }
 		

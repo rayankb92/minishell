@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 05:47:36 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/03 23:17:37 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/05 05:48:46 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,19 +44,47 @@ int main(int ac, char **av, char **env)
 	while (1)
 	{
 		str = readline("Fumier >$ ");
-		split = split_cmd(str, "| ");
-		expand(split, &data);
-		print_cmd(data.cmd);
-		ft_printf("expand = %s\n", data.cmd->args[0]);
-		if (ft_strncmp(str, "exit", 4) == 0)
-			break;
-		if (ft_strncmp("env", str, 3) == 0)
-			ft_displaydouble(env);
-		// if (ft_strncmp("export", str, 6) == 0)
-		// 	export(env,)
-		add_history(str);
-		check_quote(str); // tres propre gere tout les cas cote non fermer
-		check_chevrons(str);	
+		if (check_quote(str))
+		{
+
+			split = split_cmd(str, "| ");
+			// expand(split, &data);
+			ft_printf("laa\n");
+			// print_cmd(data.cmd);
+			handle_quote((char *)str, &data);
+			// ft_printf("expand = %s\n", data.cmd->args[0]);
+			if (ft_strncmp((char*)str, "exit", 4) == 0)
+				break;
+			if (ft_strncmp("env", str, 3) == 0)
+				ft_displaydouble(env);
+			// if (ft_strncmp("export", str, 6) == 0)
+			// 	export(env,)
+			check_chevrons(str);	
+		}
+			add_history(str);
 	}
 	return (1);
 }
+
+//______________________________________________________________
+//| echo "salut" ""'"'"mec" "" [echo] [salut] [] ["] [mec] []	|
+//| echo "salut" '"'mec       "" [echo] [salut] ["mec]		|
+//| salut "mec													|
+//|_____________________________________________________________|
+
+// si un simple quote ouvert on prend tout comme string/commande/arg jusqu'a trouver la la prochaine quote fermante
+
+
+// ____________________________________
+// [echo] [salut] ["'mec] 				|
+// 										|
+// Fumier >$ echo "salut" '"'m'e'c		|
+// must do > [echo] [salut] ["'mec] 
+// _____________________________________|
+
+// _________________________________________
+// [echo] [salut] ["'m'e'c] 				|
+// 											|
+// Fumier >$ echo "salut" '"'m'e'c			|
+// must do > [echo] [salut] ["mec]
+// _________________________________________|

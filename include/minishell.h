@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/03 23:12:06 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/05 02:32:31 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ void		set_data(char **env, t_data *data);
 char	**split_cmd(char const *s, char *sep);
 static size_t	countword(const char *s, char *sep);
 void	expand(char **str, t_data *data);
+
+void	handle_quote(char *str, t_data *data);
 
 //	builtins.c
 const char	*pwd(void);

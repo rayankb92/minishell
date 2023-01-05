@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/31 16:49:46 by rferradi          #+#    #+#             */
-/*   Updated: 2022/12/31 16:52:23 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/05 05:05:01 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,5 +18,6 @@ void	ft_displaydouble(char **str)
 
 	i = -1;
 	while (str[++i])
-		ft_printf("%s\n", str[i]);
+		ft_printf("[%s] ", str[i]);
+	ft_putchar('\n');
 }
