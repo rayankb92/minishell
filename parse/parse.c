@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:25:58 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/04 20:53:03 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/05 12:39:51 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,9 @@ int	check_quote(const char *str)
 		return printf("Syntax Error\n");
 	return (1);
 }
-// a modifier: OK SI PIPE AVANT		
-int	check_chevron(const char *str, const char c)
+// a modifier: OK SI PIPE AVANT	
+# define SYNTAX_ERROR	"bash: syntax error near unexpected token"
+static int	check_chevron(const char *str, const char c)
 {
 	int	i;
 	int	j;
@@ -62,11 +63,15 @@ int	check_chevron(const char *str, const char c)
 		while (ft_isspace(str[i + j]))
 			i++;
 		if (j == 3)
-			return (ft_printf("bash: syntax error near unexpected token '%c'\n", c));
+			return (ft_printf("%s '%c'\n", SYNTAX_ERROR, c));
 		else if (j >= 4)
-			return (ft_printf("bash: syntax error near unexpected token '%c%c'\n", c, c));
+			return (ft_printf("%s '%c%c'\n", SYNTAX_ERROR, c, c));
 		if (!str[i + j] && j > 0)
-			return (ft_printf("bash: syntax error near unexpected token 'newline'\n"));
+		{
+			if (c == '|')
+				return (ft_printf("%s '%c'\n", SYNTAX_ERROR, c));
+			return (ft_printf("%s 'newline'\n", SYNTAX_ERROR));
+		}
 		i++;
 	}
 	return (0);
@@ -74,22 +79,6 @@ int	check_chevron(const char *str, const char c)
 // pas fini, gere pas tous les cas
 int	check_chevrons(const char *str)
 {
-	int ret = check_chevron(str, '<');
-	int ret2 = check_chevron(str, '>');
-	return (ret > 0 || ret2 > 0);
+	return (check_chevron(str, '<') > 0 || check_chevron(str, '>') > 0
+			|| check_chevron(str, '|') > 0);
 }
-
-// int	parse_cmd(t_data *data)
-// {
-// 	int	i;
-// 	int	j;
-
-// 	i = 0;
-// 	j = 0;
-// 	while (ft_isspace(data->entry[i]) || !is_in_charset(data->entry[i], CHARSET))
-// 		i++;
-// 	while (!ft_isspace(data->entry[i]) || is_in_charset(data->entry[i], CHARSET))
-// 		j++;
-// 	data->cmd->args = ft_split(ft_substr(data->entry, i, (i + j)), ' ');
-// 	return (1);
-// }

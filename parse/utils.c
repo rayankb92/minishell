@@ -6,22 +6,11 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 06:37:10 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/04 14:14:30 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/05 12:41:29 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-int	is_in_charset(char c, char *charset)
-{
-	int	i;
-
-	i = -1;
-	while (charset[++i])
-		if (c == charset[i])
-			return (1);
-	return (0);
-}
 
 int	error_msg(char *str)
 {
@@ -52,32 +41,3 @@ void	display_lst(t_list *lst)
 		tmp = tmp->next;
 	}
 }
-
-// commande en cours
-// char	**parse_cmd(char *str)
-// {
-// 	int	i;
-// 	int	j;
-// 	char	**res;
-
-// 	i = 0;
-// 	j = 0;
-// 	while (str[i + j])
-// 	{
-
-// 		while (str[i + j] && ft_isspace(str[i + j]) && !is_in_charset(str[i + j], CHARSET))
-// 		{
-
-// 			i++;
-// 		}
-// 		while (str[i + j] && !ft_isspace(str[i + j]) && !is_in_charset(str[i + j], CHARSET))
-// 		{
-// 			ft_printf("la\n");
-// 			j++;
-
-// 		}
-// 	}
-// 	res= ft_split(ft_substr(str, 0, (i + j)), ' ');
-// 	return (res);
-// }
-	

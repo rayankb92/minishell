@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 13:47:12 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/04 19:54:23 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/05 13:35:18 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,17 @@ void	print_cmd(t_cmd *cmd)
 	while (tmp)
 	{
 		ft_printf("Command:\t%s\n", tmp -> command);
-		ft_printf("Args:\t\t%s\n", tmp -> args);
+
+		ft_printf("Args:\n");
+		if (tmp -> args)
+		for (int i = 0; tmp -> args[i]; i++)
+			ft_printf("\tArg[%d]:\t\t%s\n", i, tmp -> args[i]);
 	
 		for (int i = 0; i < tmp -> length_sequence; i++)
 		{
 			ft_printf("{green}Sequence{reset}[{cyan}%d{reset}]:\n", i);
 			ft_printf("\tRedirect to:\t%s\n", tmp -> sequence[i] . redirect);
 			ft_printf("\tIndex redirect:\t%d\n", tmp -> sequence[i] . index_redirect);
-			ft_printf("\tSuite args:\t%s\n", tmp -> sequence[i] . suite_args);
 		}
 		tmp = tmp -> next;
 		ft_printf("\n");
