@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 05:47:36 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/05 13:37:43 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/05 19:13:55 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int main(int ac, char **av, char **env)
 			is_exit(str);
 			parse_input(str, cmd);
 			print_cmd(cmd);
+			exec(cmd);
 		}
 	}
 	// rayan

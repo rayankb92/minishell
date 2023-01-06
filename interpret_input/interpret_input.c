@@ -6,13 +6,13 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 17:05:34 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/03 23:54:57 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/05 19:15:37 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../include/minishell.h"
 
-# define SIZEMATCH	1
+# define SIZEMATCH	6	
 
 static int	matching(const char const *matchs[SIZEMATCH], const char *match)
 {
@@ -29,15 +29,16 @@ static int	matching(const char const *matchs[SIZEMATCH], const char *match)
 	return (EXIT_FAILURE);
 }
 
-const char	*is_specifier(const char *specifier)
+int	is_specifier(const char *specifier, char **res)
 {
-	static const char const *matchs[SIZEMATCH] = {"exit"};
+	static const char const *matchs[SIZEMATCH] = {
+		"cd", "echo", "exit", "export", "pwd", "unset"
+	};
 	const char				*copy;
 	const char				*begin;
 	const char				*match;
 	int						ret;
 
-	begin = specifier;
 	copy = specifier;
 	while (ft_isspace(*copy))
 		copy++;
@@ -49,19 +50,25 @@ const char	*is_specifier(const char *specifier)
 	match = ft_strsub(specifier, begin - specifier, copy - specifier);
 	ret = matching(matchs, match);
 	ft_memdel((void **)& match);
-	return (begin);
+	if (ret == EXIT_SUCCESS)
+	{
+		*res = (char *)begin;
+		return (EXIT_SUCCESS);
+	}
+	return (EXIT_FAILURE);
 }
 
 void		interpret_input(const char *input)
 {
-	const char	*specifier;
-	char		*first_trim;
-	char		*last_trim;
+	//const char	*specifier;
+	//char		*first_trim;
+	//char		*last_trim;
 
-	if (!input || !*input)
-		return ;
-	specifier = is_specifier(input);
-	if (!specifier)
-		return ;
-	is_exit(specifier);
+	//if (!input || !*input)
+	//	return ;
+	//specifier = is_specifier(input);
+	//if (!specifier)
+	//	return ;
+	//ft_printf(">> spec: %s[\n", specifier);
+	//is_exit(specifier);
 }

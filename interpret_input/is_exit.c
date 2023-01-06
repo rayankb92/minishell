@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 21:14:28 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/04 22:49:47 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/05 14:28:35 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,16 @@ void	is_exit(const char *entry)
 {
 	char		*first_trim;
 	char		*last_trim;
+	char		*search;
 
 	if (!*entry)
 		return ;
 	first_trim = ft_strtrim(entry, " ");
 	last_trim = ft_strtrim_middle(first_trim, "exit", " ");
-	if (ft_strncmp(first_trim, "exit", 4) == 0)
+	search = ft_strnstr(first_trim, "exit", 4);
+	if (search)
 	{
+		if (last_trim[0] != '\0' )
 		if (ft_atoi(last_trim) == 0)
 			ft_printf("bash: exit: %s: numeric argument required\n", last_trim);
 		else

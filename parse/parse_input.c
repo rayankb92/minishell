@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 12:42:43 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/05 13:35:08 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/06 01:34:48 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,10 +115,11 @@ void	parse_input(const char *input, t_cmd *cmd)
 		input_tmp = inputs[index];
 		while (input_tmp[i] && input_tmp[i] == ' ')	
 			i++;
+		last = i;
 		while (input_tmp[i] && input_tmp[i] != ' ')	
 			i++;
-		last = i;
-		tmp -> command = ft_strndup(input_tmp, (input_tmp + i) - input_tmp);
+		tmp -> command = ft_strndup(input_tmp + last, i - last);
+		last = i + 1; // belek le + 1 == temp args to delete
 		while (input_tmp[i] && input_tmp[i] != '>' && input_tmp[i] != '<' && input_tmp[i] != '|')	
 			i++;
 		tmp -> temp_args = ft_strndup(input_tmp + last, i - last);

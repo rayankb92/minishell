@@ -50,8 +50,8 @@ SRCS_DIRS = $(SRCS_DIR)\
 			$(SIGNAL_DIR)\
 			$(INTERPRET_DIR)\
 
-SRC_FILES =	$(addprefix parse/, parse.c parse_input.c utils.c ) main.c print.c \
-			$(addprefix builtins/, pwd.c export.c unset.c exit.c) \
+SRC_FILES =	$(addprefix parse/, parse.c parse_input.c utils.c ) main.c print.c exec.c \
+			$(addprefix builtins/, cd.c echo.c exit.c export.c pwd.c unset.c) \
 			$(addprefix signal/, ctrlc.c) \
 			$(addprefix interpret_input/, interpret_input.c is_exit.c) \
 			$(addprefix src/, set_data.c)

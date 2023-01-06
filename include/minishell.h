@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/05 13:34:58 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/05 18:26:46 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ void		export(t_data *data, char *name, char *value);
 void		display_list(t_list *lst);
 void		exit_(t_data *data);
 
+void	exec(t_cmd *cmd);
 /*
 	DIRECTORY: SIGNAL
 */
@@ -96,6 +97,7 @@ void		ctrlc(int sig);
 */
 //	interpret_input.c -> inutile je pense
 void		interpret_input(const char *input);
+int			is_specifier(const char *specifier, char **match);
 //	is_exit.c
 void		is_exit(const char *entry);
 
