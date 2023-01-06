@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/06 04:01:06 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/06 16:26:12 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ int				check_quote(const char *str);
 int				check_chevrons(const char *str);
 //	parse_input.c
 void			parse_input(const char *input, t_cmd *cmd);
+//	utils_parse_input.c
+char			*remove_space(const char *s, const int size);
 //	expand.c
 void			expand(char **str, t_data *data);
 void			handle_quote(char *str, t_data *data);

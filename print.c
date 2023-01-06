@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 13:47:12 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/05 19:19:54 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/06 04:20:29 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	print_cmd(t_cmd *cmd)
 		ft_printf("Args:\n");
 		if (tmp -> args)
 		for (int i = 0; tmp -> args[i]; i++)
-			ft_printf("\tArg[%d]:\t\t%s\n", i, tmp -> args[i]);
+			ft_printf("\tArg[%d]:\t\t[%s]\n", i, tmp -> args[i]);
 	
 		for (int i = 0; i < tmp -> length_sequence; i++)
 		{
@@ -40,3 +40,5 @@ void	print_cmd(t_cmd *cmd)
 	}
 	ft_printf("{bgred}END PRINT CMD{reset}\n");
 }
+
+//ls -a -b > e -f -8 << h > redi -f -h | > e << g

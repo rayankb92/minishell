@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 12:42:43 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/06 04:06:30 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/06 16:25:29 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	attribute_sequence(const int start, const char *input, t_cmd *cmd)
 		while (input[i] && input[i] != '>' && input[i] != '<' && input[i] != '|')
 			i++;
 
-		char *suite_args = ft_strndup(input + begin, i - begin);
+		char *suite_args = remove_space(input + begin, i - begin);
 		// set final args as array for execve
 		cmd -> temp_args = ft_strjoin(cmd -> temp_args, suite_args);
 		index++;
@@ -119,10 +119,14 @@ void	parse_input(const char *input, t_cmd *cmd)
 		while (input_tmp[i] && input_tmp[i] != ' ')	
 			i++;
 		tmp -> command = ft_strndup(input_tmp + last, i - last);
-		last = i ; // belek le + 1 == temp args to delete
+		while (input_tmp[i] && input_tmp[i] == ' ')	
+			i++;
+		last = i; // belek le + 1 == temp args to delete
 		while (input_tmp[i] && input_tmp[i] != '>' && input_tmp[i] != '<' && input_tmp[i] != '|')	
 			i++;
-		tmp -> temp_args = ft_strndup(input_tmp + last, i - last);
+			
+		tmp -> temp_args = remove_space(input_tmp + last, i - last);
+		//tmp -> temp_args = ft_strndup(input_tmp + last, i - last);
 		// debut redirection
 		occur = count_occurence(input_tmp + i, '>') + count_occurence(input_tmp + i, '<');
 		if (occur > 0)
