@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/06 03:58:52 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/06 04:01:06 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,7 @@ typedef struct t_data
 	DIRECTORY: PARSE
 */
 //	parse.c
-int				check_quote(const char *str);
-int				check_operateur(char *str);
 int				is_in_charset(char c, char *charset);
-int				error_msg(char *str);
-int				check_chevrons(const char *str);
 void			set_data(char **env, t_data *data);
 static size_t	countword(const char *s, char *sep);
 void			expand(char **str, t_data *data);
@@ -73,15 +69,15 @@ char			*negative_chars(char *str);
 void			positive_chars(char **str);
 static int		count_newlen(char *str);
 char			**clean_string(char *str);
-int			check_quote(const char *str);
-int			check_chevrons(const char *str);
+int				check_quote(const char *str);
+int				check_chevrons(const char *str);
 //	parse_input.c
-void		parse_input(const char *input, t_cmd *cmd);
+void			parse_input(const char *input, t_cmd *cmd);
 //	expand.c
-void		expand(char **str, t_data *data);
-void		handle_quote(char *str, t_data *data);
+void			expand(char **str, t_data *data);
+void			handle_quote(char *str, t_data *data);
 //	utils.c
-int			error_msg(char *str);
+int				error_msg(char *str);
 
 /*
 	DIRECTORY: SRC

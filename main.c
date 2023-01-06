@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 05:47:36 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/06 03:52:46 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/06 04:04:58 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,6 @@
 // {
 // 	static	t_data	*
 // }
-
-void	print_cmd(t_cmd *cmd)
-{
-	int	i;
-
-	i = 0;
-	ft_printf("la commande est : ");
-	while(cmd->args[i])
-		ft_printf("[%s] ", cmd->args[i++]);
-	ft_printf("\n");
-}
 
 int main(int ac, char **av, char **env)
 {
