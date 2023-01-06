@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/05 02:32:31 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/06 03:23:16 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,17 +38,19 @@ typedef struct t_data{
 }               t_data;
 
 //	parse.c
-int			check_quote(const char *str);
-int			check_operateur(char *str);
-int			is_in_charset(char c, char *charset);
-int			error_msg(char *str);
-int			check_chevrons(const char *str);
-void		set_data(char **env, t_data *data);
-char	**split_cmd(char const *s, char *sep);
+int				check_quote(const char *str);
+int				check_operateur(char *str);
+int				is_in_charset(char c, char *charset);
+int				error_msg(char *str);
+int				check_chevrons(const char *str);
+void			set_data(char **env, t_data *data);
 static size_t	countword(const char *s, char *sep);
-void	expand(char **str, t_data *data);
-
-void	handle_quote(char *str, t_data *data);
+void			expand(char **str, t_data *data);
+char			**split_quote(char const *s, char *charset);
+char			*negative_chars(char *str);
+void			positive_chars(char **str);
+static int		count_newlen(char *str);
+char			**clean_string(char *str);
 
 //	builtins.c
 const char	*pwd(void);

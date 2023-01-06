@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 05:47:36 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/05 05:48:46 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/06 03:15:50 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int main(int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 	const char	*str;
+	char *copy;
 	t_data	data;
 	char **split;
 
@@ -47,11 +48,13 @@ int main(int ac, char **av, char **env)
 		if (check_quote(str))
 		{
 
-			split = split_cmd(str, "| ");
+			// copy = ft_strdup(str);
+			split = clean_string((char *)str);
 			// expand(split, &data);
-			ft_printf("laa\n");
+			// str_tominus(split);
+			ft_displaydouble(split);
 			// print_cmd(data.cmd);
-			handle_quote((char *)str, &data);
+			// handle_quote((char *)str, &data);
 			// ft_printf("expand = %s\n", data.cmd->args[0]);
 			if (ft_strncmp((char*)str, "exit", 4) == 0)
 				break;
@@ -65,7 +68,7 @@ int main(int ac, char **av, char **env)
 	}
 	return (1);
 }
-
+	
 //______________________________________________________________
 //| echo "salut" ""'"'"mec" "" [echo] [salut] [] ["] [mec] []	|
 //| echo "salut" '"'mec       "" [echo] [salut] ["mec]		|
@@ -87,4 +90,4 @@ int main(int ac, char **av, char **env)
 // 											|
 // Fumier >$ echo "salut" '"'m'e'c			|
 // must do > [echo] [salut] ["mec]
-// _________________________________________|
+// _________________________________________|	

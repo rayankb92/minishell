@@ -6,11 +6,17 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 15:15:38 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/05 06:04:05 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/06 03:22:49 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+// Pleins de choses a reprendre
+// bcp de fonction"test" a effacer/refaire
+// Find var est bon je crois, a verifier
+// 
+
 
 int		is_variable(char c)
 {
@@ -37,6 +43,16 @@ char	*find_var(t_data *data, char *var)
 		tmp = tmp->next;
 	}
 	return (NULL);
+}
+
+
+char	**good_quote(char **str, t_data *entry)
+{
+	int	i, j;
+
+	i = -1;
+	str = str_tominus(str);
+	return (str);
 }
 
 
@@ -75,80 +91,70 @@ void	expand(char **str, t_data *data)
 	data->cmd->args[k] = 0;
 }
 
-void	handle_quote(char *str, t_data *data)
-{
-	int	i;
-	int	k;
-	char **new;
-	int start;
+// void	handle_quote(char *str, t_data *data)
+// {
+// 	int	i;
+// 	int	k;
+// 	char **new;
+// 	int start;
 
-	new = malloc(sizeof(char *) * 7);
-	i = 0;
-	k = 0;
-	// ft_printf("Handle cote = ");
-	while (str[i])
-	{
-		while (ft_isspace(str[i]))
-		{
-			ft_printf("isspace = '%c'\n", str[i]);
-			i++;
-		}
-		if (str[i] != '"')
-		{
-			ft_printf("la str[%i] = '%c'\n", i, str[i]);
-			start = i;
-			while (str[i] && !ft_isspace(str[i]))
-			{
-				ft_printf("IFNOQUOTE str[%i] = '%c'\n", i, str[i]);
-				i++;
-			}
-			new[k++] = ft_substr(str, start, (i - start));
-			ft_printf("apres le while str[%i] = %c\n", i, str[i]);
-		}
-		while (ft_isspace(str[i]))
-		{
-			ft_printf("isspace = '%c'\n", str[i]);
-			i++;
-		}
-		if (str[i] == '"')
-		{
-			start = ++i;
-			while (str[i] && str[i] != '"')
-			{
-				ft_printf("ELSE str[%i] = '%c'\n", i, str[i]);
-				i++;
-			}
-			ft_printf("start = %i    | i = %i\n", start, i);
-			new[k++] = ft_substr(str, start, (i - start));
-			i++;
-		}
-		while (ft_isspace(str[i]))
-		{
-			ft_printf("isspace = '%c'\n", str[i]);
-			i++;
-		}
-		if (str[i] == '\'')
-		{
-			start = ++i;
-			while (str[i] && (str[i] != '\'' || !ft_isspace(str[i + 1])))
-			{
-				ft_printf("SIMPLE str[%i] = '%c'\n", i, str[i]);
-				i++;
-			}
-			ft_printf("start = %i    | i = %i\n", start, i);
-			new[k++] = ft_substr(str, start, (i - start));
-			i++;
-		}
+// 	new = malloc(sizeof(char *) * 7);
+// 	i = 0;
+// 	k = 0;
+// 	// ft_printf("Handle cote = ");
+// 	while (str[i])
+// 	{
+// 		while (ft_isspace(str[i]))
+// 		{
+// 			ft_printf("isspace = '%c'\n", str[i]);
+// 			i++;
+// 		}
+// 		if ((str[i] != '"') && (str[i] != '\''))
+// 		{
+// 			ft_printf("la str[%i] = '%c'\n", i, str[i]);
+// 			start = i;
+// 			while (str[i] && !ft_isspace(str[i]))
+// 			{
+// 				ft_printf("IFNOQUOTE str[%i] = '%c'\n", i, str[i]);
+// 				i++;
+// 			}
+// 			new[k++] = ft_substr(str, start, (i - start));
+// 			ft_printf("apres le while str[%i] = %c\n", i, str[i]);
+// 		}
+// 		else if (str[i] == '"')
+// 		{
+// 			start = ++i;
+// 			while (str[i] && str[i] != '"')
+// 			{
+// 				ft_printf("ELSE str[%i] = '%c'\n", i, str[i]);
+// 				i++;
+// 			}
+// 			ft_printf("start = %i    | i = %i\n", start, i);
+// 			new[k++] = ft_substr(str, start, (i - start));
+// 			i++;
+// 		}
+// 		else if (str[i] == '\'')
+// 		{
+// 			start = ++i;
+// 			while (str[i] && (str[i] != '\'' && !ft_isspace(str[i + 1])))
+// 			{
+// 				ft_printf("SIMPLE str[%i] = '%c'\n", i, str[i]);
+// 				i++;
+// 			}
+// 			ft_printf("start = %i    | i = %i\n", start, i);
+// 			new[k++] = ft_substr(str, start, (i - start));
+// 			i++;
+// 		}
 		
-			ft_printf("str[%i] = %c\n", i, str[i]);
-	}
-	new[k] = 0;
-	ft_printf("---------\n");
-	// ft_printf("new[0] = '%s'\n", new[0]);
-	// ft_printf("new[1] = '%s'\n", new[1]);
-	// ft_printf("new[2] = '%s'\n", new[2]);
-	// ft_printf("new[3] = '%s'\n", new[3]);
+// 			ft_printf("str[%i] = %c\n", i, str[i]);
+// 	}
+// 	new[k] = 0;
+// 	ft_printf("---------\n");
+// 	// ft_printf("new[0] = '%s'\n", new[0]);
+// 	// ft_printf("new[1] = '%s'\n", new[1]);
+// 	// ft_printf("new[2] = '%s'\n", new[2]);
+// 	// ft_printf("new[3] = '%s'\n", new[3]);
 
-	ft_displaydouble(new);
-	ft_printf("\n");
-}
+// 	ft_displaydouble(new);
+// 	ft_printf("\n");
+// }
