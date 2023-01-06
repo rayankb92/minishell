@@ -42,12 +42,18 @@
 SRCS_DIR = src
 BLTS_DIR = builtins
 PRSG_DIR = parse
+SIGNAL_DIR = signal
+INTERPRET_DIR = interpret_input
 SRCS_DIRS = $(SRCS_DIR)\
-				$(BLTS_DIR)\
-				$(PRSG_DIR)
+			$(BLTS_DIR)\
+			$(PRSG_DIR)\
+			$(SIGNAL_DIR)\
+			$(INTERPRET_DIR)\
 
-SRC_FILES =	$(addprefix parse/, parse.c utils.c expand.c split.c splitquote.c negative.c cleanstring.c) main.c \
+SRC_FILES =	$(addprefix parse/, parse.c utils.c expand.c split.c splitquote.c negative.c cleanstring.c)  main.c print.c exec.c \
 			$(addprefix builtins/, pwd.c export.c unset.c exit.c) \
+			$(addprefix signal/, ctrlc.c) \
+			$(addprefix interpret_input/, interpret_input.c is_exit.c) \
 			$(addprefix src/, set_data.c)
 				
 
@@ -71,8 +77,8 @@ LIB_DIR = libft
 #									COMPILATION									#
  #=============================================================================#
 
-CC = clang
-CFLAGS = -g3 # -Wall -Wextra -Werror -lreadline
+CC = gcc
+CFLAGS = -g3# -Wall -Wextra -Werror -lreadline
 CDFLAGS = -MMD -MP
 CIFLAGS = -Iincludes -I$(LIB_DIR)/includes
 CLFLAGS = -L$(LIB_DIR) -lft -lreadline
@@ -94,6 +100,8 @@ $(OBJS_DIR) :
 	mkdir $(OBJS_DIR)/$(SRCS_DIR)
 	mkdir $(OBJS_DIR)/$(BLTS_DIR)
 	mkdir $(OBJS_DIR)/$(PRSG_DIR)
+	mkdir $(OBJS_DIR)/$(SIGNAL_DIR)
+	mkdir $(OBJS_DIR)/$(INTERPRET_DIR)
 
 $(OBJS) : $(OBJS_DIR)/%.o : %.c
 	$(CC) $(CFLAGS) $(CDFLAGS) $(CIFLAGS) -c $< -o $@

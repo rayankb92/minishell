@@ -1,40 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strtrim.c                                       :+:      :+:    :+:   */
+/*   ft_strndup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/11 22:42:51 by ooxn              #+#    #+#             */
-/*   Updated: 2023/01/03 17:52:10 by jewancti         ###   ########.fr       */
+/*   Created: 2023/01/03 20:30:25 by jewancti          #+#    #+#             */
+/*   Updated: 2023/01/04 04:52:01 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/libft.h"
 
-static int	is_set(const char *set, char c)
+char	*ft_strndup(const char *s1, size_t n)
 {
-	while (*set && *set != c)
-		set++;
-	return (*set != '\0');
-}
-
-char	*ft_strtrim(char const *s1, char const *set)
-{
-	char	*start;
+	size_t	len;
+	size_t	i;
 	char	*s;
 
-	if (!s1 || !set)
-		return (NULL);
-	s = (char *)s1;
-	while (*s && is_set(set, *s))
-		s++;
-	if (!*s)
-		return (ft_strdup(s));
-	start = s;
-	while (*s)
-		s++;
-	while (is_set(set, *--s))
-		;
-	return (ft_strsub(start, 0, ++s - start));
+	len = ft_strlen(s1);
+	if (len < n)
+		s = malloc(len + 1);
+	else
+		s = malloc(n + 1);
+	if (s)
+	{
+		i = 0;
+		while (i < n && s1[i])
+		{
+			s[i] = s1[i];
+			i++;	
+		}
+		s[i] = 0;
+	}
+	return (s);
 }

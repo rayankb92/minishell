@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 05:47:36 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/06 03:15:50 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/06 03:52:46 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,40 +33,56 @@ int main(int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 	const char	*str;
-	char *copy;
-	t_data	data;
-	char **split;
+	t_data		data;
+	t_cmd		*cmd;
 
 	if (!env || !*env)
 		return (0);
-	set_data(env, &data);
-	export(&data, "rayan", "Je suis la valeur de rayan");
-	// ft_displaydouble(split);
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, & ctrlc);
+	cmd = calloc(sizeof(t_cmd), 1);
+	if (!cmd)
+		return (EXIT_FAILURE);
+	cmd -> next = 0; // !!
+	set_data(env, & data);
 	while (1)
 	{
-		str = readline("Fumier >$ ");
-		if (check_quote(str))
+		str = readline("Fumier$ ");
+		if (!str)
+			break ;
+		add_history(str);
+		if (!check_chevrons(str) && check_quote(str) == 1)
 		{
-
-			// copy = ft_strdup(str);
-			split = clean_string((char *)str);
-			// expand(split, &data);
-			// str_tominus(split);
-			ft_displaydouble(split);
-			// print_cmd(data.cmd);
-			// handle_quote((char *)str, &data);
-			// ft_printf("expand = %s\n", data.cmd->args[0]);
-			if (ft_strncmp((char*)str, "exit", 4) == 0)
-				break;
-			if (ft_strncmp("env", str, 3) == 0)
-				ft_displaydouble(env);
-			// if (ft_strncmp("export", str, 6) == 0)
-			// 	export(env,)
-			check_chevrons(str);	
+			is_exit(str);
+			parse_input(str, cmd);
+			print_cmd(cmd);
+			exec(cmd);
 		}
-			add_history(str);
 	}
-	return (1);
+	// rayan
+	//while (1)
+	//{
+	//	str = readline("Fumier >$ ");
+	//	if (check_quote(str))
+	//	{
+
+	//		split = split_cmd(str, "| ");
+	//		// expand(split, &data);
+	//		ft_printf("laa\n");
+	//		// print_cmd(data.cmd);
+	//		handle_quote((char *)str, &data);
+	//		// ft_printf("expand = %s\n", data.cmd->args[0]);
+	//		if (ft_strncmp((char*)str, "exit", 4) == 0)
+	//			break;
+	//		if (ft_strncmp("env", str, 3) == 0)
+	//			ft_displaydouble(env);
+	//		// if (ft_strncmp("export", str, 6) == 0)
+	//		// 	export(env,)
+	//		check_chevrons(str);	
+	//	}
+	//		add_history(str);
+	//}
+	return (EXIT_SUCCESS);
 }
 	
 //______________________________________________________________

@@ -1,39 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export.c                                           :+:      :+:    :+:   */
+/*   ctrlc.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/31 14:35:41 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/05 12:47:39 by jewancti         ###   ########.fr       */
+/*   Created: 2023/01/02 12:41:29 by jewancti          #+#    #+#             */
+/*   Updated: 2023/01/04 00:06:42 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	export(t_data *data, char *name, char *value)
+void	ctrlc(int sig)
 {
-	char	*export;
-	int		len;
-	t_list	*tmp;
-
-	tmp = data->env;
-	len = ft_strlen(name);
-	export = ft_strjoin(ft_strjoin(name, "="), value);
-	while (tmp)
+	if (sig == SIGINT)
 	{
-		if (ft_strncmp(name, tmp->content, len) == 0 && tmp->content[len] == '=')
-		{
-			tmp->content = export;
-			break;
-		}
-		if (!tmp->next)
-		{
-			tmp->next = ft_lstnew(export);
-			tmp->next->next = NULL;
-			break;
-		}
-		tmp = tmp->next;
+		ft_putchar('\n');
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
 	}
 }
