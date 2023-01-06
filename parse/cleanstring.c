@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 01:26:17 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/06 03:20:16 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/06 21:14:46 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,20 @@ static int	count_newlen(char *str)
 	return (len);
 }
 
+char	*positive_char(char *str)
+{
+	int i = -1;
+
+	while (str[++i])
+	{
+		if (str[i] < 0)
+			ft_putchar(str[i] * -1);
+		else
+			ft_putchar(str[i]);
+	}
+	write(1, "\n", 1);
+}
+
 char	*negative_chars(char *str)
 {
 	int		i;
@@ -68,15 +82,18 @@ char	*negative_chars(char *str)
 				new[j++] = (str[i] * -1);
 			i++;
 		}
-		if (str[i] == '\'')
+		else if (str[i] == '\'')
 		{
 			while (str[++i] && str[i] != '\'')
 				new[j++] = (str[i] * -1);
 			i++;
 		}
-		new[j++] = str[i++];
+		else
+			new[j++] = str[i++];
 	}
 	new[j] = 0;
+	ft_printf("%s\n", new);
+	positive_char(new);
 	return (new);
 }
 

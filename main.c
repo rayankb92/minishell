@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 05:47:36 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/06 04:04:58 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/06 21:16:39 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int main(int ac, char **av, char **env)
 	const char	*str;
 	t_data		data;
 	t_cmd		*cmd;
+	char **res;
 
 	if (!env || !*env)
 		return (0);
@@ -43,9 +44,11 @@ int main(int ac, char **av, char **env)
 		if (!check_chevrons(str) && check_quote(str) == 1)
 		{
 			is_exit(str);
-			parse_input(str, cmd);
-			print_cmd(cmd);
-			exec(cmd);
+			res = clean_string((char*)str);
+			ft_displaydouble(res);
+			// parse_input(str, cmd);
+			// print_cmd(cmd);
+			// exec(cmd);
 		}
 	}
 	// rayan
