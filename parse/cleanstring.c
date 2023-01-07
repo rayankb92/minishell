@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanstring.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 01:26:17 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/06 03:20:16 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/06 21:42:52 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ char	**clean_string(char *str)
 	char	*neg;
 
 	neg = negative_chars(str);
-	free(str);
 	clean = split_quote(neg, "	 ");
 	free(neg);
 	positive_chars(clean);
@@ -68,13 +67,14 @@ char	*negative_chars(char *str)
 				new[j++] = (str[i] * -1);
 			i++;
 		}
-		if (str[i] == '\'')
+		else if (str[i] == '\'')
 		{
 			while (str[++i] && str[i] != '\'')
 				new[j++] = (str[i] * -1);
 			i++;
 		}
-		new[j++] = str[i++];
+		else
+			new[j++] = str[i++];
 	}
 	new[j] = 0;
 	return (new);

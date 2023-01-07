@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 13:47:12 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/06 04:20:29 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/06 21:47:11 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	print_cmd(t_cmd *cmd)
 	{
 		ft_printf("Command:\t%s\n", tmp -> command);
 		ft_printf("Temp args: [%s]\n", tmp -> temp_args);
-		ft_printf("Args:\n");
+		ft_printf("Args: %p\n", tmp -> args);
 		if (tmp -> args)
 		for (int i = 0; tmp -> args[i]; i++)
 			ft_printf("\tArg[%d]:\t\t[%s]\n", i, tmp -> args[i]);

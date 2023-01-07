@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 16:25:30 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/06 16:25:46 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/07 14:02:24 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,9 @@ char	*remove_space(const char *s, const int size)
 	length = 0;
 	temp = 0;
 	i = 0;
-	while (s[i] && i < size)
+	while (i < size && s[i])
 	{
-		while (s[i] && i < size && s[i] != ' ')
+		while (i < size && s[i] && s[i] != ' ')
 		{
 			length++;
 			i++;
@@ -61,11 +61,12 @@ char	*remove_space(const char *s, const int size)
 		if (i < size && s[i] == ' ')
 		{
 			length++;
-			while (s[i] && i < size && s[i] == ' ')
+			while (i < size && s[i] && s[i] == ' ')
 				i++;
-			if (s[i] == '\0' || i == size - 1)
+			if (i == size )
 				length--;
 		}
 	}
+	ft_putnendl(s, length);
 	return (trim_all(s, length));
 }

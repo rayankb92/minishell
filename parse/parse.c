@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:25:58 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/06 03:55:04 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/07 02:06:07 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ static int	check_chevron(const char *str, const char c)
 				return (ft_printf("%s '%c'\n", SYNTAX_ERROR, c));
 			return (ft_printf("%s 'newline'\n", SYNTAX_ERROR));
 		}
+		if (!str[i])
+			break ;
 		i++;
 	}
 	return (0);

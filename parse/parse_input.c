@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 12:42:43 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/06 16:25:29 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/07 14:24:27 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,14 @@
 int		count_occurence(const char *str, const char c)
 {
 	size_t	i;
-	size_t	size;
 	int		occur;
 
 	i = 0;
 	occur = 0;
-	size = ft_strlen(str);
+	ft_printf("F occur: %s\n", str);
 	while (str[i])
 	{
-		if (i < size - 2 && str[i] == c)
+		if (str[i] == c && str[i + 1] != '\0')
 		{
 			if (str[i + 1] == c)
 				i++;
@@ -45,6 +44,7 @@ void	attribute_sequence(const int start, const char *input, t_cmd *cmd)
 	sequence = cmd -> sequence;
 	i = start;
 	index = 0;
+	ft_printf("Attr seq: %s\n", input + start);
 	while (index < cmd -> length_sequence)
 	{
 		index_redirect = 0;
@@ -64,7 +64,7 @@ void	attribute_sequence(const int start, const char *input, t_cmd *cmd)
 		while (input[i] && input[i] == ' ')
 			i++;
 		begin = i;
-		while (input[i] && input[i] != ' ')
+		while (input[i] && input[i] != ' ' && input[i] != '<' && input[i] != '>')
 			i++;
 		sequence[index] . redirect = ft_strndup(input + begin, i - begin);
 		while (input[i] && input[i] == ' ')
@@ -74,10 +74,12 @@ void	attribute_sequence(const int start, const char *input, t_cmd *cmd)
 			i++;
 
 		char *suite_args = remove_space(input + begin, i - begin);
-		// set final args as array for execve
+		if (suite_args[0] != ' ' && suite_args[1] != '\0')
+			cmd -> temp_args = ft_strjoin(cmd -> temp_args, " ");
 		cmd -> temp_args = ft_strjoin(cmd -> temp_args, suite_args);
 		index++;
 	}
+	// set final args as array for execve
 	cmd -> args = ft_split(cmd -> temp_args, ' ');
 }
 
@@ -121,26 +123,51 @@ void	parse_input(const char *input, t_cmd *cmd)
 		tmp -> command = ft_strndup(input_tmp + last, i - last);
 		while (input_tmp[i] && input_tmp[i] == ' ')	
 			i++;
-		last = i; // belek le + 1 == temp args to delete
+		last = i;
 		while (input_tmp[i] && input_tmp[i] != '>' && input_tmp[i] != '<' && input_tmp[i] != '|')	
 			i++;
-			
+
 		tmp -> temp_args = remove_space(input_tmp + last, i - last);
 		//tmp -> temp_args = ft_strndup(input_tmp + last, i - last);
 		// debut redirection
 		occur = count_occurence(input_tmp + i, '>') + count_occurence(input_tmp + i, '<');
+		ft_printf("Occurence: %d\n", occur);
 		if (occur > 0)
 		{
+			//tmp -> temp_args = remove_space(input_tmp + last, i - last-1);
 			tmp -> sequence = calloc(occur, sizeof(t_sequence));
 			tmp -> length_sequence = occur;
 			attribute_sequence(i, input_tmp, tmp);
 		}
 		else
-			tmp -> args = ft_split(tmp -> temp_args, ' ');
+		{
+			//tmp -> temp_args = remove_space(input_tmp + last, i - last);
+			if (tmp -> temp_args[0])
+				tmp -> args = ft_split(tmp -> temp_args, ' ');
+			//tmp -> args = ft_split(ft_strjoin(ft_strjoin(tmp -> command, " "), tmp -> temp_args), ' ');
+		}
 		if (index + 1 == array_len(inputs))
 			break ;
 		tmp -> next = calloc(sizeof(t_cmd), 1);
 		tmp = tmp -> next;
 		tmp -> next = 0;
 	}
+	// adaptation fonction rayan clean_string
+	//tmp = cmd;
+	//char **res = clean_string((char *)input);
+	//int index_res = -1;
+	//while (tmp)
+	//{
+	//	if (tmp -> args)
+	//	{
+	//		int index_args = 0;
+	//		while (tmp -> args[index_args] && res[++index_res])
+	//		{
+	//			if (ft_strcmp(tmp -> args[index_args], res[index_res]) != 0)
+	//				tmp -> args[index_args] = res[index_res];
+	//			index_args++;
+	//		}		
+	//	}
+	//	tmp = tmp -> next;
+	//}
 }

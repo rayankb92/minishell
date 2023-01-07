@@ -6,16 +6,11 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 05:47:36 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/06 04:04:58 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/07 14:13:49 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/minishell.h"
-
-// static	t_data	*get_data()
-// {
-// 	static	t_data	*
-// }
 
 int main(int ac, char **av, char **env)
 {
@@ -42,10 +37,13 @@ int main(int ac, char **av, char **env)
 		add_history(str);
 		if (!check_chevrons(str) && check_quote(str) == 1)
 		{
-			is_exit(str);
+			//is_exit(str);
 			parse_input(str, cmd);
 			print_cmd(cmd);
 			exec(cmd);
+			//char **res = clean_string((char *)str);
+			//for (int i = 0; res[i]; i++)
+			//	ft_printf("res[%d]: %s\n", i, res[i]);
 		}
 	}
 	// rayan
