@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/06 16:26:12 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/06 23:53:13 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,9 @@ typedef struct t_data
 	struct s_lst    *next;
 }	t_data;
 
+
+static	t_data	*return_struct(t_data *data);
+
 /*
 	DIRECTORY: PARSE
 */
@@ -65,22 +68,25 @@ void			set_data(char **env, t_data *data);
 static size_t	countword(const char *s, char *sep);
 void			expand(char **str, t_data *data);
 char			**split_quote(char const *s, char *charset);
-char			*negative_chars(char *str);
+char			*negative_chars(char *str, t_data *data);
 void			positive_chars(char **str);
 static int		count_newlen(char *str);
-char			**clean_string(char *str);
+char			**clean_string(char *str, t_data *data);
 int				check_quote(const char *str);
 int				check_chevrons(const char *str);
+int		get_varname_len(char *var);
 //	parse_input.c
 void			parse_input(const char *input, t_cmd *cmd);
 //	utils_parse_input.c
 char			*remove_space(const char *s, const int size);
 //	expand.c
 void			expand(char **str, t_data *data);
-void			handle_quote(char *str, t_data *data);
+int		is_variable(char c);
+
 //	utils.c
 int				error_msg(char *str);
-
+char	*find_var(t_data *data, char *var);
+void	display_lst(t_list *lst);
 /*
 	DIRECTORY: SRC
 */

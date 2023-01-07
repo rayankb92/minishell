@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 05:47:36 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/06 21:16:39 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/06 23:17:10 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 // {
 // 	static	t_data	*
 // }
+
 
 int main(int ac, char **av, char **env)
 {
@@ -35,6 +36,7 @@ int main(int ac, char **av, char **env)
 		return (EXIT_FAILURE);
 	cmd -> next = 0; // !!
 	set_data(env, & data);
+	display_lst(data.env);
 	while (1)
 	{
 		str = readline("Fumier$ ");
@@ -44,7 +46,7 @@ int main(int ac, char **av, char **env)
 		if (!check_chevrons(str) && check_quote(str) == 1)
 		{
 			is_exit(str);
-			res = clean_string((char*)str);
+			res = clean_string((char*)str, &data);
 			ft_displaydouble(res);
 			// parse_input(str, cmd);
 			// print_cmd(cmd);
