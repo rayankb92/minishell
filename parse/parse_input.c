@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 12:42:43 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/08 08:17:25 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/08 15:57:22 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,75 +31,6 @@ int		count_occurence(const char *str, const char c)
 	}
 	return (occur);
 }
-
-//int		count_occurence2(const char **str, const char c)
-//{
-//	size_t	i;
-//	int		occur;
-
-//	i = 0;
-//	occur = 0;
-//	while (str[i])
-//	{
-//		if (str[i][0] == c && str[i + 1] != 0)
-//		{
-//			if (str[i + 1][0] == c)
-//				i++;
-//			occur++;
-//		}
-//		i++;
-//	}
-//	return (occur);
-//}
-
-//void	attribute_sequence(const int start, const char *input, t_cmd *cmd)
-//{
-//	int	i;
-//	int	index;
-//	int	begin;
-//	int	index_redirect;
-//	t_sequence	*sequence;
-
-//	sequence = cmd -> sequence;
-//	i = start;
-//	index = 0;
-//	while (index < cmd -> length_sequence)
-//	{
-//		index_redirect = 0;
-//		while (input[i] && input[i] == '>')
-//		{
-//			index_redirect ++;
-//			i++;
-//		}
-//		if (index_redirect == 0)
-//			index_redirect = 2;
-//		while (input[i] && input[i] == '<')
-//		{
-//			index_redirect++;
-//			i++;
-//		}
-//		sequence[index] . index_redirect = index_redirect;
-//		while (input[i] && input[i] == ' ')
-//			i++;
-//		begin = i;
-//		while (input[i] && input[i] != ' ' && input[i] != '<' && input[i] != '>')
-//			i++;
-//		sequence[index] . redirect = ft_strndup(input + begin, i - begin);
-//		while (input[i] && input[i] == ' ')
-//			i++;
-//		begin = i;
-//		while (input[i] && input[i] != '>' && input[i] != '<' && input[i] != '|')
-//			i++;
-
-//		char *suite_args = remove_space(input + begin, i - begin);
-//		if (suite_args[0] != ' ' && suite_args[1] != '\0' && cmd -> temp_args[0])
-//			cmd -> temp_args = ft_strjoin(cmd -> temp_args, " ");
-//		cmd -> temp_args = ft_strjoin(cmd -> temp_args, suite_args);
-//		index++;
-//	}
-//	// set final args as array for execve
-//	cmd -> args = ft_split(cmd -> temp_args, ' ');
-//}
 
 int		array_len(char **ptr)
 {
@@ -128,7 +59,6 @@ int		get_real_size(char **ptr)
 		if (ptr[i] && (ptr[i][0] == '>' || ptr[i][0] == '<'))
 			i += 2;
 	}
-	ft_printf("Getrealsize: %d\n", size);
 	return (size);
 }
 
@@ -193,20 +123,16 @@ void	parse_input(const char *input, t_cmd *cmd)
 	int		size_split;
 	int		size_args;
 	char	*tostring;
-	int		index_args;
 	t_cmd	*ptr;
 
 	parse = clean_string((char *)input);
-	ft_displaydouble(parse);
-	tostring = array_to_string(parse);
-	split = ft_split(tostring, '|');
+	split = ft_split(array_to_string(parse), '|');
 	size_split = array_len(split);
-	ft_printf("tostring: [%s]\n", tostring);
 	ptr = cmd;
 	int k = 0;
-	index_args = 0;
+	int index_args = 0;
+	int index_split = 0;
 	int index_sequence;
-	//for (int i = 0; i < size_split; i++)
 	while (parse[k])
 	{
 		index_sequence = 0;
@@ -221,27 +147,28 @@ void	parse_input(const char *input, t_cmd *cmd)
 		}
 		if (!parse[k])
 			break ;
-		ptr -> length_sequence = count_occurence(tostring, '>') + count_occurence(tostring, '<');
+		ptr -> length_sequence = count_occurence(split[index_split], '>') + count_occurence(split[index_split], '<');
+		index_split++;
 		if (ptr -> length_sequence > 0)
 		{
 			k++;
 			ptr -> sequence = ft_calloc(sizeof(t_sequence), ptr -> length_sequence);
 			while (index_sequence < ptr -> length_sequence)
 			{
-				ft_printf(">>[%d] %d | %d\n", k, index_sequence, ptr -> length_sequence);
 				ptr -> sequence[index_sequence++] . redirect = parse[k];
-				ft_printf("redirect: %s\n", parse[k]);
 				k++;
 				while (parse[k] && parse[k][0] != '>' && parse[k][0] != '<' && parse[k][0] != '|')
 					ptr -> args[index_args++] = parse[k++];
-				if (parse[k] && (parse[k][0] == '>' || parse[k][0] == '<' || parse[k][0] == '|'))
+				if (parse[k] && (parse[k][0] == '>' || parse[k][0] == '<'))
 					k++;
 			}
 		}
-		ft_printf("AFTER: %s\n", parse[k]);
 		while (parse[k] && parse[k][0] == '|')
 			k++;
-		ptr -> next = ft_calloc(sizeof(t_cmd), 1);
-		ptr = ptr -> next;	
+		if (parse[k])
+		{
+			ptr -> next = ft_calloc(sizeof(t_cmd), 1);
+			ptr = ptr -> next;	
+		}
 	}
 }
