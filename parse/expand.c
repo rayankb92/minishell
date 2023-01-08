@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 15:15:38 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/07 02:21:31 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/08 04:29:35 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int		get_varname_len(char *var)
 	i = 0;
 	if (!var || !*var)
 		return (0);
-	while (var[i] && (!ft_isspace(var[i]) && !is_in_charset(var[i], "'\"")))
+	while (var[i] && (!ft_isspace(var[i]) && !is_in_charset(var[i], "'\"|<>")))
 		i++;
 	ft_printf("VARNAME LEN = %i name = %s\n",i,  var); 
 	return (i);

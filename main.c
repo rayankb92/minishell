@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 05:47:36 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/06 23:17:10 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/07 23:31:23 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int main(int ac, char **av, char **env)
 		return (EXIT_FAILURE);
 	cmd -> next = 0; // !!
 	set_data(env, & data);
+	export(&data, "a", "	yeees     bebe     alors  ");
 	display_lst(data.env);
 	while (1)
 	{

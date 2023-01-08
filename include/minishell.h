@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/06 23:53:13 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/07 23:29:54 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 #define CHARSET "<>| "
 #define CHEVRON "<>"
+#define ISSPACE "\t\v\n\r\f "
 
 # include "../libft/includes/libft.h"
 
