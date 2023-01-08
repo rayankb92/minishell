@@ -43,21 +43,18 @@ SRCS_DIR = src
 BLTS_DIR = builtins
 PRSG_DIR = parse
 SIGNAL_DIR = signal
-INTERPRET_DIR = interpret_input
 SRCS_DIRS = $(SRCS_DIR)\
 			$(BLTS_DIR)\
 			$(PRSG_DIR)\
 			$(SIGNAL_DIR)\
-			$(INTERPRET_DIR)\
 
 SRC_FILES =	$(addprefix parse/, \
 				parse.c			parse_input.c		utils_parse_input.c			utils.c \
 				expand.c		split.c				splitquote.c				cleanstring.c) \
 			$(addprefix builtins/, \
 				cd.c			pwd.c				export.c					unset.c \
-				echo.c			exit.c) \
+				echo.c			exit.c				is_builtin.c) \
 			$(addprefix signal/, ctrlc.c) \
-			$(addprefix interpret_input/, interpret_input.c is_exit.c) \
 			$(addprefix src/, set_data.c) \
 			main.c print.c exec.c
 				
@@ -106,7 +103,6 @@ $(OBJS_DIR) :
 	mkdir $(OBJS_DIR)/$(BLTS_DIR)
 	mkdir $(OBJS_DIR)/$(PRSG_DIR)
 	mkdir $(OBJS_DIR)/$(SIGNAL_DIR)
-	mkdir $(OBJS_DIR)/$(INTERPRET_DIR)
 
 $(OBJS) : $(OBJS_DIR)/%.o : %.c
 	$(CC) $(CFLAGS) $(CDFLAGS) $(CIFLAGS) -c $< -o $@

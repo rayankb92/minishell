@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 05:47:36 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/08 16:06:33 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/09 00:02:20 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int main(int ac, char **av, char **env)
 {
 	(void)ac;
 	(void)av;
-	const char	*str;
+	const char	*input;
 	t_data		data;
 	t_cmd		*cmd;
 
@@ -31,17 +31,17 @@ int main(int ac, char **av, char **env)
 	set_data(env, & data);
 	while (1)
 	{
-		str = readline("Fumier$ ");
-		if (!str)
+		input = readline("Fumier$ ");
+		if (!input)
 			break ;
-		add_history(str);
-		if (*str && check_chevrons(str) == EXIT_SUCCESS)
+		add_history(input);
+		if (*input && check_chevrons(input) == EXIT_SUCCESS)
 		{
-			if (check_quote(str) == EXIT_SUCCESS)
+			if (check_quote(input) == EXIT_SUCCESS)
 			{
-				parse_input(str, cmd);
+				parse_input(input, cmd);
 				print_cmd(cmd);
-				//exec(cmd);
+				exec(input, cmd);
 				ft_memset(cmd, 0, sizeof(t_cmd));
 				ft_memset(cmd -> sequence, 0, sizeof(t_sequence) * cmd -> length_sequence);
 			}

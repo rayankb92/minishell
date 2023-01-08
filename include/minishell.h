@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/08 19:46:01 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/08 22:55:40 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,16 +95,17 @@ void		set_data(char **env, t_data *data);
 	DIRECTORY: BUILTINS
 */
 //	builtins.c
-const char	*pwd(void);
+void		pwd(void);
+const char	*pwd_malloc(void);
 int			cd(const char *path);
 int			unset(t_data *data, char *name);
-void		echo(char * str, char opt);
+void		echo(const char *str, const char opt);
 void		export(t_data *data, char *name, char *value);
 void		display_list(t_list *lst);
 void		exit_(t_data *data);
 
 char	*find_var(t_data *data, char *var);
-void	exec(t_cmd *cmd);
+void	exec(const char *input, t_cmd *cmd);
 /*
 	DIRECTORY: SIGNAL
 */
@@ -115,8 +116,7 @@ void		ctrlc(int sig);
 	DIRECTORY: INTERPRET_INPUT
 */
 //	interpret_input.c -> inutile je pense
-void		interpret_input(const char *input);
-int			is_specifier(const char *specifier, char **match);
+int			is_builtin(const char *input, t_cmd *cmd);
 //	is_exit.c
 void		is_exit(const char *entry);
 

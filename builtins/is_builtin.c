@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   interpret_input.c                                  :+:      :+:    :+:   */
+/*   is_builtin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 17:05:34 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/05 19:15:37 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/08 22:56:29 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,11 @@
 
 # define SIZEMATCH	6	
 
-static int	matching(const char const *matchs[SIZEMATCH], const char *match)
+static int	matching(const char *match)
 {
+	static const char const *matchs[SIZEMATCH] = {
+		"cd", "echo", "exit", "export", "pwd", "unset"
+	};
 	const char const	*tmp;
 	int					i;
 
@@ -29,17 +32,29 @@ static int	matching(const char const *matchs[SIZEMATCH], const char *match)
 	return (EXIT_FAILURE);
 }
 
-int	is_specifier(const char *specifier, char **res)
+static void	do_builtin(const char *match, t_cmd *cmd)
 {
-	static const char const *matchs[SIZEMATCH] = {
-		"cd", "echo", "exit", "export", "pwd", "unset"
-	};
+	if (ft_strcmp("cd", match) == 0)
+	{
+		if (cmd -> args && ft_strcmp("cd", cmd -> args[0]) == 0 && cmd -> args[1])
+			cd(cmd -> args[1]);
+		else
+			cd("~");
+	}
+	if (ft_strcmp("echo", match) == 0)
+		echo(match, 0);
+	if (ft_strcmp("pwd", match) == 0)
+		pwd();
+}
+
+int	is_builtin(const char *input, t_cmd *cmd)
+{
 	const char				*copy;
 	const char				*begin;
 	const char				*match;
 	int						ret;
 
-	copy = specifier;
+	copy = cmd -> command;
 	while (ft_isspace(*copy))
 		copy++;
 	begin = copy;
@@ -47,28 +62,10 @@ int	is_specifier(const char *specifier, char **res)
 		copy++;
 	if (begin == copy)
 		return (0);
-	match = ft_strsub(specifier, begin - specifier, copy - specifier);
-	ret = matching(matchs, match);
-	ft_memdel((void **)& match);
+	match = ft_strsub(input, begin - input, copy - input);
+	ret = matching(match);
 	if (ret == EXIT_SUCCESS)
-	{
-		*res = (char *)begin;
-		return (EXIT_SUCCESS);
-	}
-	return (EXIT_FAILURE);
-}
-
-void		interpret_input(const char *input)
-{
-	//const char	*specifier;
-	//char		*first_trim;
-	//char		*last_trim;
-
-	//if (!input || !*input)
-	//	return ;
-	//specifier = is_specifier(input);
-	//if (!specifier)
-	//	return ;
-	//ft_printf(">> spec: %s[\n", specifier);
-	//is_exit(specifier);
+		do_builtin(match, cmd);
+	ft_memdel((void **)& match);
+	return (ret < 0);
 }

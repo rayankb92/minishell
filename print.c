@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 13:47:12 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/08 18:59:33 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/08 22:35:39 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	print_cmd(t_cmd *cmd)
 	tmp = cmd;
 	if (!tmp)
 		return ;
-	ft_printf("\n{bgred}PRINT CMD{reset}\n");
+	ft_printf("\n\n\t\t{cyan}---------------------{reset}\n");
 	while (tmp)
 	{
 		ft_printf("{magenta}Command{reset}:\t%s\n", tmp -> command);
@@ -37,7 +37,7 @@ void	print_cmd(t_cmd *cmd)
 		tmp = tmp -> next;
 		ft_printf("\n");
 	}
-	ft_printf("{bgred}END PRINT CMD{reset}\n");
+	ft_printf("{red}\t\t---------------------{reset}\n");
 }
 
 //ls -a -b > e -f -8 << h > redi -f -h | > e << g
