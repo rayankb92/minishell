@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 05:47:36 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/07 17:58:42 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/08 08:07:28 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,21 +29,26 @@ int main(int ac, char **av, char **env)
 		return (EXIT_FAILURE);
 	cmd -> next = 0;
 	set_data(env, & data);
+	//parse_input("ls -la file_ls > outfile -R << here_doc > to_here -opt | cmd", cmd);
+	//print_cmd(cmd);
+	//exit(0);
 	while (1)
 	{
 		str = readline("Fumier$ ");
 		if (!str)
 			break ;
 		add_history(str);
-		if (check_chevrons(str) == EXIT_SUCCESS)
+		if (*str && check_chevrons(str) == EXIT_SUCCESS)
 		{
 			if (check_quote(str) == EXIT_SUCCESS)
 			{
 				parse_input(str, cmd);
 				print_cmd(cmd);
-				exec(cmd);
-				ft_memset(cmd, 0, sizeof(t_cmd));
-				ft_memset(cmd -> sequence, 0, sizeof(t_sequence) * cmd -> length_sequence);
+				//exec(cmd);
+				//ft_memset(cmd, 0, sizeof(t_cmd));
+				//ft_memset(cmd -> sequence, 0, sizeof(t_sequence) * cmd -> length_sequence);
+				char **res = clean_string((char *)str);
+				ft_displaydouble(res);
 			}
 			else
 				ft_putstr_fd("Syntax error\n", 2);
