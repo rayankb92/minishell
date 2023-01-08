@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 01:26:17 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/08 04:26:00 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/08 23:20:27 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ char	**clean_string(char *str, t_data *data)
 	neg = negative_chars(str, data);
 	free(str);
 	ope = putspace_between_operateur(neg);
-	clean = split_quote(ope, "	 ");
+	clean = split_quote(ope, ISSPACE);
 	free(neg);
 	positive_chars(clean);
 	return (clean);
 }
 
-static int	count_newlen(char *str)
+static int	count_newlen(t_data *data, char *str)
 {
 	int	i;
 	int	len;
@@ -41,14 +41,20 @@ static int	count_newlen(char *str)
 		if (str[i] == '"')
 		{
 			while (str[++i] && str[i] != '"')
+			{
+				if ((str[i] == '$') && (str[i + 1]) && (is_variable(str[i + 1])))
+				{
+					i += get_varname_len(&str[i + 1]);
+					len += get_varvalue_len(data, &str[i + 1]);
+				}
 				len++;
+			}
 			i++;
 		}
-		if (str[i] == '"')
+		if ((str[i] == '$') && (str[i + 1]) && (is_variable(str[i + 1])))
 		{
-			while (str[++i] && str[i] != '"')
-				len++;
-			i++;
+			len += get_varvalue_len(data, &str[i + 1]); 
+			i += get_varname_len(&str[i + 1]);
 		}
 		len++;
 	}
@@ -76,8 +82,6 @@ int	add_value(char *new, char *str, t_data *data, int *j)
 
 	i = -1;
 	var = find_var(data, str + 1);
-	ft_printf("str = '%c'\n", str[0]);
-	ft_printf("laaaa valeur de %s = '%s'\n\n", str, var);
 	if (!var)
 		return (get_varname_len(str + 1));
 	while (var[++i])
@@ -95,8 +99,6 @@ int	add_value_nospace(char *new, char *str, t_data *data, int *j)
 
 	i = -1;
 	var = find_var(data, str + 1);
-	ft_printf("str = '%c'\n", str[0]);
-	ft_printf("laaaa valeur de %s = '%s'\n\n", str, var);
 	if (!var)
 		return (get_varname_len(str + 1));
 	var = ft_strtrim(var, ISSPACE);
@@ -144,10 +146,8 @@ char	*putspace_between_operateur(char *str)
 	i = 0;
 	j = 0;
 	new = malloc(sizeof(char) * (count_ope(str) + 1));
-	ft_printf("SPACE_before = %s\n", str);
 	while (str[i])
 	{
-		ft_printf("laaa\n");
 		if (str[i] > 0)
 		{
 			if (is_in_charset(str[i], "|<>"))
@@ -163,7 +163,6 @@ char	*putspace_between_operateur(char *str)
 		new[j++] = str[i++];
 	}
 	new[j] = 0;
-	ft_printf("SPACE = %s\n", new);
 	return (new);
 }
 
@@ -176,18 +175,16 @@ char	*negative_chars(char *str, t_data *data)
 
 	i = 0;
 	j = 0;
-	new = malloc(sizeof(char ) * (ft_strlen(str) + 200));
+	new = malloc(sizeof(char ) * (count_newlen(data, str) + 1));
 	while (str[i])
 	{
 		if (str[i] == '"')
 		{
 			while (str[++i] && str[i] != '"')
 			{
-				ft_printf("str[%i] = '%c'\n", i, str[i]);
 				if ((str[i] == '$') && (str[i + 1]) && (is_variable(str[i + 1])))
 				{
 					i += add_value(new, &str[i],  data, &j);
-					ft_printf("value of i = %i | str[%i] = '%c' value of j = %i\n", i, i, str[i], j);
 					if (str[i] == '|')
 						new[j++] = ' ';
 				}
@@ -210,8 +207,6 @@ char	*negative_chars(char *str, t_data *data)
 			new[j++] = str[i++];
 	}
 	new[j] = 0;
-	ft_printf("NEGATIVE = %s\n", new);
-	positive_char(new);
 	return (new);
 }
 

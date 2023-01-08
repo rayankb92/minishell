@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/07 23:29:54 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/08 20:45:47 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,13 @@ void			expand(char **str, t_data *data);
 char			**split_quote(char const *s, char *charset);
 char			*negative_chars(char *str, t_data *data);
 void			positive_chars(char **str);
-static int		count_newlen(char *str);
+static int		count_newlen(t_data *data, char *str);
 char			**clean_string(char *str, t_data *data);
 int				check_quote(const char *str);
 int				check_chevrons(const char *str);
 int		get_varname_len(char *var);
+int		get_varvalue_len(t_data *data, char *var);
+
 //	parse_input.c
 void			parse_input(const char *input, t_cmd *cmd);
 //	utils_parse_input.c
