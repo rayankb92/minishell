@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 13:47:12 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/06 21:47:11 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/08 18:59:33 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,8 @@ void	print_cmd(t_cmd *cmd)
 	ft_printf("\n{bgred}PRINT CMD{reset}\n");
 	while (tmp)
 	{
-		ft_printf("Command:\t%s\n", tmp -> command);
-		ft_printf("Temp args: [%s]\n", tmp -> temp_args);
-		ft_printf("Args: %p\n", tmp -> args);
+		ft_printf("{magenta}Command{reset}:\t%s\n", tmp -> command);
+		//ft_printf("Temp args: [%s]\n", tmp -> temp_args);
 		if (tmp -> args)
 		for (int i = 0; tmp -> args[i]; i++)
 			ft_printf("\tArg[%d]:\t\t[%s]\n", i, tmp -> args[i]);
@@ -32,8 +31,8 @@ void	print_cmd(t_cmd *cmd)
 		for (int i = 0; i < tmp -> length_sequence; i++)
 		{
 			ft_printf("{green}Sequence{reset}[{cyan}%d{reset}]:\n", i);
-			ft_printf("\tRedirect to:\t%s\n", tmp -> sequence[i] . redirect);
-			ft_printf("\tIndex redirect:\t%d\n", tmp -> sequence[i] . index_redirect);
+			ft_printf("\t{yellow}Redirect to{reset}:\t%s\n", tmp -> sequence[i] . redirect);
+			ft_printf("\t{blue}Index redirect{reset}:\t%d\n", tmp -> sequence[i] . index_redirect);
 		}
 		tmp = tmp -> next;
 		ft_printf("\n");

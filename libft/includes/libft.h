@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 20:13:10 by ooxn              #+#    #+#             */
-/*   Updated: 2023/01/03 20:31:52 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/08 19:36:52 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ ssize_t	ft_putnbr_fd(int n, int fd);
 
 /* ajout en plus */
 int		ft_isspace(const char c);
+size_t	ft_memlen(void **s);
 ssize_t	ft_putchar(const char c);
 ssize_t	ft_putstr(const char *s);
 ssize_t	ft_putnstr(const char *s, size_t len);
