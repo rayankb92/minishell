@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/09 03:49:37 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/09 05:04:27 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,18 @@
 # include "../libft/includes/libft.h"
 
 # include <stdio.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>
 
 enum redirect_index
 {
-	GREAT = 1,
-	DGREAT,
-	LESS,
-	DLESS,
+	GREAT = 1,// >
+	DGREAT,// >>
+	LESS,//<
+	DLESS,//<<
 };
 
 typedef struct s_sequence
@@ -95,7 +97,7 @@ void		set_data(char **env, t_data *data);
 	DIRECTORY: BUILTINS
 */
 //	is_builtin.c
-int			is_builtin(const char *input, t_cmd *cmd);
+int			is_builtin(t_cmd *cmd);
 //	is_exit.c
 void		is_exit(char **argument);
 //	pwd.c
@@ -112,7 +114,7 @@ void		export(t_data *data, char *name, char *value);
 void		display_list(t_list *lst);
 
 char		*find_var(t_data *data, char *var);
-void		exec(const char *input, t_cmd *cmd);
+void		exec(const char *input, t_cmd *cmd, char **env);
 
 /*
 	DIRECTORY: SIGNAL

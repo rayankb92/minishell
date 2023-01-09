@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 17:05:34 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/09 03:46:52 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/09 04:36:57 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,27 +49,14 @@ static void	do_builtin(const char *match, t_cmd *cmd)
 		is_exit(cmd -> args);
 }
 
-int	is_builtin(const char *input, t_cmd *cmd)
+int	is_builtin(t_cmd *cmd)
 {
-	const char				*copy;
-	const char				*begin;
 	const char				*match;
 	int						ret;
 
-	copy = cmd -> command;
-	if (!copy)
-		return (EXIT_FAILURE);
-	while (*copy && ft_isspace(*copy))
-		copy++;
-	begin = copy;
-	while (*copy && !ft_isspace(*copy))
-		copy++;
-	if (begin == copy)
-		return (0);
-	match = ft_strsub(input, begin - input, copy - input);
+	match = cmd -> command;
 	ret = matching(match);
 	if (ret == EXIT_SUCCESS)
 		do_builtin(match, cmd);
-	ft_memdel((void **)& match);
-	return (ret < 0);
+	return (ret == EXIT_FAILURE);
 }

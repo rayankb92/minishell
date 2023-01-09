@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 12:42:43 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/08 21:36:47 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/09 05:14:21 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,18 @@ void	attribute_args(int *start, int *index_args, char **parse, t_cmd *ptr)
 }
 
 static
+int	get_index_redirect(const char *redirect)
+{
+	int	i;
+
+	i = (redirect[0] == '>') + (redirect[1] == '>');
+	if (i != 0)
+		return (i);
+	i = 2 + (redirect[0] == '<') + (redirect[1] == '<');
+	return (i);
+}
+
+static
 void	attribute_sequence(int *start, int *index_args, char **parse, t_cmd *ptr)
 {
 	int	index_sequence;
@@ -36,7 +48,8 @@ void	attribute_sequence(int *start, int *index_args, char **parse, t_cmd *ptr)
 	(*start)++;
 	while (index_sequence < ptr -> length_sequence)
 	{
-		ptr -> sequence[index_sequence++] . redirect = parse[(*start)];
+		ptr -> sequence[index_sequence] . redirect = parse[(*start)];
+		ptr -> sequence[index_sequence++] . index_redirect = get_index_redirect(parse[(*start) - 1]);
 		(*start)++;
 		while (parse[(*start)] && parse[(*start)][0] != '>' && parse[(*start)][0] != '<' && parse[(*start)][0] != '|')
 			ptr -> args[(*index_args)++] = parse[(*start)++];
