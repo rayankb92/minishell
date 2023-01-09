@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:25:58 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/06 20:53:03 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/09 16:40:36 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ int	check_quote(const char *str)
 			singleopen = 0;
 	}
 	if (singleopen == 1 || doubleopen == 1)
-		return printf("Syntax Error\n");
-	return (1);
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }
 // a modifier: OK SI PIPE AVANT	
 # define SYNTAX_ERROR	"bash: syntax error near unexpected token"
@@ -66,9 +66,11 @@ static int	check_chevron(const char *str, const char c)
 				return (ft_printf("%s '%c'\n", SYNTAX_ERROR, c));
 			return (ft_printf("%s 'newline'\n", SYNTAX_ERROR));
 		}
+		if (!str[i])
+			break ;
 		i++;
 	}
-	return (0);
+	return (EXIT_SUCCESS);
 }
 // pas fini, gere pas tous les cas
 int	check_chevrons(const char *str)

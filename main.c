@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 05:47:36 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/06 23:17:10 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/09 16:40:27 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int main(int ac, char **av, char **env)
 {
 	(void)ac;
 	(void)av;
-	const char	*str;
+	const char	*input;
 	t_data		data;
 	t_cmd		*cmd;
 	char **res;
@@ -31,51 +31,32 @@ int main(int ac, char **av, char **env)
 		return (0);
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, & ctrlc);
-	cmd = calloc(sizeof(t_cmd), 1);
+	cmd = ft_calloc(sizeof(t_cmd), 1);
 	if (!cmd)
 		return (EXIT_FAILURE);
-	cmd -> next = 0; // !!
+	cmd -> next = 0;
 	set_data(env, & data);
 	display_lst(data.env);
 	while (1)
 	{
-		str = readline("Fumier$ ");
-		if (!str)
+		input = readline("Fumier$ ");
+		if (!input)
 			break ;
-		add_history(str);
-		if (!check_chevrons(str) && check_quote(str) == 1)
+		add_history(input);
+		if (*input && check_chevrons(input) == EXIT_SUCCESS)
 		{
-			is_exit(str);
-			res = clean_string((char*)str, &data);
-			ft_displaydouble(res);
-			// parse_input(str, cmd);
-			// print_cmd(cmd);
-			// exec(cmd);
+			if (check_quote(input) == EXIT_SUCCESS)
+			{
+				parse_input(input, cmd);
+				//print_cmd(cmd);
+				exec(input, cmd, env);
+				ft_memset(cmd, 0, sizeof(t_cmd));
+				ft_memset(cmd -> sequence, 0, sizeof(t_sequence) * cmd -> length_sequence);
+			}
+			else
+				ft_putstr_fd("Syntax error\n", 2);
 		}
 	}
-	// rayan
-	//while (1)
-	//{
-	//	str = readline("Fumier >$ ");
-	//	if (check_quote(str))
-	//	{
-
-	//		split = split_cmd(str, "| ");
-	//		// expand(split, &data);
-	//		ft_printf("laa\n");
-	//		// print_cmd(data.cmd);
-	//		handle_quote((char *)str, &data);
-	//		// ft_printf("expand = %s\n", data.cmd->args[0]);
-	//		if (ft_strncmp((char*)str, "exit", 4) == 0)
-	//			break;
-	//		if (ft_strncmp("env", str, 3) == 0)
-	//			ft_displaydouble(env);
-	//		// if (ft_strncmp("export", str, 6) == 0)
-	//		// 	export(env,)
-	//		check_chevrons(str);	
-	//	}
-	//		add_history(str);
-	//}
 	return (EXIT_SUCCESS);
 }
 	

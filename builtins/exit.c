@@ -3,17 +3,52 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/02 00:01:55 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/02 00:03:31 by rferradi         ###   ########.fr       */
+/*   Created: 2023/01/03 21:14:28 by jewancti          #+#    #+#             */
+/*   Updated: 2023/01/09 03:47:14 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void exit_(t_data *data)
+#define LLMAX	9223372036854775807LL
+#define LLMIN	-9223372036854775807LL
+
+void	is_exit(char **argument)
 {
-    // appeler fonction qui free la structure
-    exit(1);
+	const char	*tmp;
+	long long	res;
+	int			index;
+
+	if (!argument || !*argument)
+	{
+		ft_putendl("exit");
+		return ;
+	}
+	index = 0;
+	while (argument[++index])
+	{
+		tmp = argument[index];
+		res = ft_atoull(tmp);
+		if (*tmp == '+' || *tmp == '-')
+			tmp ++;
+		while (ft_isdigit(*tmp))
+			tmp++;
+		if (index > 1)
+		{
+			ft_putendl("exit");
+			ft_printf("bash: exit: too many arguments\n", tmp);
+			exit(1);
+		}
+		if (*tmp != '\0' || res > LLMAX || res < LLMIN)
+		{
+			ft_printf("bash: exit: %s: numeric argument required\n", tmp);
+			exit(2);
+		}
+	}
+	ft_putendl("exit");
+	if (argument[1])
+		exit(ft_atoull(argument[1]));
+	exit(0);
 }

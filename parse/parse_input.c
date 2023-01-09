@@ -6,141 +6,85 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 12:42:43 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/06 16:25:29 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/09 05:14:21 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int		count_occurence(const char *str, const char c)
+static
+void	attribute_args(int *start, int *index_args, char **parse, t_cmd *ptr)
 {
-	size_t	i;
-	size_t	size;
-	int		occur;
+	int	size_args;
 
-	i = 0;
-	occur = 0;
-	size = ft_strlen(str);
-	while (str[i])
-	{
-		if (i < size - 2 && str[i] == c)
-		{
-			if (str[i + 1] == c)
-				i++;
-			occur++;
-		}
-		i++;
+	size_args = get_length_args(parse);
+	if (size_args > 0)
+	{		
+		ptr -> args = ft_calloc(sizeof(char *), size_args + 1); // check malloc
+		while (parse[*start] && parse[*start][0] != '>' && parse[*start][0] != '<' && parse[*start][0] != '|')
+			ptr -> args[(*index_args)++] = parse[(*start)++];
 	}
-	return (occur);
 }
 
-void	attribute_sequence(const int start, const char *input, t_cmd *cmd)
-{
-	int	i;
-	int	index;
-	int	begin;
-	int	index_redirect;
-	t_sequence	*sequence;
-
-	sequence = cmd -> sequence;
-	i = start;
-	index = 0;
-	while (index < cmd -> length_sequence)
-	{
-		index_redirect = 0;
-		while (input[i] && input[i] == '>')
-		{
-			index_redirect ++;
-			i++;
-		}
-		if (index_redirect == 0)
-			index_redirect = 2;
-		while (input[i] && input[i] == '<')
-		{
-			index_redirect++;
-			i++;
-		}
-		sequence[index] . index_redirect = index_redirect;
-		while (input[i] && input[i] == ' ')
-			i++;
-		begin = i;
-		while (input[i] && input[i] != ' ')
-			i++;
-		sequence[index] . redirect = ft_strndup(input + begin, i - begin);
-		while (input[i] && input[i] == ' ')
-			i++;
-		begin = i;
-		while (input[i] && input[i] != '>' && input[i] != '<' && input[i] != '|')
-			i++;
-
-		char *suite_args = remove_space(input + begin, i - begin);
-		// set final args as array for execve
-		cmd -> temp_args = ft_strjoin(cmd -> temp_args, suite_args);
-		index++;
-	}
-	cmd -> args = ft_split(cmd -> temp_args, ' ');
-}
-
-int		array_len(char **ptr)
+static
+int	get_index_redirect(const char *redirect)
 {
 	int	i;
 
-	i = -1;
-	while (ptr[++i])
-		;
+	i = (redirect[0] == '>') + (redirect[1] == '>');
+	if (i != 0)
+		return (i);
+	i = 2 + (redirect[0] == '<') + (redirect[1] == '<');
 	return (i);
+}
+
+static
+void	attribute_sequence(int *start, int *index_args, char **parse, t_cmd *ptr)
+{
+	int	index_sequence;
+
+	index_sequence = 0;
+	ptr -> sequence = ft_calloc(sizeof(t_sequence), ptr -> length_sequence); // check malloc
+	(*start)++;
+	while (index_sequence < ptr -> length_sequence)
+	{
+		ptr -> sequence[index_sequence] . redirect = parse[(*start)];
+		ptr -> sequence[index_sequence++] . index_redirect = get_index_redirect(parse[(*start) - 1]);
+		(*start)++;
+		while (parse[(*start)] && parse[(*start)][0] != '>' && parse[(*start)][0] != '<' && parse[(*start)][0] != '|')
+			ptr -> args[(*index_args)++] = parse[(*start)++];
+		if (parse[(*start)] && (parse[(*start)][0] == '>' || parse[(*start)][0] == '<'))
+			(*start)++;
+	}
 }
 
 void	parse_input(const char *input, t_cmd *cmd)
 {
-	int		i;
-	int		index;
-	int		last;
-	int		occur;
-	char	**inputs;
-	char	*input_tmp;
-	char	*command;
-	t_cmd	*tmp;
+	t_cmd	*ptr;
+	char	**parse;
+	char	**split;
+	int		k = 0;
+	int		index_args = 0;
+	int		index_split = 0;
 
-	if (!*input)
-		return ;
-	inputs = ft_split(input, '|');
-	if (!inputs)
-		return ;
-	index = -1;
-	tmp = cmd;
-	while (inputs[++index])
+	parse = clean_string((char *)input); // check malloc
+	split = ft_split(array_to_string(parse), '|'); // check malloc
+	ptr = cmd;
+	while (parse[k])
 	{
-		i = 0;
-		input_tmp = inputs[index];
-		while (input_tmp[i] && input_tmp[i] == ' ')	
-			i++;
-		last = i;
-		while (input_tmp[i] && input_tmp[i] != ' ')	
-			i++;
-		tmp -> command = ft_strndup(input_tmp + last, i - last);
-		while (input_tmp[i] && input_tmp[i] == ' ')	
-			i++;
-		last = i; // belek le + 1 == temp args to delete
-		while (input_tmp[i] && input_tmp[i] != '>' && input_tmp[i] != '<' && input_tmp[i] != '|')	
-			i++;
-			
-		tmp -> temp_args = remove_space(input_tmp + last, i - last);
-		//tmp -> temp_args = ft_strndup(input_tmp + last, i - last);
-		// debut redirection
-		occur = count_occurence(input_tmp + i, '>') + count_occurence(input_tmp + i, '<');
-		if (occur > 0)
+		index_args = 0;
+		ptr -> command = parse[k];
+		attribute_args(& k, & index_args, parse, ptr);
+		ptr -> length_sequence = count_occurence(split[index_split], '>') + count_occurence(split[index_split], '<');
+		index_split++;
+		if (ptr -> length_sequence > 0)
+			attribute_sequence(& k, & index_args, parse, ptr);
+		while (parse[k] && parse[k][0] == '|')
+			k++;
+		if (parse[k])
 		{
-			tmp -> sequence = calloc(occur, sizeof(t_sequence));
-			tmp -> length_sequence = occur;
-			attribute_sequence(i, input_tmp, tmp);
+			ptr -> next = ft_calloc(sizeof(t_cmd), 1); // check malloc
+			ptr = ptr -> next;	
 		}
-		else
-			tmp -> args = ft_split(tmp -> temp_args, ' ');
-		if (index + 1 == array_len(inputs))
-			break ;
-		tmp -> next = calloc(sizeof(t_cmd), 1);
-		tmp = tmp -> next;
-		tmp -> next = 0;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/06 23:53:13 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/09 16:40:02 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,18 @@
 # include "../libft/includes/libft.h"
 
 # include <stdio.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>
 
 enum redirect_index
 {
-	GREAT = 1,
-	DGREAT,
-	LESS,
-	DLESS,
+	GREAT = 1,// >
+	DGREAT,// >>
+	LESS,//<
+	DLESS,//<<
 };
 
 typedef struct s_sequence
@@ -78,7 +80,11 @@ int		get_varname_len(char *var);
 //	parse_input.c
 void			parse_input(const char *input, t_cmd *cmd);
 //	utils_parse_input.c
-char			*remove_space(const char *s, const int size);
+char			*array_to_string(char **array);
+void			ft_realloc(char **line, const char *s1);
+int				count_occurence(const char *str, const char c);
+int				get_length_args(char **ptr);
+//char			*remove_space(const char *s, const int size);
 //	expand.c
 void			expand(char **str, t_data *data);
 int		is_variable(char c);
@@ -96,17 +102,26 @@ void		set_data(char **env, t_data *data);
 /*
 	DIRECTORY: BUILTINS
 */
-//	builtins.c
-const char	*pwd(void);
+//	is_builtin.c
+int			is_builtin(t_cmd *cmd);
+//	is_exit.c
+void		is_exit(char **argument);
+//	pwd.c
+void		pwd(void);
+const char	*pwd_malloc(void);
+//	cd.c
 int			cd(const char *path);
+//	unset.c
 int			unset(t_data *data, char *name);
-void		echo(char * str, char opt);
+//	echo.c
+void		echo(const char *str, const char opt);
+//	export.c
 void		export(t_data *data, char *name, char *value);
 void		display_list(t_list *lst);
-void		exit_(t_data *data);
 
-char	*find_var(t_data *data, char *var);
-void	exec(t_cmd *cmd);
+char		*find_var(t_data *data, char *var);
+void		exec(const char *input, t_cmd *cmd, char **env);
+
 /*
 	DIRECTORY: SIGNAL
 */
@@ -114,21 +129,9 @@ void	exec(t_cmd *cmd);
 void		ctrlc(int sig);
 
 /*
-	DIRECTORY: INTERPRET_INPUT
-*/
-//	interpret_input.c -> inutile je pense
-void		interpret_input(const char *input);
-int			is_specifier(const char *specifier, char **match);
-//	is_exit.c
-void		is_exit(const char *entry);
-
-/*
 	DIRECTORY: ./
 */
 //	print.c
 void		print_cmd(t_cmd *cmd);
 
-
-int		parse_cmd(t_data *data);
-t_cmd	*cmdnew(char *content);
 #endif

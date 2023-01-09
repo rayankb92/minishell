@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 01:26:17 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/07 02:34:00 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/09 16:39:55 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,7 @@ char	**clean_string(char *str, t_data *data)
 	char	**clean;
 	char	*neg;
 
-	neg = negative_chars(str, data);
-	free(str);
+	neg = negative_chars(str);
 	clean = split_quote(neg, "	 ");
 	free(neg);
 	positive_chars(clean);
@@ -117,10 +116,6 @@ char	*negative_chars(char *str, t_data *data)
 			while (str[++i] && str[i] != '\'')
 				new[j++] = (str[i] * -1);
 			i++;
-		}
-		else if (str[i] == '$' && str[i + 1] && is_variable(str[i + 1]))
-		{
-			i += add_value(new, &str[i],  data, &j);
 		}
 		else
 			new[j++] = str[i++];
