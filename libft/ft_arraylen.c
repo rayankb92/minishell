@@ -1,29 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_arraylen.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/31 12:33:46 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/09 00:46:32 by jewancti         ###   ########.fr       */
+/*   Created: 2023/01/08 19:35:31 by jewancti          #+#    #+#             */
+/*   Updated: 2023/01/09 00:18:21 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "includes/libft.h"
 
-void	pwd(void)
+size_t	ft_arraylen(char **s)
 {
-	static char		path[4096] = {0};
+	size_t	i;
 
-	getcwd(path, 4096);
-	if (path)
-		ft_putendl(path);
-}
-
-const char	*pwd_malloc(void)
-{
-	char		path[4096];
-
-	return (ft_strdup(getcwd(path, 4096)));
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
 }

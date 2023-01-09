@@ -12,7 +12,8 @@ ADDED	=	ft_putchar.c		ft_putstr.c		ft_putnstr.c		ft_putnstr_fd.c \
 			ft_putendl.c		ft_putnendl.c	ft_putnendl_fd.c	ft_putnbr.c		\
 			ft_strcpy.c			ft_isspace.c	ft_swap.c			ft_strcmp.c		\
 			ft_memdel.c			ft_arraydel.c	ft_strcat.c			ft_strsub.c		\
-			ft_strncpy.c		ft_strstr.c		ft_strndup.c		ft_memlen.c												
+			ft_strncpy.c		ft_strstr.c		ft_strndup.c		ft_arraylen.c	\
+			ft_atoull.c																											
 
 BONUS	=	ft_lstnew.c			ft_lstadd_front.c	ft_lstsize.c	ft_lstlast.c	\
 			ft_lstadd_back.c	ft_lstdelone.c		ft_lstclear.c	ft_lstiter.c	\

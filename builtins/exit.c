@@ -1,76 +1,54 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is_exit.c                                          :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 21:14:28 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/05 14:28:35 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/09 03:47:14 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static int	is_set(const char *set, char c)
-{
-	while (*set && *set != c)
-		set++;
-	return (*set != '\0');
-}
+#define LLMAX	9223372036854775807LL
+#define LLMIN	-9223372036854775807LL
 
-char	*ft_strtrim_middle(const char *s1, const char *tofind, const char *set)
+void	is_exit(char **argument)
 {
-	const char	*start;
-	const char	*s;
-	size_t		len;
-	size_t		i;
-	size_t		j;
+	const char	*tmp;
+	long long	res;
+	int			index;
 
-	if (!s1 || !set || !tofind)
-		return (0);
-	i = 0;
-	len = ft_strlen(tofind);
-	while (s1[i])
+	if (!argument || !*argument)
 	{
-		j = 0;
-		while (tofind[j] && s1[i + j] && s1[i + j] == tofind[j])
-			j++;
-		if (j == len)
-			break ;
-		i++;
-	}
-	s = s1 + (i + j);
-	start = s;
-	while (*s && is_set(set, *s))
-		s++;
-	if (!*s || s == start)
-		return ((char *)start);
-	return ((char *)s);
-}
-// not done : multiple argument && is numeric ?
-// AND max value accepted = long long int : 9223372036854775807
-void	is_exit(const char *entry)
-{
-	char		*first_trim;
-	char		*last_trim;
-	char		*search;
-
-	if (!*entry)
+		ft_putendl("exit");
 		return ;
-	first_trim = ft_strtrim(entry, " ");
-	last_trim = ft_strtrim_middle(first_trim, "exit", " ");
-	search = ft_strnstr(first_trim, "exit", 4);
-	if (search)
-	{
-		if (last_trim[0] != '\0' )
-		if (ft_atoi(last_trim) == 0)
-			ft_printf("bash: exit: %s: numeric argument required\n", last_trim);
-		else
-			ft_putendl("exit");
-		int temp = ft_atoi(last_trim);
-		ft_memdel((void **)& first_trim);
-		exit(temp);
 	}
-	ft_memdel((void **)& first_trim);
+	index = 0;
+	while (argument[++index])
+	{
+		tmp = argument[index];
+		res = ft_atoull(tmp);
+		if (*tmp == '+' || *tmp == '-')
+			tmp ++;
+		while (ft_isdigit(*tmp))
+			tmp++;
+		if (index > 1)
+		{
+			ft_putendl("exit");
+			ft_printf("bash: exit: too many arguments\n", tmp);
+			exit(1);
+		}
+		if (*tmp != '\0' || res > LLMAX || res < LLMIN)
+		{
+			ft_printf("bash: exit: %s: numeric argument required\n", tmp);
+			exit(2);
+		}
+	}
+	ft_putendl("exit");
+	if (argument[1])
+		exit(ft_atoull(argument[1]));
+	exit(0);
 }

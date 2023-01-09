@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 17:05:34 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/08 22:56:29 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/09 03:46:52 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ static void	do_builtin(const char *match, t_cmd *cmd)
 		echo(match, 0);
 	if (ft_strcmp("pwd", match) == 0)
 		pwd();
+	if (ft_strcmp("exit", match) == 0)
+		is_exit(cmd -> args);
 }
 
 int	is_builtin(const char *input, t_cmd *cmd)
@@ -55,7 +57,9 @@ int	is_builtin(const char *input, t_cmd *cmd)
 	int						ret;
 
 	copy = cmd -> command;
-	while (ft_isspace(*copy))
+	if (!copy)
+		return (EXIT_FAILURE);
+	while (*copy && ft_isspace(*copy))
 		copy++;
 	begin = copy;
 	while (*copy && !ft_isspace(*copy))

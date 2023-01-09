@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/08 22:55:40 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/09 03:49:37 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,18 +94,26 @@ void		set_data(char **env, t_data *data);
 /*
 	DIRECTORY: BUILTINS
 */
-//	builtins.c
+//	is_builtin.c
+int			is_builtin(const char *input, t_cmd *cmd);
+//	is_exit.c
+void		is_exit(char **argument);
+//	pwd.c
 void		pwd(void);
 const char	*pwd_malloc(void);
+//	cd.c
 int			cd(const char *path);
+//	unset.c
 int			unset(t_data *data, char *name);
+//	echo.c
 void		echo(const char *str, const char opt);
+//	export.c
 void		export(t_data *data, char *name, char *value);
 void		display_list(t_list *lst);
-void		exit_(t_data *data);
 
-char	*find_var(t_data *data, char *var);
-void	exec(const char *input, t_cmd *cmd);
+char		*find_var(t_data *data, char *var);
+void		exec(const char *input, t_cmd *cmd);
+
 /*
 	DIRECTORY: SIGNAL
 */
@@ -113,20 +121,9 @@ void	exec(const char *input, t_cmd *cmd);
 void		ctrlc(int sig);
 
 /*
-	DIRECTORY: INTERPRET_INPUT
-*/
-//	interpret_input.c -> inutile je pense
-int			is_builtin(const char *input, t_cmd *cmd);
-//	is_exit.c
-void		is_exit(const char *entry);
-
-/*
 	DIRECTORY: ./
 */
 //	print.c
 void		print_cmd(t_cmd *cmd);
 
-
-int		parse_cmd(t_data *data);
-t_cmd	*cmdnew(char *content);
 #endif
