@@ -3,29 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   cleanstring.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 01:26:17 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/09 16:39:55 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/09 17:02:32 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
+char	*putspace_between_operateur(char *str);
 
 char	**clean_string(char *str, t_data *data)
 {
 	char	**clean;
 	char	*neg;
+	char	*ope;
 
-	neg = negative_chars(str);
-	clean = split_quote(neg, "	 ");
+	neg = negative_chars(str, data);
+	ope = putspace_between_operateur(neg);
+	clean = split_quote(ope, ISSPACE);
 	free(neg);
 	positive_chars(clean);
 	return (clean);
 }
 
-static int	count_newlen(char *str)
+static int	count_newlen(t_data *data, char *str)
 {
 	int	i;
 	int	len;
@@ -37,14 +40,20 @@ static int	count_newlen(char *str)
 		if (str[i] == '"')
 		{
 			while (str[++i] && str[i] != '"')
+			{
+				if ((str[i] == '$') && (str[i + 1]) && (is_variable(str[i + 1])))
+				{
+					i += get_varname_len(&str[i + 1]);
+					len += get_varvalue_len(data, &str[i + 1]);
+				}
 				len++;
+			}
 			i++;
 		}
-		if (str[i] == '"')
+		if ((str[i] == '$') && (str[i + 1]) && (is_variable(str[i + 1])))
 		{
-			while (str[++i] && str[i] != '"')
-				len++;
-			i++;
+			len += get_varvalue_len(data, &str[i + 1]); 
+			i += get_varname_len(&str[i + 1]);
 		}
 		len++;
 	}
@@ -72,8 +81,6 @@ int	add_value(char *new, char *str, t_data *data, int *j)
 
 	i = -1;
 	var = find_var(data, str + 1);
-	ft_printf("str = '%c'\n", str[0]);
-	ft_printf("laaaa valeur de %s = '%s'\n\n", str, var);
 	if (!var)
 		return (get_varname_len(str + 1));
 	while (var[++i])
@@ -82,6 +89,80 @@ int	add_value(char *new, char *str, t_data *data, int *j)
 		*j += 1;
 	}
 	return (get_varname_len(str + 1));
+}
+
+int	add_value_nospace(char *new, char *str, t_data *data, int *j)
+{
+	int		i;
+	char	*var;
+
+	i = -1;
+	var = find_var(data, str + 1);
+	if (!var)
+		return (get_varname_len(str + 1));
+	var = ft_strtrim(var, ISSPACE);
+	while (var[++i])
+	{
+		if (ft_isspace(var[i]))
+		{
+			while (var[i] && ft_isspace(var[i]))
+				i++;
+			new[*j] = -32;
+			*j += 1;
+			i--;
+		}
+		else
+		{
+			new[*j] = var[i] * -1;
+			*j += 1;
+		}
+	}
+	return (get_varname_len(str + 1));
+}
+
+int	count_ope(char *str)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	while (str[i])
+	{
+		if (is_in_charset(str[i], "|<>") && !is_in_charset( str[i - 1], "|<>"))
+			count += 2;
+		i++;
+	}
+	return (i + count);
+}
+
+char	*putspace_between_operateur(char *str)
+{
+	int		i;
+	int		j;
+	char	*new;
+
+	i = 0;
+	j = 0;
+	new = malloc(sizeof(char) * (count_ope(str) + 1));
+	while (str[i])
+	{
+		if (str[i] > 0)
+		{
+			if (is_in_charset(str[i], "|<>"))
+			{
+					new[j++] = ' ';
+				if ((ft_strncmp(str + i, ">>", 2) == 0 || ft_strncmp(str + i, "<<", 2) == 0) && str[i + 1])
+					new[j++] = str[i++];
+				if (str[i])
+					new[j++] = str[i++];
+				new[j++] = ' ';
+			}
+		}
+		new[j++] = str[i++];
+	}
+	new[j] = 0;
+	return (new);
 }
 
 
@@ -93,18 +174,18 @@ char	*negative_chars(char *str, t_data *data)
 
 	i = 0;
 	j = 0;
-	new = malloc(sizeof(char ) * (ft_strlen(str) + 200));
+	new = malloc(sizeof(char ) * (count_newlen(data, str) + 1));
 	while (str[i])
 	{
 		if (str[i] == '"')
 		{
 			while (str[++i] && str[i] != '"')
 			{
-				ft_printf("str[%i] = '%c'\n", i, str[i]);
 				if ((str[i] == '$') && (str[i + 1]) && (is_variable(str[i + 1])))
 				{
 					i += add_value(new, &str[i],  data, &j);
-					ft_printf("value of i = %i | str[%i] = '%c' value of j = %i\n", i, i, str[i], j);
+					if (str[i] == '|')
+						new[j++] = ' ';
 				}
 				else
 					new[j++] = (str[i] * -1);
@@ -117,12 +198,14 @@ char	*negative_chars(char *str, t_data *data)
 				new[j++] = (str[i] * -1);
 			i++;
 		}
+		else if (str[i] == '$' && str[i + 1] && is_variable(str[i + 1]))
+		{
+			i += add_value_nospace(new, &str[i++],  data, &j);
+		}
 		else
 			new[j++] = str[i++];
 	}
 	new[j] = 0;
-	ft_printf("%s\n", new);
-	positive_char(new);
 	return (new);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 05:47:36 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/09 16:40:27 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/09 16:56:38 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ int main(int ac, char **av, char **env)
 		{
 			if (check_quote(input) == EXIT_SUCCESS)
 			{
-				parse_input(input, cmd);
-				//print_cmd(cmd);
+				parse_input(input, cmd, & data);
+				print_cmd(cmd);
 				exec(input, cmd, env);
 				ft_memset(cmd, 0, sizeof(t_cmd));
 				ft_memset(cmd -> sequence, 0, sizeof(t_sequence) * cmd -> length_sequence);

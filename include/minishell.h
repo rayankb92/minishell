@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/09 16:40:02 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/09 17:02:44 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>
+
+#define ISSPACE "\t\v\n\r\f "
 
 enum redirect_index
 {
@@ -72,13 +74,12 @@ void			expand(char **str, t_data *data);
 char			**split_quote(char const *s, char *charset);
 char			*negative_chars(char *str, t_data *data);
 void			positive_chars(char **str);
-static int		count_newlen(char *str);
 char			**clean_string(char *str, t_data *data);
 int				check_quote(const char *str);
 int				check_chevrons(const char *str);
 int		get_varname_len(char *var);
 //	parse_input.c
-void			parse_input(const char *input, t_cmd *cmd);
+void			parse_input(const char *input, t_cmd *cmd, t_data *data);
 //	utils_parse_input.c
 char			*array_to_string(char **array);
 void			ft_realloc(char **line, const char *s1);
@@ -87,7 +88,8 @@ int				get_length_args(char **ptr);
 //char			*remove_space(const char *s, const int size);
 //	expand.c
 void			expand(char **str, t_data *data);
-int		is_variable(char c);
+int				get_varvalue_len(t_data *data, char *var);
+int				is_variable(char c);
 
 //	utils.c
 int				error_msg(char *str);

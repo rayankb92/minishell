@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 12:42:43 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/09 05:14:21 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/09 16:55:24 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	attribute_sequence(int *start, int *index_args, char **parse, t_cmd *ptr)
 	}
 }
 
-void	parse_input(const char *input, t_cmd *cmd)
+void	parse_input(const char *input, t_cmd *cmd, t_data *data)
 {
 	t_cmd	*ptr;
 	char	**parse;
@@ -67,7 +67,7 @@ void	parse_input(const char *input, t_cmd *cmd)
 	int		index_args = 0;
 	int		index_split = 0;
 
-	parse = clean_string((char *)input); // check malloc
+	parse = clean_string((char *)input, data); // check malloc
 	split = ft_split(array_to_string(parse), '|'); // check malloc
 	ptr = cmd;
 	while (parse[k])
