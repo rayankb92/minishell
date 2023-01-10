@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/09 17:02:44 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/10 02:58:42 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>
+# include <unistd.h>
 
 #define ISSPACE "\t\v\n\r\f "
 
@@ -93,8 +94,8 @@ int				is_variable(char c);
 
 //	utils.c
 int				error_msg(char *str);
-char	*find_var(t_data *data, char *var);
-void	display_lst(t_list *lst);
+char			*find_var(t_data *data, char *var);
+void			display_lst(t_list *lst);
 /*
 	DIRECTORY: SRC
 */

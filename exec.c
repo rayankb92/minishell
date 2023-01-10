@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 13:52:31 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/09 15:26:32 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/10 02:58:20 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,10 @@ int	valid_command(const char *command, const char **env)
 	joined = 0;
 	while (command && env[++i])
 	{
-		joined = ft_strjoin(env[i], command);
+		if (command[0] == '/')
+			joined = ft_strdup(command);
+		else
+			joined = ft_strjoin(env[i], command);
 		if (access(joined, X_OK) == 0)
 		{
 			ft_memdel((void **)& joined);
@@ -74,6 +77,25 @@ int	valid_command(const char *command, const char **env)
 		ft_memdel((void **)& joined);
 	}
 	return (-1);
+}
+
+void	is_redirection(t_cmd *ptr)
+{
+	static const int	indexs[4] = {O_WRONLY | O_CREAT | O_TRUNC, O_WRONLY | O_CREAT | O_APPEND};
+	int	fd;
+// boucle 
+	if (ptr -> sequence)
+	{
+		fd = open(ptr -> sequence[0] . redirect, indexs[ptr -> sequence[0] . index_redirect - 1], 0644);
+		if (fd < 0)
+			ft_putendl_fd("Cannot open file", 2);
+		else
+		{
+			dup2(fd, STDOUT_FILENO);
+			if (close(fd) == -1)
+				ft_putendl_fd("Cannot close fd", 2);
+		}
+	}
 }
 
 void	exec(const char *input, t_cmd *cmd, char **env)
@@ -87,10 +109,13 @@ void	exec(const char *input, t_cmd *cmd, char **env)
 
 	ptr = cmd;
 	path_env = env_paths_to_string(env, & size_path_env);
+	int pipes[2]; // test   1 = write   0 = read 
 	if (is_builtin(ptr) == EXIT_FAILURE)
 	{
 		while (ptr)
 		{
+			if (pipe(pipes) < 0)
+				return ;
 			pids[index_pid] = fork();
 			if (pids[index_pid] == 0)
 			{
@@ -99,6 +124,7 @@ void	exec(const char *input, t_cmd *cmd, char **env)
 					ft_printf("%s: command not found\n", ptr -> command);
 				else
 				{
+					is_redirection(ptr);
 					if (ptr -> command[0] == '/')
 						execve(ptr -> command, ptr -> args, env);
 					else

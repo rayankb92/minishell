@@ -6,17 +6,11 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 05:47:36 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/09 16:56:38 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/10 02:26:05 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/minishell.h"
-
-// static	t_data	*get_data()
-// {
-// 	static	t_data	*
-// }
-
 
 int main(int ac, char **av, char **env)
 {
@@ -36,7 +30,6 @@ int main(int ac, char **av, char **env)
 		return (EXIT_FAILURE);
 	cmd -> next = 0;
 	set_data(env, & data);
-	display_lst(data.env);
 	while (1)
 	{
 		input = readline("Fumier$ ");
@@ -48,10 +41,9 @@ int main(int ac, char **av, char **env)
 			if (check_quote(input) == EXIT_SUCCESS)
 			{
 				parse_input(input, cmd, & data);
-				print_cmd(cmd);
 				exec(input, cmd, env);
-				ft_memset(cmd, 0, sizeof(t_cmd));
-				ft_memset(cmd -> sequence, 0, sizeof(t_sequence) * cmd -> length_sequence);
+				ft_bzero(cmd, sizeof(t_cmd));
+				ft_bzero(cmd -> sequence, sizeof(t_sequence) * cmd -> length_sequence);
 			}
 			else
 				ft_putstr_fd("Syntax error\n", 2);
