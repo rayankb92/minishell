@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 13:52:31 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/10 02:58:20 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/10 06:23:33 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	valid_command(const char *command, const char **env)
 	joined = 0;
 	while (command && env[++i])
 	{
-		if (command[0] == '/')
+		if (ft_strchr(command, '/'))
 			joined = ft_strdup(command);
 		else
 			joined = ft_strjoin(env[i], command);
@@ -83,17 +83,22 @@ void	is_redirection(t_cmd *ptr)
 {
 	static const int	indexs[4] = {O_WRONLY | O_CREAT | O_TRUNC, O_WRONLY | O_CREAT | O_APPEND};
 	int	fd;
-// boucle 
+	int	i;
+
 	if (ptr -> sequence)
 	{
-		fd = open(ptr -> sequence[0] . redirect, indexs[ptr -> sequence[0] . index_redirect - 1], 0644);
-		if (fd < 0)
-			ft_putendl_fd("Cannot open file", 2);
-		else
+		i = 0;
+		while (i < ptr -> length_sequence)
 		{
-			dup2(fd, STDOUT_FILENO);
-			if (close(fd) == -1)
-				ft_putendl_fd("Cannot close fd", 2);
+			fd = open(ptr -> sequence[i] . redirect, indexs[ptr -> sequence[i] . index_redirect - 1], 0644);
+			if (fd < 0)
+				ft_putendl_fd("Cannot open file", 2);
+			if (i + 1 == ptr -> length_sequence)
+			{
+				dup2(fd, STDOUT_FILENO);
+				close(fd);
+			}
+			i++;
 		}
 	}
 }
@@ -109,7 +114,8 @@ void	exec(const char *input, t_cmd *cmd, char **env)
 
 	ptr = cmd;
 	path_env = env_paths_to_string(env, & size_path_env);
-	int pipes[2]; // test   1 = write   0 = read 
+	int pipes[2]; // test   1 = write   0 = read
+	index_pid = 0;
 	if (is_builtin(ptr) == EXIT_FAILURE)
 	{
 		while (ptr)
@@ -124,8 +130,9 @@ void	exec(const char *input, t_cmd *cmd, char **env)
 					ft_printf("%s: command not found\n", ptr -> command);
 				else
 				{
+					//is_heredoc(ptr);
 					is_redirection(ptr);
-					if (ptr -> command[0] == '/')
+					if (ft_strchr(ptr -> command, '/'))
 						execve(ptr -> command, ptr -> args, env);
 					else
 					{
@@ -141,6 +148,8 @@ void	exec(const char *input, t_cmd *cmd, char **env)
 			index_pid++;
 			ptr = ptr -> next;
 		}
+		close(pipes[0]);
+		close(pipes[1]);
 		for (int i = 0; i < index_pid; i++)
 			waitpid(pids[i], 0, 0);
 	}

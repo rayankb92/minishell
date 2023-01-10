@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 17:05:34 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/09 04:36:57 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/10 05:31:54 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 static int	matching(const char *match)
 {
 	static const char const *matchs[SIZEMATCH] = {
-		"cd", "echo", "exit", "export", "pwd", "unset"
+		"cd", "echod", "exit", "export", "pwd", "unset"
 	};
 	const char const	*tmp;
 	int					i;
@@ -55,6 +55,8 @@ int	is_builtin(t_cmd *cmd)
 	int						ret;
 
 	match = cmd -> command;
+	if (!match)
+		return (EXIT_FAILURE);
 	ret = matching(match);
 	if (ret == EXIT_SUCCESS)
 		do_builtin(match, cmd);
