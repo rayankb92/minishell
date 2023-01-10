@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 05:47:36 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/10 02:26:05 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/10 03:01:03 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ int main(int ac, char **av, char **env)
 		{
 			if (check_quote(input) == EXIT_SUCCESS)
 			{
+				res = clean_string((char*)input, &data);
+				ft_displaydouble(res);
 				parse_input(input, cmd, & data);
 				exec(input, cmd, env);
 				ft_bzero(cmd, sizeof(t_cmd));

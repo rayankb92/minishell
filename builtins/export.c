@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/31 14:35:41 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/05 12:47:39 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/09 18:27:24 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,3 +37,4 @@ void	export(t_data *data, char *name, char *value)
 		tmp = tmp->next;
 	}
 }
+

@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/10 02:58:42 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/10 03:00:48 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,15 @@ enum redirect_index
 	DGREAT,// >>
 	LESS,//<
 	DLESS,//<<
+};
+
+enum operator
+{
+	PIPE = -1,// >
+	CHEVRIGHT = -2,// >>
+	CHEVLEFT = -3,
+	CHEVLEFTD = -4,//<
+	CHEVRIGHTD = -5,//<<
 };
 
 typedef struct s_sequence
