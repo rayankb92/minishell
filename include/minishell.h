@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/09 17:02:44 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/10 02:50:38 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,15 @@ enum redirect_index
 	DGREAT,// >>
 	LESS,//<
 	DLESS,//<<
+};
+
+enum operator
+{
+	PIPE = -1,// >
+	CHEVRIGHT = -2,// >>
+	CHEVLEFT = -3,
+	CHEVLEFTD = -4,//<
+	CHEVRIGHTD = -5,//<<
 };
 
 typedef struct s_sequence
