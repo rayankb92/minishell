@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/11 02:57:15 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/11 23:30:52 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,12 @@ typedef struct t_data
 static	t_data	*return_struct(t_data *data);
 
 /*
-	DIRECTORY: PARSE
+	DIRECTORY: ./PARSE
 */
+//	./parse/env
+//		env.c
+const char		**env_paths_to_string(char **env, int *size);
+const char		**set_paths(char **paths, int *size);
 //	parse.c
 static size_t	countword(const char *s, char *sep);
 void			expand(char **str, t_data *data);
@@ -114,13 +118,13 @@ int				error_msg(char *str);
 char			*find_var(t_data *data, char *var);
 void			display_lst(t_list *lst);
 /*
-	DIRECTORY: SRC
+	DIRECTORY: ./SRC
 */
 //	set_data.c
 void		set_data(char **env, t_data *data);
 
 /*
-	DIRECTORY: BUILTINS
+	DIRECTORY: ./BUILTINS
 */
 //	is_builtin.c
 int			is_builtin(t_cmd *cmd);
@@ -139,11 +143,16 @@ void		_echo(const char **arg);
 //	export.c
 int		export(t_data *data, char *str);
 
+/*
+	DIRECTORY: ./EXEC
+*/
 //	exec.c
 void		exec(const char *input, t_cmd *cmd, char **env);
+//	is_redirection.c
+void		is_redirection(t_cmd *ptr);
 
 /*
-	DIRECTORY: SIGNAL
+	DIRECTORY: ./SIGNAL
 */
 //	signal.c
 void		ctrlc(int sig);
