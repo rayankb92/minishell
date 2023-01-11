@@ -34,14 +34,11 @@ static
 void	set_files(t_cmd *cmd)
 {
 	t_cmd	*ptr;
-	int		indexs[4];
+	int		*indexs;
 	int		i;
 
 	ptr = cmd;
-	indexs[0] = -1;
-	indexs[1] = -1;
-	indexs[2] = -1;
-	indexs[3] = -1;
+	indexs = (int [4]){-1, -1, -1, -1};
 	while (ptr)
 	{
 		if (ptr -> sequence)
@@ -72,7 +69,6 @@ int main(int ac, char **av, char **env)
 	const char	*input;
 	t_data		data;
 	t_cmd		*cmd;
-	t_file		file[2] = {0};
 	char		**res;
 
 	if (!env || !*env)
