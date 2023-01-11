@@ -22,6 +22,26 @@ int	is_in_charset(char c, char *charset)
 	return (c == charset[i]);
 }
 
+int	is_in_string(const char *str, const char *charset)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (str[i] != '\0')
+	{
+		j = 0;
+		while (charset[j] != '\0')
+		{
+			if (str[i] == charset[j])
+				return (EXIT_SUCCESS);
+			j++;
+		}
+		i++;
+	}
+	return (EXIT_FAILURE);
+}
+
 int	error_msg(char *str)
 {
 	ft_putstr_fd(str, 2);

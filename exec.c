@@ -88,7 +88,6 @@ void	is_redirection(t_cmd *ptr)
 	};
 	int	fd;
 	int	i;
-
 	if (ptr -> sequence)
 	{
 		i = 0;
@@ -169,7 +168,12 @@ void	exec(const char *input, t_cmd *cmd, char **env)
 			{
 				path_id = valid_command(ptr -> command, path_env);
 				if (path_id == -1)
-					ft_printf("%s: command not found\n", ptr -> command);
+				{
+					if (is_in_string(ptr -> command, "><") == EXIT_SUCCESS)
+						is_redirection(ptr);
+					else
+						ft_printf("%s: command not found\n", ptr -> command);
+				}
 				else
 				{
 					//is_heredoc(ptr);
