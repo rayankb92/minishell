@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 01:26:17 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/11 02:29:23 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/11 03:43:45 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,7 +229,7 @@ char	*negative_chars(char *str, t_data *data)
 
 	i = 0;
 	j = 0;
-	new = malloc(sizeof(char ) * (count_newlen(data, str) + 100));
+	new = malloc(sizeof(char ) * (200));
 	while (str[i])
 	{
 		if (str[i] == '"')
