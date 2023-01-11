@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 05:47:36 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/11 03:52:12 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/11 06:45:54 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,52 +141,6 @@ int main(int ac, char **av, char **env)
 // Fumier >$ echo "salut" '"'m'e'c			|
 // must do > [echo] [salut] ["mec]
 // _________________________________________|	
-
-/*
-#include <unistd.h>
-#include <fcntl.h>
-
-int main() {
-    int fd_in, fd_out;
-    char *argv[] = {"cat", NULL};
-    
-    // Ouvrez Makefile en lecture
-    fd_in = open("Makefile", O_RDONLY);
-    if (fd_in == -1) {
-        perror("open");
-        return 1;
-    }
-    // Redirigez l'entrée standard vers Makefile
-    if (dup2(fd_in, STDIN_FILENO) == -1) {
-        perror("dup2");
-        close(fd_in);
-        return 1;
-    }
-
-    // Ouvrez out en écriture
-    fd_out = open("out", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-    if (fd_out == -1) {
-        perror("open");
-        close(fd_in);
-        return 1;
-    }
-
-    // Redirigez la sortie standard vers out
-    if (dup2(fd_out, STDOUT_FILENO) == -1) {
-        perror("dup2");
-        close(fd_in);
-        close(fd_out);
-        return 1;
-    }
-    close(fd_in);
-    close(fd_out);
-
-    // Executez la commande "ls"
-    execve("/bin/cat", argv, NULL);
-    
-    perror("execve");
-    return 1;
-}*/
 
 //jewancti@e2r7p15:~/Desktop/minishell$ export ab="doihoihf>
 //> ^C
