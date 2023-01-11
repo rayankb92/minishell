@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 13:52:31 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/11 23:39:06 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/12 00:12:45 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ void	exec(const char *input, t_cmd *cmd, char **env)
 	{
 		while (ptr)
 		{
-			//if (pipe(pipes) < 0)
-			//	return ;
+			if (pipe(pipes) < 0)
+				return ;
 			pids[index_pid] = fork();
 			if (pids[index_pid] == 0)
 			{
@@ -84,21 +84,25 @@ void	exec(const char *input, t_cmd *cmd, char **env)
 					}
 				}
 				exit(EXIT_FAILURE);
-				//close(pipes[0]);
-				//close(pipes[1]);
+				close(pipes[0]);
+				close(pipes[1]);
 			}
 			else
 			{
-				//if (prev_pipes != -1)
-				//	close(prev_pipes);
-				//close(pipes[1]);
-				//prev_pipes = pipes[0];
+				if (prev_pipes != -1)
+					close(prev_pipes);
+				close(pipes[1]);
+				prev_pipes = pipes[0];
 			}
 			index_pid++;
 			ptr = ptr -> next;
+			// if (ptr)
+			// 	dup2(pipes[1], STDOUT_FILENO);
+			// else
+			// 	dup2(prev_pipes, STDIN_FILENO);
 		}
-		//close(pipes[0]);
-		//close(pipes[1]);
+		close(pipes[0]);
+		close(pipes[1]);
 		for (int i = 0; i < index_pid; i++)
 			waitpid(pids[i], &status, 0);
 		if (WIFEXITED(status))//?
