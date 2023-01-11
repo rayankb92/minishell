@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 17:47:26 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/06 03:11:29 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/10 19:34:28 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,9 @@ char	*put_in_tab(const char *s, int *i, char *charset)
 		return (NULL);
 	while (index < j)
 	{
-		res[index++] = s[*i];
+
+			res[index] = s[*i];
+		index++;
 		(*i)++;
 	}
 	res[index] = 0;
@@ -88,7 +90,7 @@ char	**split_quote(char const *s, char *charset)
 			return (cleaner(&res, i));
 		i++;
 	}
-	res[i] = 0;
+	res[i] = NULL;
 	return (res);
 }
 

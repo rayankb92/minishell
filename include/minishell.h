@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/11 01:46:12 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/11 02:57:15 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ enum operator
 	CHEVLEFT = -3,
 	CHEVLEFTD = -4,//<
 	CHEVRIGHTD = -5,//<<
+	SLASHBACK = -6
 };
 
 typedef struct s_sequence
@@ -95,6 +96,8 @@ char			**clean_string(char *str, t_data *data);
 int				check_quote(const char *str);
 int				check_chevrons(const char *str);
 int		get_varname_len(char *var);
+
+void display_list(t_list *lst);
 //	parse_input.c
 void			parse_input(const char *input, t_cmd *cmd, t_data *data);
 //	utils_parse_input.c
@@ -134,8 +137,10 @@ int			cd(const char *path);
 int			unset(t_data *data, char *name);
 //	echo.c
 void		echo(const char *str, const char opt);
+void	_echo(const char **arg);
+
 //	export.c
-void		export(t_data *data, char *name, char *value);
+int		export(t_data *data, char *str);
 void		display_list(t_list *lst);
 
 char		*find_var(t_data *data, char *var);
