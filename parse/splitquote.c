@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   splitquote.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 17:47:26 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/10 19:34:28 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/11 05:36:42 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,7 @@ char	*put_in_tab(const char *s, int *i, char *charset)
 		return (NULL);
 	while (index < j)
 	{
-
-			res[index] = s[*i];
+		res[index] = s[*i];
 		index++;
 		(*i)++;
 	}
@@ -80,7 +79,7 @@ char	**split_quote(char const *s, char *charset)
 	if (!s)
 		return (NULL);
 	lenword = countword_r(s, charset);
-	res = malloc(sizeof(char *) * (lenword + 1));
+	res = malloc(sizeof(char *) * (lenword + 1)); // manque plus 1 va savoir pk
 	if (!res)
 		return (NULL);
 	while (i < lenword)

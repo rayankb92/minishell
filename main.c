@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 05:47:36 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/11 02:57:45 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/11 03:52:12 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int main(int ac, char **av, char **env)
 			if (check_quote(input) == EXIT_SUCCESS)
 			{
 				res = clean_string((char*)input, &data);
-				//ft_displaydouble(res);
+				ft_displaydouble(res);
 				parse_input(input, cmd, & data);
 				set_files(cmd);
 				if (cmd -> command)
@@ -113,7 +113,12 @@ int main(int ac, char **av, char **env)
 	}
 	return (EXIT_SUCCESS);
 }
-	
+
+//export a=">out"
+//bash $a =
+//bash: >out: No such file or directory
+
+//export a=">out" = impossible
 //______________________________________________________________
 //| echo "salut" ""'"'"mec" "" [echo] [salut] [] ["] [mec] []	|
 //| echo "salut" '"'mec       "" [echo] [salut] ["mec]		|
@@ -182,3 +187,12 @@ int main() {
     perror("execve");
     return 1;
 }*/
+
+//jewancti@e2r7p15:~/Desktop/minishell$ export ab="doihoihf>
+//> ^C
+//jewancti@e2r7p15:~/Desktop/minishell$ export ab="doihoihf>erge
+//> ^C
+//jewancti@e2r7p15:~/Desktop/minishell$ export ab=doihoihf>erge
+//jewancti@e2r7p15:~/Desktop/minishell$ echo $ab
+//doihoihf
+//jewancti@e2r7p15:~/Desktop/minishell$ 

@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 16:25:30 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/08 21:33:48 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/11 06:31:59 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,12 @@
 int		count_occurence(const char *str, const char c)
 {
 	size_t	i;
-	int		occur;
+	size_t	occur;
+	size_t	size;
 
 	i = 0;
 	occur = 0;
+	size = ft_strlen(str);
 	while (str[i])
 	{
 		if (str[i] == c && str[i + 1] != '\0')
@@ -28,26 +30,49 @@ int		count_occurence(const char *str, const char c)
 			occur++;
 		}
 		i++;
+		if (i >= size)
+			break ;
 	}
 	return (occur);
+}
+
+static
+int	get_size(char **ptr)
+{
+	int	i;
+
+	i = -1;
+	while (ptr[++i])
+		;
+	return i;
 }
 
 int		get_length_args(char **ptr)
 {
 	int	i;
+	int	length;
 	int	size;
 
 	size = 1;
 	i = 1;
+	length = get_size(ptr);
 	while (ptr[i])
 	{
-		while (ptr[i] && ptr[i][0] != '>' && ptr[i][0] != '<')
+		while (ptr[i])
 		{
+			if (ptr[i][1] == 0 && (ptr[i][0] == '>' || ptr[i][0] == '<'))
+				break ;
+			if (ptr[i][1] != 0
+				&& ((ptr[i][0] == '>' && ptr[i][1] == '<') || (ptr[i][0] == '<' && ptr[i][1] == '<'))
+				&& ptr[i][2] == 0)
+				break ;
 			size++;
 			i++;
 		}
 		if (ptr[i] && (ptr[i][0] == '>' || ptr[i][0] == '<'))
 			i += 2;
+		if (i >= length)
+			break ;
 	}
 	return (size);
 }

@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 13:52:31 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/11 01:51:51 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/11 06:44:44 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,51 +97,49 @@ void	is_redirection(t_cmd *ptr)
 			// hard code
 			if (ptr -> sequence[i] . redirect != ptr -> files[0] . redirect
 				&& ptr -> sequence[i] . redirect != ptr -> files[1] . redirect
-				&& ptr -> sequence[i] . redirect != ptr -> files[2] . redirect
-				&& ptr -> sequence[i] . redirect != ptr -> files[3] . redirect)
+				&& ptr -> sequence[i] . redirect != ptr -> files[2] . redirect)
 			{
 				fd = open(ptr -> sequence[i] . redirect, indexs[ptr -> sequence[i] . index_redirect - 1], 0644);
 				if (fd < 0)
-					ft_putendl_fd("Cannot open file", 2);
-				close(fd);
+					ft_putendl_fd("Cannot open file1", 2);
+				else
+					close(fd);
 			}
 			i++;
 		}
 		// hard code
-		int fdgreat = -1, fddgreat = -1, fdless = -1, fddless = -1;
-		if (ptr -> files[0] . index_redirect != -1)
-		{
-			fdgreat = open(ptr -> files[0] . redirect, indexs[ptr -> files[0] . index_redirect - 1], 0644);
-			if (fdgreat < 0)
-				ft_putendl_fd("Cannot open file", 2);
-			dup2(fdgreat, STDOUT_FILENO);
-		}
+		// FDDGREAT a la priorite sur FDGREAT
+		int fdgreat = -1, fddgreat = -1, fdless = -1;
 		if (ptr -> files[1] . index_redirect != -1)
 		{
 			fddgreat = open(ptr -> files[1] . redirect, indexs[ptr -> files[1] . index_redirect - 1], 0644);
 			if (fddgreat < 0)
-				ft_putendl_fd("Cannot open file", 2);
-			dup2(fddgreat, STDOUT_FILENO);
+				ft_putendl_fd("Cannot open file3", 2);
+			else
+				dup2(fddgreat, STDOUT_FILENO);
+		}
+		else if (ptr -> files[0] . index_redirect != -1)
+		{
+			fdgreat = open(ptr -> files[0] . redirect, indexs[ptr -> files[0] . index_redirect - 1], 0644);
+			if (fdgreat < 0)
+				ft_putendl_fd("Cannot open file2", 2);
+			else
+				dup2(fdgreat, STDOUT_FILENO);
 		}
 		if (ptr -> files[2] . index_redirect != -1)
 		{
 			fdless = open(ptr -> files[2] . redirect, indexs[ptr -> files[2] . index_redirect - 1], 0644);
 			if (fdless < 0)
-				ft_putendl_fd("Cannot open file", 2);
-			dup2(fdless, STDIN_FILENO);
+				ft_putendl_fd("Cannot open file4", 2);
+			else
+				dup2(fdless, STDIN_FILENO);
 		}
-		if (ptr -> files[3] . index_redirect != -1)
-		{
-			fddless = open(ptr -> files[3] . redirect, indexs[ptr -> files[3] . index_redirect - 1], 0644);
-			if (fddless < 0)
-				ft_putendl_fd("Cannot open file", 2);
-			dup2(fddless, STDIN_FILENO);
-
-		}
-		close(fdgreat);
-		close(fddgreat);
-		close(fdless);
-		close(fddless);
+		if (fdgreat > 0)
+			close(fdgreat);
+		if (fddgreat > 0)
+			close(fddgreat);
+		if (fdless > 0)
+			close(fdless);
 	}
 }
 
@@ -164,8 +162,8 @@ void	exec(const char *input, t_cmd *cmd, char **env)
 	{
 		while (ptr)
 		{
-			if (pipe(pipes) < 0)
-				return ;
+			//if (pipe(pipes) < 0)
+			//	return ;
 			pids[index_pid] = fork();
 			if (pids[index_pid] == 0)
 			{
@@ -188,21 +186,22 @@ void	exec(const char *input, t_cmd *cmd, char **env)
 						}
 					}
 				}
-				close(pipes[0]);
-				close(pipes[1]);
+				exit(EXIT_FAILURE);
+				//close(pipes[0]);
+				//close(pipes[1]);
 			}
 			else
 			{
-				if (prev_pipes != -1)
-					close(prev_pipes);
-				close(pipes[1]);
-				prev_pipes = pipes[0];
+				//if (prev_pipes != -1)
+				//	close(prev_pipes);
+				//close(pipes[1]);
+				//prev_pipes = pipes[0];
 			}
 			index_pid++;
 			ptr = ptr -> next;
 		}
-		close(pipes[0]);
-		close(pipes[1]);
+		//close(pipes[0]);
+		//close(pipes[1]);
 		for (int i = 0; i < index_pid; i++)
 			waitpid(pids[i], &status, 0);
 		if (WIFEXITED(status))//?
