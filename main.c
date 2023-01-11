@@ -3,24 +3,65 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 05:47:36 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/11 02:26:40 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/11 06:45:54 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/minishell.h"
 
-void	display_list(t_list *list)
+static
+void	attribute_files(int indexs[4], t_cmd *ptr)
 {
-	t_list *temp;
+	int	i;
 
-	temp = list;
-	while (temp)
+	i = -1;
+	while (++i < DLESS)
 	{
-		ft_printf("%s\n", temp->content);
-		temp = temp->next;
+		if (indexs[i] > -1)
+		{
+			ptr -> files[i] . index_redirect = ptr -> sequence[indexs[i]] . index_redirect;
+			ptr -> files[i] . redirect = ptr -> sequence[indexs[i]] . redirect;
+		}
+		else
+			ptr -> files[i] . index_redirect = -1;
+	}
+}
+
+static
+void	set_files(t_cmd *cmd)
+{
+	t_cmd	*ptr;
+	int		indexs[4];
+	int		i;
+
+	ptr = cmd;
+	indexs[0] = -1;
+	indexs[1] = -1;
+	indexs[2] = -1;
+	indexs[3] = -1;
+	while (ptr)
+	{
+		if (ptr -> sequence)
+		{
+			i = 0;
+			while (i < ptr -> length_sequence)
+			{
+				if (ptr -> sequence[i] . index_redirect == GREAT)
+					indexs[GREAT - 1] = i;
+				if (ptr -> sequence[i] . index_redirect == DGREAT)
+					indexs[DGREAT - 1] = i;
+				if (ptr -> sequence[i] . index_redirect == LESS)
+					indexs[LESS - 1] = i;
+				if (ptr -> sequence[i] . index_redirect == DLESS)
+					indexs[DLESS - 1] = i;
+				i++;
+			}
+			attribute_files(indexs, ptr);
+		}
+		ptr = ptr -> next;
 	}
 }
 
@@ -31,7 +72,8 @@ int main(int ac, char **av, char **env)
 	const char	*input;
 	t_data		data;
 	t_cmd		*cmd;
-	char **res;
+	t_file		file[2] = {0};
+	char		**res;
 
 	if (!env || !*env)
 		return (0);
@@ -55,15 +97,13 @@ int main(int ac, char **av, char **env)
 			{
 				res = clean_string((char*)input, &data);
 				ft_displaydouble(res);
-				// export(&data, res[0]);
-				// _echo((const char **)res);
-				// display_list(data.env);
-				// parse_input(input, cmd, & data);
-				// if (cmd -> command)
-				// {
-				// 	print_cmd(cmd);
-				// 	exec(input, cmd, env);
-				// }
+				parse_input(input, cmd, & data);
+				set_files(cmd);
+				if (cmd -> command)
+				{
+					print_cmd(cmd);
+					exec(input, cmd, env);
+				}
 				ft_bzero(cmd, sizeof(t_cmd));
 				ft_bzero(cmd -> sequence, sizeof(t_sequence) * cmd -> length_sequence);
 			}
@@ -73,7 +113,12 @@ int main(int ac, char **av, char **env)
 	}
 	return (EXIT_SUCCESS);
 }
-	
+
+//export a=">out"
+//bash $a =
+//bash: >out: No such file or directory
+
+//export a=">out" = impossible
 //______________________________________________________________
 //| echo "salut" ""'"'"mec" "" [echo] [salut] [] ["] [mec] []	|
 //| echo "salut" '"'mec       "" [echo] [salut] ["mec]		|
@@ -96,3 +141,12 @@ int main(int ac, char **av, char **env)
 // Fumier >$ echo "salut" '"'m'e'c			|
 // must do > [echo] [salut] ["mec]
 // _________________________________________|	
+
+//jewancti@e2r7p15:~/Desktop/minishell$ export ab="doihoihf>
+//> ^C
+//jewancti@e2r7p15:~/Desktop/minishell$ export ab="doihoihf>erge
+//> ^C
+//jewancti@e2r7p15:~/Desktop/minishell$ export ab=doihoihf>erge
+//jewancti@e2r7p15:~/Desktop/minishell$ echo $ab
+//doihoihf
+//jewancti@e2r7p15:~/Desktop/minishell$ 

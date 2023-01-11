@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 21:14:28 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/09 03:47:14 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/11 01:27:34 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,5 @@ void	is_exit(char **argument)
 	ft_putendl("exit");
 	if (argument[1])
 		exit(ft_atoull(argument[1]));
-	exit(0);
+	exit(EXIT_SUCCESS);
 }
