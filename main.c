@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 05:47:36 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/11 06:45:54 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/12 00:02:58 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int main(int ac, char **av, char **env)
 	{
 		input = readline("Fumier$ ");
 		if (!input)
-			break ;
+			break ;	
 		add_history(input);
 		if (*input && check_chevrons(input) == EXIT_SUCCESS)
 		{
