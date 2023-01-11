@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/10 03:00:48 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/11 01:46:12 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,12 @@ typedef struct s_sequence
 	int			index_redirect;
 }	t_sequence;
 
+typedef struct t_file
+{
+	const char	*redirect;
+	int			index_redirect;
+}	t_file;
+
 typedef struct s_cmd
 {
 	char			*command;
@@ -58,6 +64,7 @@ typedef struct s_cmd
 	char			**args;
 	
 	t_sequence		*sequence;
+	t_file			files[4];
 	int				length_sequence;
 	struct s_cmd	*next;
 }	t_cmd;

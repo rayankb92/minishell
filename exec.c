@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 13:52:31 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/10 06:23:33 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/11 01:51:51 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,11 @@ int	valid_command(const char *command, const char **env)
 
 void	is_redirection(t_cmd *ptr)
 {
-	static const int	indexs[4] = {O_WRONLY | O_CREAT | O_TRUNC, O_WRONLY | O_CREAT | O_APPEND};
+	static const int	indexs[3] = {
+		O_WRONLY | O_CREAT | O_TRUNC, 
+		O_WRONLY | O_CREAT | O_APPEND,
+		O_RDONLY // stdinfileno
+	};
 	int	fd;
 	int	i;
 
@@ -90,16 +94,54 @@ void	is_redirection(t_cmd *ptr)
 		i = 0;
 		while (i < ptr -> length_sequence)
 		{
-			fd = open(ptr -> sequence[i] . redirect, indexs[ptr -> sequence[i] . index_redirect - 1], 0644);
-			if (fd < 0)
-				ft_putendl_fd("Cannot open file", 2);
-			if (i + 1 == ptr -> length_sequence)
+			// hard code
+			if (ptr -> sequence[i] . redirect != ptr -> files[0] . redirect
+				&& ptr -> sequence[i] . redirect != ptr -> files[1] . redirect
+				&& ptr -> sequence[i] . redirect != ptr -> files[2] . redirect
+				&& ptr -> sequence[i] . redirect != ptr -> files[3] . redirect)
 			{
-				dup2(fd, STDOUT_FILENO);
+				fd = open(ptr -> sequence[i] . redirect, indexs[ptr -> sequence[i] . index_redirect - 1], 0644);
+				if (fd < 0)
+					ft_putendl_fd("Cannot open file", 2);
 				close(fd);
 			}
 			i++;
 		}
+		// hard code
+		int fdgreat = -1, fddgreat = -1, fdless = -1, fddless = -1;
+		if (ptr -> files[0] . index_redirect != -1)
+		{
+			fdgreat = open(ptr -> files[0] . redirect, indexs[ptr -> files[0] . index_redirect - 1], 0644);
+			if (fdgreat < 0)
+				ft_putendl_fd("Cannot open file", 2);
+			dup2(fdgreat, STDOUT_FILENO);
+		}
+		if (ptr -> files[1] . index_redirect != -1)
+		{
+			fddgreat = open(ptr -> files[1] . redirect, indexs[ptr -> files[1] . index_redirect - 1], 0644);
+			if (fddgreat < 0)
+				ft_putendl_fd("Cannot open file", 2);
+			dup2(fddgreat, STDOUT_FILENO);
+		}
+		if (ptr -> files[2] . index_redirect != -1)
+		{
+			fdless = open(ptr -> files[2] . redirect, indexs[ptr -> files[2] . index_redirect - 1], 0644);
+			if (fdless < 0)
+				ft_putendl_fd("Cannot open file", 2);
+			dup2(fdless, STDIN_FILENO);
+		}
+		if (ptr -> files[3] . index_redirect != -1)
+		{
+			fddless = open(ptr -> files[3] . redirect, indexs[ptr -> files[3] . index_redirect - 1], 0644);
+			if (fddless < 0)
+				ft_putendl_fd("Cannot open file", 2);
+			dup2(fddless, STDIN_FILENO);
+
+		}
+		close(fdgreat);
+		close(fddgreat);
+		close(fdless);
+		close(fddless);
 	}
 }
 
@@ -111,11 +153,13 @@ void	exec(const char *input, t_cmd *cmd, char **env)
 	int			size_path_env;
 	int			index_pid;
 	int			path_id;
-
+	int			status;
 	ptr = cmd;
 	path_env = env_paths_to_string(env, & size_path_env);
 	int pipes[2]; // test   1 = write   0 = read
 	index_pid = 0;
+	int		prev_pipes = -1;
+	status = 0;
 	if (is_builtin(ptr) == EXIT_FAILURE)
 	{
 		while (ptr)
@@ -144,6 +188,15 @@ void	exec(const char *input, t_cmd *cmd, char **env)
 						}
 					}
 				}
+				close(pipes[0]);
+				close(pipes[1]);
+			}
+			else
+			{
+				if (prev_pipes != -1)
+					close(prev_pipes);
+				close(pipes[1]);
+				prev_pipes = pipes[0];
 			}
 			index_pid++;
 			ptr = ptr -> next;
@@ -151,6 +204,9 @@ void	exec(const char *input, t_cmd *cmd, char **env)
 		close(pipes[0]);
 		close(pipes[1]);
 		for (int i = 0; i < index_pid; i++)
-			waitpid(pids[i], 0, 0);
+			waitpid(pids[i], &status, 0);
+		if (WIFEXITED(status))//?
+			status = WEXITSTATUS(status);//?
+		//printf("Return status is : %d\n", status);
 	}
 }
