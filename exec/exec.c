@@ -6,55 +6,11 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 13:52:31 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/11 06:44:44 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/11 23:39:06 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/minishell.h"
-
-const char	**set_paths(char **paths, int *size)
-{
-	char	*tmp;
-	int		i;
-
-	i = -1;
-	tmp = ft_strjoin(paths[++i] + 5, "/");
-	if (!tmp)
-		return (0);
-	ft_memdel((void **)& paths[i]);
-	paths[i] = tmp;
-	while (paths[++i])
-	{
-		tmp = ft_strjoin(paths[i], "/");
-		if (!tmp)
-			return (0);
-		ft_memdel((void **)& paths[i]);
-		paths[i] = tmp;
-	}
-	*size = i;
-	return ((const char **)paths);
-}
-
-const char	**env_paths_to_string(char **env, int *size)
-{
-	int		i;
-	int		j;
-	char	*tmp;
-	char	**paths;
-
-	i = -1;
-	while (env[++i])
-	{
-		if (ft_strnstr(env[i], "PATH", 4))
-		{
-			paths = ft_split(env[i], ':');
-			if (!paths)
-				break ;
-			return (set_paths(paths, size));
-		}
-	}
-	return (0);
-}
+#include "./../include/minishell.h"
 
 int	valid_command(const char *command, const char **env)
 {
@@ -77,69 +33,6 @@ int	valid_command(const char *command, const char **env)
 		ft_memdel((void **)& joined);
 	}
 	return (-1);
-}
-
-void	is_redirection(t_cmd *ptr)
-{
-	static const int	indexs[3] = {
-		O_WRONLY | O_CREAT | O_TRUNC, 
-		O_WRONLY | O_CREAT | O_APPEND,
-		O_RDONLY // stdinfileno
-	};
-	int	fd;
-	int	i;
-	if (ptr -> sequence)
-	{
-		i = 0;
-		while (i < ptr -> length_sequence)
-		{
-			// hard code
-			if (ptr -> sequence[i] . redirect != ptr -> files[0] . redirect
-				&& ptr -> sequence[i] . redirect != ptr -> files[1] . redirect
-				&& ptr -> sequence[i] . redirect != ptr -> files[2] . redirect)
-			{
-				fd = open(ptr -> sequence[i] . redirect, indexs[ptr -> sequence[i] . index_redirect - 1], 0644);
-				if (fd < 0)
-					ft_putendl_fd("Cannot open file1", 2);
-				else
-					close(fd);
-			}
-			i++;
-		}
-		// hard code
-		// FDDGREAT a la priorite sur FDGREAT
-		int fdgreat = -1, fddgreat = -1, fdless = -1;
-		if (ptr -> files[1] . index_redirect != -1)
-		{
-			fddgreat = open(ptr -> files[1] . redirect, indexs[ptr -> files[1] . index_redirect - 1], 0644);
-			if (fddgreat < 0)
-				ft_putendl_fd("Cannot open file3", 2);
-			else
-				dup2(fddgreat, STDOUT_FILENO);
-		}
-		else if (ptr -> files[0] . index_redirect != -1)
-		{
-			fdgreat = open(ptr -> files[0] . redirect, indexs[ptr -> files[0] . index_redirect - 1], 0644);
-			if (fdgreat < 0)
-				ft_putendl_fd("Cannot open file2", 2);
-			else
-				dup2(fdgreat, STDOUT_FILENO);
-		}
-		if (ptr -> files[2] . index_redirect != -1)
-		{
-			fdless = open(ptr -> files[2] . redirect, indexs[ptr -> files[2] . index_redirect - 1], 0644);
-			if (fdless < 0)
-				ft_putendl_fd("Cannot open file4", 2);
-			else
-				dup2(fdless, STDIN_FILENO);
-		}
-		if (fdgreat > 0)
-			close(fdgreat);
-		if (fddgreat > 0)
-			close(fddgreat);
-		if (fdless > 0)
-			close(fdless);
-	}
 }
 
 void	exec(const char *input, t_cmd *cmd, char **env)

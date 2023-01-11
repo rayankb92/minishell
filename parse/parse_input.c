@@ -15,18 +15,19 @@
 static
 void	attribute_args(int *start, int *index_args, char **parse, t_cmd *ptr)
 {
-	int	size_args;
+	int		size_args;
+	char	*str;
 
 	size_args = get_length_args(parse);
 	if (size_args > 0)
-	{		
+	{
 		ptr -> args = ft_calloc(sizeof(char *), size_args + 1); // check malloc
 		while (parse[*start])
 		{
-			if ((parse[*start][0] == '>'
-				|| parse[*start][0] == '<'
-				|| parse[*start][0] == '|')
-				&& parse[*start][1] == '\0')
+			str = parse[*start];
+			if (((str[0] == '>' || str[0] == '<' || str[0] == '|')
+				&& str[1] == '\0')
+				|| (ft_strcmp(str, ">>") == 0 || ft_strcmp(str, "<<") == 0))
 				break ;
 			ptr -> args[(*index_args)++] = parse[(*start)++];
 		}
@@ -80,7 +81,6 @@ void	parse_input(const char *input, t_cmd *cmd, t_data *data)
 
 	parse = clean_string((char *)input, data); // check malloc
 	split = ft_split(array_to_string(parse), '|'); // check malloc
-	ft_displaydouble(parse);
 	if (!split)
 		exit (1);
 	ptr = cmd;
