@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 01:26:17 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/10 02:54:59 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/11 02:29:23 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static int	count_newlen(t_data *data, char *str)
 		}
 		if ((str[i] == '$') && (str[i + 1]) && (is_variable(str[i + 1])))
 		{
-			len += get_varvalue_len(data, &str[i + 1]); 
+			len += get_varvalue_len(data, &str[i + 1]);
 			i += get_varname_len(&str[i + 1]);
 		}
 		len++;
@@ -107,13 +107,13 @@ int	add_value_nospace(char *new, char *str, t_data *data, int *j)
 		{
 			while (var[i] && ft_isspace(var[i]))
 				i++;
-			new[*j] = -32;
+			new[*j] = ' ';
 			*j += 1;
 			i--;
 		}
 		else
 		{
-			new[*j] = var[i] * -1;
+			new[*j] = var[i];
 			*j += 1;
 		}
 	}
@@ -214,6 +214,9 @@ int	interpret_ope(char *str, t_data *data, char *new, int *j)
 		new[(*j)++] = CHEVLEFTD;
 		return (3);
 	}
+	else if ((ft_strncmp(str, "\"\"", 2) == 0 || ft_strncmp(str, "''", 2) == 0 ) && is_in_charset(str[2], ISSPACE))
+		new[(*j)++] = SLASHBACK;
+		return (1);
 	return (1);
 }
 
@@ -226,7 +229,7 @@ char	*negative_chars(char *str, t_data *data)
 
 	i = 0;
 	j = 0;
-	new = malloc(sizeof(char ) * (count_newlen(data, str) + 1));
+	new = malloc(sizeof(char ) * (count_newlen(data, str) + 100));
 	while (str[i])
 	{
 		if (str[i] == '"')
@@ -259,7 +262,21 @@ char	*negative_chars(char *str, t_data *data)
 			new[j++] = str[i++];
 	}
 	new[j] = 0;
+	// _display_pos(new);
+	
 	return (new);
+}
+
+void	_display_pos(char *str)
+{
+	int i = -1;
+	while (str[++i])
+	{
+		if (str[i] < -5)
+			ft_putchar(str[i] * -1);
+		else
+			ft_putchar(str[i]);
+	}
 }
 
 void	positive_chars(char **str)

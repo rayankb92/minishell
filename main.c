@@ -3,14 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 05:47:36 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/10 06:21:11 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/11 02:26:40 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/minishell.h"
+
+void	display_list(t_list *list)
+{
+	t_list *temp;
+
+	temp = list;
+	while (temp)
+	{
+		ft_printf("%s\n", temp->content);
+		temp = temp->next;
+	}
+}
 
 int main(int ac, char **av, char **env)
 {
@@ -30,6 +42,7 @@ int main(int ac, char **av, char **env)
 		return (EXIT_FAILURE);
 	cmd -> next = 0;
 	set_data(env, & data);
+	// display_list(data.env);
 	while (1)
 	{
 		input = readline("Fumier$ ");
@@ -41,13 +54,16 @@ int main(int ac, char **av, char **env)
 			if (check_quote(input) == EXIT_SUCCESS)
 			{
 				res = clean_string((char*)input, &data);
-				//ft_displaydouble(res);
-				parse_input(input, cmd, & data);
-				if (cmd -> command)
-				{
-					//print_cmd(cmd);
-					exec(input, cmd, env);
-				}
+				ft_displaydouble(res);
+				// export(&data, res[0]);
+				// _echo((const char **)res);
+				// display_list(data.env);
+				// parse_input(input, cmd, & data);
+				// if (cmd -> command)
+				// {
+				// 	print_cmd(cmd);
+				// 	exec(input, cmd, env);
+				// }
 				ft_bzero(cmd, sizeof(t_cmd));
 				ft_bzero(cmd -> sequence, sizeof(t_sequence) * cmd -> length_sequence);
 			}
