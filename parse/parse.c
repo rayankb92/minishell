@@ -72,6 +72,7 @@ static int	check_chevron(const char *str, const char c)
 	}
 	return (EXIT_SUCCESS);
 }
+
 // pas fini, gere pas tous les cas
 int	check_chevrons(const char *str)
 {

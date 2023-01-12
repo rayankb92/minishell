@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/12 02:25:11 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/12 04:24:53 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,11 +91,13 @@ struct t_env{
 static	t_data	*return_struct(t_data *data);
 
 /*
-	DIRECTORY: PARSE
+	DIRECTORY: ./PARSE
 */
+//	./parse/env
+//		env.c
+const char		**env_paths_to_string(char **env, int *size);
+const char		**set_paths(char **paths, int *size);
 //	parse.c
-int				is_in_charset(char c, char *charset);
-void			set_data(char **env, t_data *data);
 static size_t	countword(const char *s, char *sep);
 void			expand(char **str, t_data *data);
 char			**split_quote(char const *s, char *charset);
@@ -104,9 +106,8 @@ void			positive_chars(char **str);
 char			**clean_string(char *str, t_data *data);
 int				check_quote(const char *str);
 int				check_chevrons(const char *str);
-int		get_varname_len(char *var);
+int				get_varname_len(char *var);
 
-void display_list(t_list *lst);
 //	parse_input.c
 void			parse_input(const char *input, t_cmd *cmd, t_data *data);
 //	utils_parse_input.c
@@ -114,19 +115,20 @@ char			*array_to_string(char **array);
 void			ft_realloc(char **line, const char *s1);
 int				count_occurence(const char *str, const char c);
 int				get_length_args(char **ptr);
-//char			*remove_space(const char *s, const int size);
 //	expand.c
 void			expand(char **str, t_data *data);
 int				get_varvalue_len(t_data *data, char *var);
 int				is_variable(char c);
 
 //	utils.c
+int				is_in_charset(char c, char *charset);
+int				is_in_string(const char *str, const char *charset);
 int				error_msg(char *str);
 char			*find_var(t_data *data, char *var);
 char			*find__var(t_data *data, char *var);
 void			display_lst(t_list *lst);
 /*
-	DIRECTORY: SRC
+	DIRECTORY: ./SRC
 */
 //	set_data.c
 void		set_data(char **env, t_data *data);
@@ -137,7 +139,7 @@ void	add_back_env(t_env **env, t_env *new);
 
 
 /*
-	DIRECTORY: BUILTINS
+	DIRECTORY: ./BUILTINS
 */
 //	is_builtin.c
 int			is_builtin(t_cmd *cmd);
@@ -152,17 +154,20 @@ int			cd(const char *path);
 int			unset(t_data *data, char *name);
 //	echo.c
 void		echo(const char *str, const char opt);
-void	_echo(const char **arg);
-
+void		_echo(const char **arg);
 //	export.c
 int		export(t_data *data, char *str);
-void		display_list(t_list *lst);
-
-char		*find_var(t_data *data, char *var);
-void		exec(const char *input, t_cmd *cmd, char **env);
 
 /*
-	DIRECTORY: SIGNAL
+	DIRECTORY: ./EXEC
+*/
+//	exec.c
+void		exec(const char *input, t_cmd *cmd, char **env);
+//	is_redirection.c
+void		is_redirection(t_cmd *ptr);
+
+/*
+	DIRECTORY: ./SIGNAL
 */
 //	signal.c
 void		ctrlc(int sig);

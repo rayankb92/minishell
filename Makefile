@@ -39,24 +39,31 @@
 #								SOURCES											#
  #=============================================================================#
 
-SRCS_DIR = src
-BLTS_DIR = builtins
-PRSG_DIR = parse
-SIGNAL_DIR = signal
-SRCS_DIRS = $(SRCS_DIR)\
+SRCS_DIR	= src
+BLTS_DIR	= builtins
+PARSE_DIR	= parse
+ENV_DIR		= $(PARSE_DIR)/env
+SIGNAL_DIR	= signal
+EXEC_DIR	= exec
+
+SRCS_DIRS	= $(SRCS_DIR)\
 			$(BLTS_DIR)\
-			$(PRSG_DIR)\
+			$(PARSE_DIR)\
+			$(ENV_DIR)\
 			$(SIGNAL_DIR)\
+			$(EXEC_DIR)\
 
 SRC_FILES =	$(addprefix parse/, \
 				parse.c			parse_input.c		utils_parse_input.c			utils.c \
 				expand.c		split.c				splitquote.c				cleanstring.c	t_env.c) \
+			$(addprefix parse/env/, paths_to_string.c) \
 			$(addprefix builtins/, \
 				cd.c			pwd.c				export.c					unset.c \
 				echo.c			exit.c				is_builtin.c) \
 			$(addprefix signal/, ctrlc.c) \
 			$(addprefix src/, set_data.c) \
-			main.c print.c exec.c
+			$(addprefix exec/, exec.c is_redirection.c) \
+			main.c print.c
 				
 
 #SRCS = $(addsuffix .c, $(SRC_FILES))
@@ -101,8 +108,10 @@ $(OBJS_DIR) :
 	mkdir $(OBJS_DIR)
 	mkdir $(OBJS_DIR)/$(SRCS_DIR)
 	mkdir $(OBJS_DIR)/$(BLTS_DIR)
-	mkdir $(OBJS_DIR)/$(PRSG_DIR)
+	mkdir $(OBJS_DIR)/$(PARSE_DIR)
+	mkdir $(OBJS_DIR)/$(ENV_DIR)
 	mkdir $(OBJS_DIR)/$(SIGNAL_DIR)
+	mkdir $(OBJS_DIR)/$(EXEC_DIR)
 
 $(OBJS) : $(OBJS_DIR)/%.o : %.c
 	$(CC) $(CFLAGS) $(CDFLAGS) $(CIFLAGS) -c $< -o $@

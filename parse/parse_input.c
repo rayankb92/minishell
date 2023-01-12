@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 12:42:43 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/11 06:25:19 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/12 00:04:14 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,19 @@
 static
 void	attribute_args(int *start, int *index_args, char **parse, t_cmd *ptr)
 {
-	int	size_args;
+	int		size_args;
+	char	*str;
 
 	size_args = get_length_args(parse);
 	if (size_args > 0)
-	{		
+	{
 		ptr -> args = ft_calloc(sizeof(char *), size_args + 1); // check malloc
 		while (parse[*start])
 		{
-			if ((parse[*start][0] == '>'
-				|| parse[*start][0] == '<'
-				|| parse[*start][0] == '|')
-				&& parse[*start][1] == '\0')
+			str = parse[*start];
+			if (((str[0] == '>' || str[0] == '<' || str[0] == '|')
+				&& str[1] == '\0')
+				|| (ft_strcmp(str, ">>") == 0 || ft_strcmp(str, "<<") == 0))
 				break ;
 			ptr -> args[(*index_args)++] = parse[(*start)++];
 		}
@@ -80,9 +81,8 @@ void	parse_input(const char *input, t_cmd *cmd, t_data *data)
 
 	parse = clean_string((char *)input, data); // check malloc
 	split = ft_split(array_to_string(parse), '|'); // check malloc
-	ft_displaydouble(parse);
 	if (!split)
-		exit (1);
+		return ;
 	ptr = cmd;
 	while (parse[k])
 	{
@@ -97,7 +97,7 @@ void	parse_input(const char *input, t_cmd *cmd, t_data *data)
 		if (ptr -> length_sequence > 0)
 			attribute_sequence(& k, & index_args, parse, ptr);
 		while (parse[k] && parse[k][0] == '|')
-			k++;
+			k++;	
 		if (parse[k])
 		{
 			ptr -> next = ft_calloc(sizeof(t_cmd), 1); // check malloc
