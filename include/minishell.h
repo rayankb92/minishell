@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/11 02:57:15 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/12 02:25:11 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@
 # include <unistd.h>
 
 #define ISSPACE "\t\v\n\r\f "
+
+typedef struct t_env	t_env;
 
 enum redirect_index
 {
@@ -73,10 +75,17 @@ typedef struct s_cmd
 typedef struct t_data
 {
 	t_list	        *env;
+	t_env			*tenv;
 	char			*entry;
 	t_cmd			*cmd;
 	struct s_lst    *next;
 }	t_data;
+
+struct t_env{
+	char	*key;
+	char	*value;
+	struct t_env	*next;
+}	;
 
 
 static	t_data	*return_struct(t_data *data);
@@ -114,12 +123,18 @@ int				is_variable(char c);
 //	utils.c
 int				error_msg(char *str);
 char			*find_var(t_data *data, char *var);
+char			*find__var(t_data *data, char *var);
 void			display_lst(t_list *lst);
 /*
 	DIRECTORY: SRC
 */
 //	set_data.c
 void		set_data(char **env, t_data *data);
+
+// T_ENV
+t_env	*new_env(char *key, char *value);
+void	add_back_env(t_env **env, t_env *new);
+
 
 /*
 	DIRECTORY: BUILTINS

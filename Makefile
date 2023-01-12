@@ -50,7 +50,7 @@ SRCS_DIRS = $(SRCS_DIR)\
 
 SRC_FILES =	$(addprefix parse/, \
 				parse.c			parse_input.c		utils_parse_input.c			utils.c \
-				expand.c		split.c				splitquote.c				cleanstring.c) \
+				expand.c		split.c				splitquote.c				cleanstring.c	t_env.c) \
 			$(addprefix builtins/, \
 				cd.c			pwd.c				export.c					unset.c \
 				echo.c			exit.c				is_builtin.c) \

@@ -6,13 +6,53 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 01:26:17 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/11 19:47:59 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/12 04:13:06 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
 char	*putspace_between_operateur(char *str);
+int		interpret_ope(char *str, t_data *data, char *new, int *j);
+
+int	interpret_ope2(char *str, t_data *data, char *new, int *j)
+{
+	int	i;
+	char quote;
+
+	i = 0;
+	quote = '"';
+	if (ft_strncmp(str, "|", 1) == 0 || ft_strncmp(str, "|", 1) == 0)
+	{
+		new[(*j)++] = PIPE;
+		return (1);
+	}
+	else if (ft_strncmp(str, ">", 1) == 0 || ft_strncmp(str, ">", 1) == 0)
+	{
+		new[*j] = CHEVRIGHT;
+		(*j)++;
+		return (1);
+	}
+	else if (ft_strncmp(str, "<", 1) == 0 || ft_strncmp(str, "<", 1) == 0)
+	{
+		new[*j] = CHEVLEFT;
+		(*j)++;
+		return (2);
+	}
+	else if (ft_strncmp(str, ">>", 2) == 0 || ft_strncmp(str, ">>", 2) == 0)
+	{
+		new[(*j)++] = CHEVRIGHTD;
+		new[(*j)++] = CHEVRIGHTD;
+		return (2);
+	}
+	else if (ft_strncmp(str, "<<", 2) == 0 || ft_strncmp(str, "<<", 2) == 0)
+	{
+		new[(*j)++] = CHEVLEFTD;
+		new[(*j)++] = CHEVLEFTD;
+		return (2);
+	}
+	return (0);
+}
 
 char	**clean_string(char *str, t_data *data)
 {
@@ -33,14 +73,15 @@ static int	count_newlen(t_data *data, char *str)
 	int	i;
 	int	len;
 
-	i = -1;
+	i = 0;
 	len = 0;
-	while (str[++i])
+	while (str[i])
 	{
-		if (str[i] == '"')
+		if (str[i] && str[i] == '"')
 		{
-			while (str[++i] && str[i] != '"')
+			while (str[i] && str[i] != '"')
 			{
+				i++;
 				if ((str[i] == '$') && (str[i + 1]) && (is_variable(str[i + 1])))
 				{
 					i += get_varname_len(&str[i + 1]);
@@ -50,11 +91,14 @@ static int	count_newlen(t_data *data, char *str)
 			}
 			i++;
 		}
-		if ((str[i] == '$') && (str[i + 1]) && (is_variable(str[i + 1])))
+		else if (str[i] && (str[i] == '$') && (str[i + 1]) && (is_variable(str[i + 1])))
 		{
 			len += get_varvalue_len(data, &str[i + 1]);
 			i += get_varname_len(&str[i + 1]);
 		}
+		if (!str[i])
+			break;
+		i++;
 		len++;
 	}
 	return (len);
@@ -85,7 +129,7 @@ int	add_value(char *new, char *str, t_data *data, int *j)
 		return (get_varname_len(str + 1));
 	while (var[++i])
 	{
-		new[*j] = var[i] * -1;
+		new[*j] = var[i];
 		*j += 1;
 	}
 	return (get_varname_len(str + 1));
@@ -103,6 +147,7 @@ int	add_value_nospace(char *new, char *str, t_data *data, int *j)
 	var = ft_strtrim(var, ISSPACE);
 	while (var[++i])
 	{
+		i += interpret_ope2(var + i, data, new, j);
 		if (ft_isspace(var[i]))
 		{
 			while (var[i] && ft_isspace(var[i]))
@@ -132,6 +177,8 @@ void	replace_ope(char **str)
 		
 	}
 }
+// ➜  minishellgood git:(main) ✗ export a="> out"
+// ➜  minishellgood git:(main) ✗ export b=">out" 
 
 int	count_ope(char *str)
 {
@@ -229,7 +276,7 @@ char	*negative_chars(char *str, t_data *data)
 
 	i = 0;
 	j = 0;
-	new = malloc(sizeof(char ) * (200));
+	new = malloc(sizeof(char ) * (count_newlen(data, str) + 1));
 	while (str[i])
 	{
 		if (str[i] == '"')

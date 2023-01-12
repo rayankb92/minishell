@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 05:47:36 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/11 06:45:54 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/12 02:38:20 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,13 +97,13 @@ int main(int ac, char **av, char **env)
 			{
 				res = clean_string((char*)input, &data);
 				ft_displaydouble(res);
-				parse_input(input, cmd, & data);
-				set_files(cmd);
-				if (cmd -> command)
-				{
-					print_cmd(cmd);
-					exec(input, cmd, env);
-				}
+				// parse_input(input, cmd, & data);
+				// set_files(cmd);
+				// if (cmd -> command)
+				// {
+				// 	print_cmd(cmd);
+				// 	exec(input, cmd, env);
+				// }
 				ft_bzero(cmd, sizeof(t_cmd));
 				ft_bzero(cmd -> sequence, sizeof(t_sequence) * cmd -> length_sequence);
 			}
@@ -117,6 +117,15 @@ int main(int ac, char **av, char **env)
 //export a=">out"
 //bash $a =
 //bash: >out: No such file or directory
+
+// Fumier$ $"ls"
+// [$ls]
+
+// bash-5.1$ $"ls"
+// binaire   exec.c	  include  main.c    minishell	parse	 signal
+// builtins  fr.subject.pdf  libft    Makefile  objets	print.c  src
+// bash-5.1$ 
+// 
 
 //export a=">out" = impossible
 //______________________________________________________________
