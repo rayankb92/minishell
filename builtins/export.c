@@ -6,13 +6,13 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/31 14:35:41 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/11 00:51:34 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/13 23:39:24 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	is_valid_name(char *str)
+static int	is_valid_name(char *str)
 {
 	int	i;
 
@@ -34,47 +34,69 @@ int	is_valid_name(char *str)
 	return (1);
 }
 
-int	isset_var(t_list *temp, char *str, int len)
-{
-	// ft_printf("str = '%s | len = %i\n", str, len);
-	if (ft_strncmp(temp->content, str, len) == 0)
+static int	isset_var(t_env *temp, char *name, char *value)
+{		
+	if (ft_strcmp(temp->key, name) == 0)
 	{
-		free(temp->content);
-		temp->content = str;
-		return (0);
+		if (value)
+		{
+			free(temp->value);
+			temp->value = value;
+			return (0);
+		}
 	}
 	return (1);
 }
 
-void	make_export(t_data *data, char *str)
+static void	make_export(t_data *data, char *name, char *value)
 {
-	t_list	*temp;
+	t_env	*temp;
 	int		len;
 
-	len = get_varname_len(str);
-	temp = data->env;
+	temp = data->tenv;
 	while(temp->next)
 	{
-		if (!isset_var(temp, str, len))
+		if (!isset_var(temp, name, value))
 			return ;
 		temp = temp->next;
 	}
-	if (!isset_var(temp, str, len))
+	if (!isset_var(temp, name, value))
 			return ;
-	temp->next = ft_lstnew(str);
+	temp->next = new_env(name, value);
 }
 
 // o--->o--->o--->o--->o--->NUL
+
+// int	export(t_data *data, char *str)
+// {
+// 	char	*export;
+// 	int		len;
+// 	t_list	*tmp;
+
+// 	if (!is_valid_name(str))
+// 		return (0);
+// 	if (ft_strchr(str, '='))
+// 		make_export(data, str);
+// 	return (0);
+// }
+
 
 int	export(t_data *data, char *str)
 {
 	char	*export;
 	int		len;
 	t_list	*tmp;
+	char	*varname;
+	char	*value;
 
+	len = get_varname_len(str);
 	if (!is_valid_name(str))
 		return (0);
-	if (ft_strchr(str, '='))
-		make_export(data, str);
-	return (0);
+	varname = ft_substr(str, 0, len);
+	value = ft_substr(str, (len + 1), (ft_strlen(str) - len));
+	if (!varname)
+		return (0);
+	make_export(data, varname, value);
+	
+	
 }

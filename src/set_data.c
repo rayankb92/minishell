@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 11:22:50 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/11 23:28:34 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/13 23:02:25 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ void	display_env(t_env *env)
 	tmp = env;
 	while (env)
 	{
-		if (env->key && env->value)
-			ft_printf("%s='%s'\n", env->key, env->value);
+		if (env->key && (env)->value[0])
+			ft_printf("%s=%s\n", env->key, env->value);
 		env = env->next;
 	}
 }
@@ -76,6 +76,5 @@ void		set_data(char **env, t_data *data)
 {
 	data->cmd = malloc(sizeof(t_cmd));
 	data->tenv = copy_tenv(env);
-	display_env(data->tenv);
 	data->env = copy_env(env);
 }

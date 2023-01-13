@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/12 04:24:53 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/13 23:13:49 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,5 +177,7 @@ void		ctrlc(int sig);
 */
 //	print.c
 void		print_cmd(t_cmd *cmd);
+
+void	display_env(t_env *env);
 
 #endif
