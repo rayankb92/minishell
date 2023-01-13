@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 13:52:31 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/13 02:55:17 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/13 23:43:33 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,18 +80,33 @@ void	exec(const char *input, t_cmd *cmd, char **env)
 				if (path_id == -1)
 				{
 					if (is_in_string(ptr -> command, "><") == EXIT_SUCCESS)
+					{
 						is_redirection(ptr);
+						if (ptr -> args)
+						{
+							close(pipes[0]);
+							close(pipes[1]);
+							if (ft_strchr(ptr -> args[0], '/'))
+								execve(ptr -> args[0], ptr -> args, env);
+							else
+							{
+								path_id = valid_command(ptr -> args[0], path_env);
+								char *tmpcmd = ft_strjoin(path_env[path_id], ptr -> args[0]);
+								if (tmpcmd)
+								{
+									execve(tmpcmd, ptr -> args, env);
+									ft_memdel((void **)& tmpcmd);
+									ft_putendl_fd("Failed exec\n", 2);
+								}
+							}
+						}
+					}
 					else
 						ft_printf("%s: command not found\n", ptr -> command);
 				}
 				else
 				{
-					
-					if (lstcount == 1)
-					{
-						
-					}
-					else
+					if (lstcount > 1)
 					{
 						if (index_pid == 0)
 						{
@@ -131,7 +146,7 @@ void	exec(const char *input, t_cmd *cmd, char **env)
 							ft_memdel((void **)& tmpcmd);
 						}
 					}
-					ft_putstr_fd("ERROR\n",2);
+					ft_putstr_fd("Execve error\n",2);
 				}
 				exit(EXIT_FAILURE);
 			}

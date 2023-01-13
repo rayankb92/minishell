@@ -6,23 +6,11 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 11:22:50 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/12 19:03:25 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/13 23:43:06 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-t_list	*copy_env(char **env)
-{
-	int		i;
-	t_list	*new;
-
-	i = 0;
-	new = ft_lstnew(ft_strdup(env[i]));
-	while (env[++i])
-		ft_lstadd_back(&new, ft_lstnew(ft_strdup(env[i])));
-	return (new);
-}
 
 void	display_env(t_env *env)
 {
@@ -31,8 +19,8 @@ void	display_env(t_env *env)
 	tmp = env;
 	while (env)
 	{
-		if (env->key && env->value)
-			ft_printf("%s='%s'\n", env->key, env->value);
+		if (env->key && (env)->value[0])
+			ft_printf("%s=%s\n", env->key, env->value);
 		env = env->next;
 	}
 }
@@ -74,7 +62,6 @@ t_env	*copy_tenv(char **env)
 
 void		set_data(char **env, t_data *data)
 {
-	data->tenv = copy_tenv(env);
-	//display_env(data->tenv);
-	data->env = copy_env(env);
+	if (env && *env)
+		data->tenv = copy_tenv(env);
 }
