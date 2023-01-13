@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/12 04:24:53 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/12 19:41:10 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@
 # include <unistd.h>
 
 #define ISSPACE "\t\v\n\r\f "
-
-typedef struct t_env	t_env;
 
 enum redirect_index
 {
@@ -72,6 +70,13 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 }	t_cmd;
 
+typedef struct	s_env
+{
+	char			*key;
+	char			*value;
+	struct s_env	*next;
+}	t_env;
+
 typedef struct t_data
 {
 	t_list	        *env;
@@ -80,13 +85,6 @@ typedef struct t_data
 	t_cmd			*cmd;
 	struct s_lst    *next;
 }	t_data;
-
-struct t_env{
-	char	*key;
-	char	*value;
-	struct t_env	*next;
-}	;
-
 
 static	t_data	*return_struct(t_data *data);
 
@@ -131,51 +129,60 @@ void			display_lst(t_list *lst);
 	DIRECTORY: ./SRC
 */
 //	set_data.c
-void		set_data(char **env, t_data *data);
+void			set_data(char **env, t_data *data);
 
 // T_ENV
-t_env	*new_env(char *key, char *value);
-void	add_back_env(t_env **env, t_env *new);
+t_env			*new_env(char *key, char *value);
+void			add_back_env(t_env **env, t_env *new);
 
 
 /*
 	DIRECTORY: ./BUILTINS
 */
 //	is_builtin.c
-int			is_builtin(t_cmd *cmd);
+int				is_builtin(t_cmd *cmd);
 //	is_exit.c
-void		is_exit(char **argument);
+void			is_exit(char **argument);
 //	pwd.c
-void		pwd(void);
-const char	*pwd_malloc(void);
+void			pwd(void);
+const char		*pwd_malloc(void);
 //	cd.c
-int			cd(const char *path);
+int				cd(const char *path);
 //	unset.c
-int			unset(t_data *data, char *name);
+int				unset(t_data *data, char *name);
 //	echo.c
-void		echo(const char *str, const char opt);
-void		_echo(const char **arg);
+void			echo(const char *str, const char opt);
+void			_echo(const char **arg);
 //	export.c
-int		export(t_data *data, char *str);
+int				export(t_data *data, char *str);
 
 /*
 	DIRECTORY: ./EXEC
 */
 //	exec.c
-void		exec(const char *input, t_cmd *cmd, char **env);
+void			exec(const char *input, t_cmd *cmd, char **env);
 //	is_redirection.c
-void		is_redirection(t_cmd *ptr);
+void			is_redirection(t_cmd *ptr);
 
 /*
 	DIRECTORY: ./SIGNAL
 */
 //	signal.c
-void		ctrlc(int sig);
+void			ctrlc(int sig);
 
 /*
 	DIRECTORY: ./
 */
 //	print.c
-void		print_cmd(t_cmd *cmd);
+void			print_cmd(t_cmd *cmd);
+
+/*
+	DIRECTORY: ./free
+*/
+//	free.c
+void			free_minishell(t_data data);
+void			free_cmd(t_cmd *ptr);
+
+t_cmd	*lstlast(t_cmd *cmd);
 
 #endif

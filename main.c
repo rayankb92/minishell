@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 05:47:36 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/12 04:23:53 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/13 21:39:58 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,14 @@ static
 void	set_files(t_cmd *cmd)
 {
 	t_cmd	*ptr;
-	int		*indexs;
+	int		indexs[4];
 	int		i;
 
 	ptr = cmd;
-	indexs = (int [4]){-1, -1, -1, -1};
+	indexs[0] = -1;
+	indexs[1] = -1;
+	indexs[2] = -1;
+	indexs[3] = -1;
 	while (ptr)
 	{
 		if (ptr -> sequence)
@@ -69,6 +72,7 @@ int main(int ac, char **av, char **env)
 	const char	*input;
 	t_data		data;
 	t_cmd		*cmd;
+	t_file		file[2] = {0};
 	char		**res;
 
 	if (!env || !*env)
@@ -85,19 +89,19 @@ int main(int ac, char **av, char **env)
 	{
 		input = readline("Fumier$ ");
 		if (!input)
-			break ;	
+			break ;
 		add_history(input);
 		if (*input && check_chevrons(input) == EXIT_SUCCESS)
 		{
 			if (check_quote(input) == EXIT_SUCCESS)
 			{
 				res = clean_string((char*)input, &data);
-				// ft_displaydouble(res);
+				ft_displaydouble(res);
 				parse_input(input, cmd, & data);
 				set_files(cmd);
 				if (cmd -> command)
 				{
-					// print_cmd(cmd);
+					print_cmd(cmd);
 					exec(input, cmd, env);
 				}
 				ft_bzero(cmd, sizeof(t_cmd));
@@ -113,15 +117,6 @@ int main(int ac, char **av, char **env)
 //export a=">out"
 //bash $a =
 //bash: >out: No such file or directory
-
-// Fumier$ $"ls"
-// [$ls]
-
-// bash-5.1$ $"ls"
-// binaire   exec.c	  include  main.c    minishell	parse	 signal
-// builtins  fr.subject.pdf  libft    Makefile  objets	print.c  src
-// bash-5.1$ 
-// 
 
 //export a=">out" = impossible
 //______________________________________________________________

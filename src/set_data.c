@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_data.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 11:22:50 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/11 23:28:34 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/12 19:03:25 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,7 @@ t_env	*copy_tenv(char **env)
 
 void		set_data(char **env, t_data *data)
 {
-	data->cmd = malloc(sizeof(t_cmd));
 	data->tenv = copy_tenv(env);
-	display_env(data->tenv);
+	//display_env(data->tenv);
 	data->env = copy_env(env);
 }

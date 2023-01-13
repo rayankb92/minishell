@@ -45,6 +45,7 @@ PARSE_DIR	= parse
 ENV_DIR		= $(PARSE_DIR)/env
 SIGNAL_DIR	= signal
 EXEC_DIR	= exec
+FREE_DIR	= free
 
 SRCS_DIRS	= $(SRCS_DIR)\
 			$(BLTS_DIR)\
@@ -52,6 +53,7 @@ SRCS_DIRS	= $(SRCS_DIR)\
 			$(ENV_DIR)\
 			$(SIGNAL_DIR)\
 			$(EXEC_DIR)\
+			$(FREE_DIR)\
 
 SRC_FILES =	$(addprefix parse/, \
 				parse.c			parse_input.c		utils_parse_input.c			utils.c \
@@ -63,6 +65,7 @@ SRC_FILES =	$(addprefix parse/, \
 			$(addprefix signal/, ctrlc.c) \
 			$(addprefix src/, set_data.c) \
 			$(addprefix exec/, exec.c is_redirection.c) \
+			$(addprefix free/, free.c) \
 			main.c print.c
 				
 
@@ -112,6 +115,7 @@ $(OBJS_DIR) :
 	mkdir $(OBJS_DIR)/$(ENV_DIR)
 	mkdir $(OBJS_DIR)/$(SIGNAL_DIR)
 	mkdir $(OBJS_DIR)/$(EXEC_DIR)
+	mkdir $(OBJS_DIR)/$(FREE_DIR)
 
 $(OBJS) : $(OBJS_DIR)/%.o : %.c
 	$(CC) $(CFLAGS) $(CDFLAGS) $(CIFLAGS) -c $< -o $@

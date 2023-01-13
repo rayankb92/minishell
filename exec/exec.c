@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 13:52:31 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/12 00:12:45 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/13 02:55:17 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,21 @@ int	valid_command(const char *command, const char **env)
 	return (-1);
 }
 
+int		ft_lstcount(t_cmd *cmd)
+{
+	t_cmd	*ptr;
+	int		i;
+
+	ptr = cmd;
+	i = 0;
+	while (ptr)
+	{
+		i++;
+		ptr = ptr -> next;
+	}
+	return (i);
+}
+
 void	exec(const char *input, t_cmd *cmd, char **env)
 {
 	t_cmd		*ptr;
@@ -50,10 +65,12 @@ void	exec(const char *input, t_cmd *cmd, char **env)
 	index_pid = 0;
 	int		prev_pipes = -1;
 	status = 0;
+	int lstcount = ft_lstcount(cmd);
+	//ft_printf("nbcmd: %d\n", lstcount);
 	if (is_builtin(ptr) == EXIT_FAILURE)
 	{
 		while (ptr)
-		{
+		{	
 			if (pipe(pipes) < 0)
 				return ;
 			pids[index_pid] = fork();
@@ -69,8 +86,40 @@ void	exec(const char *input, t_cmd *cmd, char **env)
 				}
 				else
 				{
-					//is_heredoc(ptr);
-					is_redirection(ptr);
+					
+					if (lstcount == 1)
+					{
+						
+					}
+					else
+					{
+						if (index_pid == 0)
+						{
+							close(pipes[0]);
+							//dup2(, STDIN_FILENO);
+							dup2(pipes[1], STDOUT_FILENO);
+							//close(pipes[1]);
+						}
+						else if (index_pid == lstcount - 1)
+						{
+							close(pipes[1]);
+							close(pipes[0]);
+							dup2(prev_pipes, STDIN_FILENO);
+							
+						}
+						else
+						{
+							if (prev_pipes != -1)
+								dup2(prev_pipes, STDIN_FILENO);
+							dup2(pipes[1], STDOUT_FILENO);
+							//close(pipes[1]);
+						}
+						//is_heredoc(ptr);
+					}
+						is_redirection(ptr);
+					if (prev_pipes != -1)
+						close(prev_pipes);
+					close(pipes[0]);
 					if (ft_strchr(ptr -> command, '/'))
 						execve(ptr -> command, ptr -> args, env);
 					else
@@ -82,10 +131,9 @@ void	exec(const char *input, t_cmd *cmd, char **env)
 							ft_memdel((void **)& tmpcmd);
 						}
 					}
+					ft_putstr_fd("ERROR\n",2);
 				}
 				exit(EXIT_FAILURE);
-				close(pipes[0]);
-				close(pipes[1]);
 			}
 			else
 			{
@@ -96,10 +144,6 @@ void	exec(const char *input, t_cmd *cmd, char **env)
 			}
 			index_pid++;
 			ptr = ptr -> next;
-			// if (ptr)
-			// 	dup2(pipes[1], STDOUT_FILENO);
-			// else
-			// 	dup2(prev_pipes, STDIN_FILENO);
 		}
 		close(pipes[0]);
 		close(pipes[1]);
@@ -107,6 +151,8 @@ void	exec(const char *input, t_cmd *cmd, char **env)
 			waitpid(pids[i], &status, 0);
 		if (WIFEXITED(status))//?
 			status = WEXITSTATUS(status);//?
+		
+		ft_arraydel((void **)path_env);
 		//printf("Return status is : %d\n", status);
 	}
 }

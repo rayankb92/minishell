@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 23:18:11 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/11 23:40:06 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/12 17:28:46 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	redirect(t_cmd *ptr, const int indexs[3])
 	int	*fds;
 	int	i;
 
-	fds = (int [3]){-1, -1, -1};
+	fds = (int [3]){-1, -1, -1};// DGREAT A LA PRIORITE SUR GREAT
 	if (ptr -> files[DGREAT - 1] . index_redirect != -1)
 	{
 		fds[DGREAT - 1] = open(ptr -> files[DGREAT - 1] . redirect, indexs[ptr -> files[DGREAT - 1] . index_redirect - 1], 0644);
@@ -56,7 +56,7 @@ void	is_redirection(t_cmd *ptr)
 	static const int	indexs[3] = {
 		O_WRONLY | O_CREAT | O_TRUNC, 
 		O_WRONLY | O_CREAT | O_APPEND,
-		O_RDONLY // stdinfileno
+		O_RDONLY
 	};
 	int					fd;
 	int					i;
