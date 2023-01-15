@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 12:42:43 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/12 19:10:29 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/15 01:39:39 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	attribute_args(int *start, int *index_args, char **parse, t_cmd *ptr)
 				&& str[1] == '\0')
 				|| (ft_strcmp(str, ">>") == 0 || ft_strcmp(str, "<<") == 0))
 				break ;
-			ptr -> args[(*index_args)++] = parse[(*start)++];
+			ptr -> args[(*index_args)++] = ft_strdup(parse[(*start)++]);
 		}
 	}
 }
@@ -80,14 +80,16 @@ void	parse_input(const char *input, t_cmd *cmd, t_data *data)
 	int		index_split = 0;
 
 	parse = clean_string((char *)input, data); // check malloc
-	split = ft_split(array_to_string(parse), '|'); // check malloc
+	char *tmp = array_to_string(parse);
+	split = ft_split(tmp, '|'); // check malloc
 	if (!split)
 		return ;
+	ft_memdel((void **)& tmp);
 	ptr = cmd;
 	while (parse[k])
 	{
 		index_args = 0;
-		ptr -> command = parse[k];
+		ptr -> command = ft_strdup(parse[k]);
 		attribute_args(& k, & index_args, parse, ptr);
 		if (parse[k])
 		{
@@ -97,11 +99,19 @@ void	parse_input(const char *input, t_cmd *cmd, t_data *data)
 		if (ptr -> length_sequence > 0)
 			attribute_sequence(& k, & index_args, parse, ptr);
 		while (parse[k] && parse[k][0] == '|')
-			k++;	
+			k++;
 		if (parse[k])
 		{
 			ptr -> next = ft_calloc(sizeof(t_cmd), 1); // check malloc
-			ptr = ptr -> next;	
+			ptr = ptr -> next;
 		}
 	}
+	//for (int i = 0; parse[i]; i++)
+	//	free(parse[i]);
+	//free(parse);
+	//for (int i = 0; split[i]; i++)
+	//	free(split[i]);
+	//free(split);
+	//ft_arraydel(parse);
+	//ft_arraydel(split);
 }

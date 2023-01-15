@@ -6,112 +6,67 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 05:47:36 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/13 23:44:15 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/15 03:20:12 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/minishell.h"
-
-static
-void	attribute_files(int indexs[4], t_cmd *ptr)
-{
-	int	i;
-
-	i = -1;
-	while (++i < DLESS)
-	{
-		if (indexs[i] > -1)
-		{
-			ptr -> files[i] . index_redirect = ptr -> sequence[indexs[i]] . index_redirect;
-			ptr -> files[i] . redirect = ptr -> sequence[indexs[i]] . redirect;
-		}
-		else
-			ptr -> files[i] . index_redirect = -1;
-	}
-}
-
-static
-void	set_files(t_cmd *cmd)
-{
-	t_cmd	*ptr;
-	int		indexs[4];
-	int		i;
-
-	ptr = cmd;
-	indexs[0] = -1;
-	indexs[1] = -1;
-	indexs[2] = -1;
-	indexs[3] = -1;
-	while (ptr)
-	{
-		if (ptr -> sequence)
-		{
-			i = 0;
-			while (i < ptr -> length_sequence)
-			{
-				if (ptr -> sequence[i] . index_redirect == GREAT)
-					indexs[GREAT - 1] = i;
-				if (ptr -> sequence[i] . index_redirect == DGREAT)
-					indexs[DGREAT - 1] = i;
-				if (ptr -> sequence[i] . index_redirect == LESS)
-					indexs[LESS - 1] = i;
-				if (ptr -> sequence[i] . index_redirect == DLESS)
-					indexs[DLESS - 1] = i;
-				i++;
-			}
-			attribute_files(indexs, ptr);
-		}
-		ptr = ptr -> next;
-	}
-}
 
 int main(int ac, char **av, char **env)
 {
 	(void)ac;
 	(void)av;
 	const char	*input;
-	t_data		data;
-	t_cmd		*cmd;
-	t_file		file[2] = {0};
+	t_data		data = {0};
 	char		**res;
 
 	if (!env || !*env)
 		return (0);
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, & ctrlc);
-	cmd = ft_calloc(sizeof(t_cmd), 1);
-	if (!cmd)
+	data . cmd = ft_calloc(sizeof(t_cmd), 1);
+	if (!data . cmd)
 		return (EXIT_FAILURE);
-	cmd -> next = 0;
+	data . prev_pipe = -1;
 	set_data(env, & data);
+	//parse_input("f", data . cmd, & data);
+	//exec("f", & data, env);
+	//exit(0);
 	while (1)
 	{
 		input = readline("Fumier$ ");
 		if (!input)
-			break ;
-		add_history(input);
+		{
+			free_shell(data);
+			break ;	//exit code 130
+		}
 		if (*input && check_chevrons(input) == EXIT_SUCCESS)
 		{
+			add_history(input);
 			if (check_quote(input) == EXIT_SUCCESS)
 			{
-				res = clean_string((char*)input, &data);
-				ft_displaydouble(res);
-				parse_input(input, cmd, & data);
-				set_files(cmd);
-				if (cmd -> command)
+				parse_input(input, data . cmd, & data);
+				if (data . cmd -> command)
 				{
-					print_cmd(cmd);
-					exec(input, cmd, env);
+					//print_cmd(data . cmd);
+					exec(input, & data, env);
 				}
-				ft_bzero(cmd, sizeof(t_cmd));
-				ft_bzero(cmd -> sequence, sizeof(t_sequence) * cmd -> length_sequence);
 			}
 			else
 				ft_putstr_fd("Syntax error\n", 2);
+			//free_cmd(data . cmd);
+			ft_bzero(data . cmd -> sequence, sizeof(t_sequence) * data . cmd -> length_sequence);
+			ft_bzero(data . cmd, sizeof(t_cmd));
+			//data . cmd = ft_calloc(sizeof(t_cmd), 1);
+			//if (!data . cmd)
+			//	return (EXIT_FAILURE);
 		}
+		ft_memdel((void **)& input);
 	}
 	return (EXIT_SUCCESS);
 }
+
+
 
 //export a=">out"
 //bash $a =

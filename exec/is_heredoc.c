@@ -1,25 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_arraydel.c                                      :+:      :+:    :+:   */
+/*   is_heredoc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/07 05:59:02 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/14 17:11:45 by jewancti         ###   ########.fr       */
+/*   Created: 2023/01/14 18:19:49 by jewancti          #+#    #+#             */
+/*   Updated: 2023/01/14 18:20:29 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/libft.h"
+#include "./../include/minishell.h"
 
-void	ft_arraydel(char **ptr)
+void	is_heredoc(t_data *cmd)
 {
-	int		i;
-
-	i = -1;
-	if (!ptr)
-		return ;
-	while (ptr[++i])
-		ft_memdel((void **)& ptr[i]);
-	free(ptr);
+	
 }

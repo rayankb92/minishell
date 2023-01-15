@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 17:41:08 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/12 19:21:34 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/14 19:56:02 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,48 +28,46 @@ void	free_tenv(t_env *ptr)
 	ft_memdel((void **)& ptr);
 }
 
-static
-void	free_env(t_list *ptr)
-{
-	t_list	*tmp;
-
-	while (ptr)
-	{
-		tmp = ptr -> next;
-		ft_memdel((void **)& ptr -> content);
-		ft_memdel((void **)& ptr);
-		ptr = tmp;
-	}
-	ft_memdel((void **)& ptr);
-}
-
 void	free_cmd(t_cmd *ptr)
 {
-	t_cmd	*tmp;
+	t_cmd	*cmd;
+	t_cmd	*cmd_tmp;
 
-	while (ptr)
+	cmd = ptr;
+	while (cmd)
 	{
-		ft_memdel((void **)& ptr -> sequence);
-		tmp = ptr -> next;
-		ft_memdel((void **)& ptr);
-		ptr = tmp;
+		//ft_printf(">> command: %s\n", cmd -> command);
+		free(cmd -> command);
+		//cmd -> command = 0;
+		//ft_printf(">> command: %s\n", cmd -> command);
+		cmd_tmp = cmd -> next;
+		if (cmd -> args) {
+			for (int i = 0; cmd -> args[i]; i++)
+				free(cmd -> args[i]);
+			free(cmd -> args);
+		}
+		//ft_arraydel(cmd -> args);
+		for (int i = 0; i < cmd -> length_sequence; i++)
+			ft_memdel((void **)& cmd -> sequence[i] . redirect);
+		free(cmd -> sequence);
+		ft_memdel((void **)& cmd);
+		cmd = cmd_tmp;
 	}
-	ft_memdel((void **)& ptr);
 }
 
-void	free_minishell(t_data data)
+void	free_shell(t_data data)
 {
-	t_cmd	*cmd;
-	t_env	*tenv;
-	t_list	*env;
+	t_env	*env;
+	t_env	*env_tmp;
 
-	cmd = data.cmd;
-	tenv = data.tenv;
 	env = data.env;
-	if (cmd)
-		free_cmd(cmd);
-	if (env)
-		free_env(env);
-	if (tenv)
-		free_tenv(tenv);
+	while (env)
+	{
+		env_tmp = env -> next;
+		ft_memdel((void **)& env -> key);
+		ft_memdel((void **)& env -> value);
+		ft_memdel((void **)& env);
+		env = env_tmp;
+	}
+	free_cmd(data . cmd);
 }

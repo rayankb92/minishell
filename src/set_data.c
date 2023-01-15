@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 11:22:50 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/13 23:43:06 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/14 01:22:03 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,5 +63,5 @@ t_env	*copy_tenv(char **env)
 void		set_data(char **env, t_data *data)
 {
 	if (env && *env)
-		data->tenv = copy_tenv(env);
+		data->env = copy_tenv(env);
 }

@@ -64,7 +64,7 @@ SRC_FILES =	$(addprefix parse/, \
 				echo.c			exit.c				is_builtin.c) \
 			$(addprefix signal/, ctrlc.c) \
 			$(addprefix src/, set_data.c) \
-			$(addprefix exec/, exec.c is_redirection.c) \
+			$(addprefix exec/, exec.c is_redirection.c valid_command.c) \
 			$(addprefix free/, free.c) \
 			main.c print.c
 				
@@ -89,7 +89,7 @@ LIB_DIR = libft
 #									COMPILATION									#
  #=============================================================================#
 
-CC = gcc
+CC = cc
 CFLAGS = -g3# -Wall -Wextra -Werror -lreadline
 CDFLAGS = -MMD -MP
 CIFLAGS = -Iincludes -I$(LIB_DIR)/includes

@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 20:13:10 by ooxn              #+#    #+#             */
-/*   Updated: 2023/01/09 03:37:19 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/14 17:12:11 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ char		*ft_strsub(const char *str, unsigned int start, size_t end);
 char		*ft_strndup(const char *s1, size_t n);
 char		*ft_strstr(const char *haystack, const char *needle);
 void		ft_memdel(void **ptr);
-void		ft_arraydel(void **ptr);
+void		ft_arraydel(char **ptr);
 void		ft_putnbr(int n);
 void		ft_swap(void *a, void *b, size_t const n);
 /* ********** */

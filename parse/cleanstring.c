@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanstring.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 01:26:17 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/12 04:13:06 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/15 01:25:53 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ char	**clean_string(char *str, t_data *data)
 	ope = putspace_between_operateur(neg);
 	clean = split_quote(ope, ISSPACE);
 	free(neg);
+	//free(ope);
 	positive_chars(clean);
 	return (clean);
 }

@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/13 23:43:16 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/15 01:50:55 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,9 @@ typedef struct t_file
 typedef struct s_cmd
 {
 	char			*command;
-	char			*temp_args;
 	char			**args;
 	
 	t_sequence		*sequence;
-	t_file			files[4];
 	int				length_sequence;
 	struct s_cmd	*next;
 }	t_cmd;
@@ -77,13 +75,14 @@ typedef struct	s_env
 	struct s_env	*next;
 }	t_env;
 
-typedef struct t_data
+typedef struct s_data
 {
-	t_list	        *env;
-	t_env			*tenv;
-	char			*entry;
+	t_env			*env;
 	t_cmd			*cmd;
-	struct s_lst    *next;
+	pid_t			pids[4096];
+	int				pipes[2];
+	int				prev_pipe;
+	struct t_data	*next;
 }	t_data;
 
 static	t_data	*return_struct(t_data *data);
@@ -151,8 +150,7 @@ int				cd(const char *path);
 //	unset.c
 int				unset(t_data *data, char *name);
 //	echo.c
-void			echo(const char *str, const char opt);
-void			_echo(const char **arg);
+void			echo(const char **arg);
 //	export.c
 int				export(t_data *data, char *str);
 
@@ -160,9 +158,11 @@ int				export(t_data *data, char *str);
 	DIRECTORY: ./EXEC
 */
 //	exec.c
-void			exec(const char *input, t_cmd *cmd, char **env);
+void			exec(const char *input, t_data *data, char **env);
 //	is_redirection.c
 void			is_redirection(t_cmd *ptr);
+//	valid_command.c
+int				valid_command(const char *command, const char **env);
 
 /*
 	DIRECTORY: ./SIGNAL
@@ -180,11 +180,12 @@ void			print_cmd(t_cmd *cmd);
 	DIRECTORY: ./free
 */
 //	free.c
-void			free_minishell(t_data data);
+void			free_shell(t_data data);
 void			free_cmd(t_cmd *ptr);
 
 t_cmd	*lstlast(t_cmd *cmd);
 
 void	display_env(t_env *env);
+
 
 #endif

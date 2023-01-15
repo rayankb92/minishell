@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/31 14:35:41 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/13 23:39:24 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/14 01:21:49 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static void	make_export(t_data *data, char *name, char *value)
 	t_env	*temp;
 	int		len;
 
-	temp = data->tenv;
+	temp = data->env;
 	while(temp->next)
 	{
 		if (!isset_var(temp, name, value))

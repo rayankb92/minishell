@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/31 12:50:48 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/11 02:25:56 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/15 01:56:44 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,6 @@ static int	is_valid_option(const char *opt)
 	return (1);
 }
 
-void	echo(const char *arg, const char c)
-{
-	// if (is_valid_option(arg[0]))
-	// 	return ;
-	// if (arg[0] == '\0' || !arg || !*arg)
-	// 	return (write(1, " ", 1));
-	
-}
-
 void print(const char **arg, int i)
 {
 	int boolean;
@@ -56,7 +47,7 @@ void print(const char **arg, int i)
 		ft_printf("\n");
 }
 
-void	_echo(const char **arg)
+void	echo(const char **arg)
 {
 	int i = 0;
 	

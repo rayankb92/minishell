@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 17:05:34 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/10 05:31:54 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/15 02:02:54 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@
 
 static int	matching(const char *match)
 {
-	static const char const *matchs[SIZEMATCH] = {
-		"cd", "echod", "exit", "export", "pwd", "unset"
+	static const char	*matchs[SIZEMATCH] = {
+		"cd", "echo", "exit", "export", "pwd", "unset"
 	};
-	const char const	*tmp;
+	const char			*tmp;
 	int					i;
 
 	i = 0;
@@ -42,7 +42,11 @@ static void	do_builtin(const char *match, t_cmd *cmd)
 			cd("~");
 	}
 	if (ft_strcmp("echo", match) == 0)
-		echo(match, 0);
+	{
+		echo(ft_split(match, ' ') + 1);
+		ft_printf("STR: %s\n", match);
+		ft_displaydouble(ft_split(match, ' ')  + 1);
+	}
 	if (ft_strcmp("pwd", match) == 0)
 		pwd();
 	if (ft_strcmp("exit", match) == 0)
@@ -59,6 +63,9 @@ int	is_builtin(t_cmd *cmd)
 		return (EXIT_FAILURE);
 	ret = matching(match);
 	if (ret == EXIT_SUCCESS)
+	{
+		ft_printf("{red}Executing: Built in ..{reset}\n");
 		do_builtin(match, cmd);
+	}
 	return (ret == EXIT_FAILURE);
 }

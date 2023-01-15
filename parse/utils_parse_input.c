@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 16:25:30 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/11 06:31:59 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/14 18:01:41 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,11 @@ char	*array_to_string(char **array)
 		if (array[i + 1] == 0)
 			ft_realloc(& tostring, array[i]);
 		else
-			ft_realloc(& tostring, ft_strjoin(array[i], " "));
+		{
+			char *tmp = ft_strjoin(array[i], " ");
+			ft_realloc(& tostring, tmp);
+			ft_memdel((void **)& tmp);
+		}
 		i++;
 	}
 	return (tostring);

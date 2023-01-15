@@ -6,34 +6,11 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 13:52:31 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/13 23:43:33 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/15 03:57:55 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../include/minishell.h"
-
-int	valid_command(const char *command, const char **env)
-{
-	int			i;
-	char	*joined;
-
-	i = -1;
-	joined = 0;
-	while (command && env[++i])
-	{
-		if (ft_strchr(command, '/'))
-			joined = ft_strdup(command);
-		else
-			joined = ft_strjoin(env[i], command);
-		if (access(joined, X_OK) == 0)
-		{
-			ft_memdel((void **)& joined);
-			return (i);
-		}
-		ft_memdel((void **)& joined);
-	}
-	return (-1);
-}
 
 int		ft_lstcount(t_cmd *cmd)
 {
@@ -50,124 +27,103 @@ int		ft_lstcount(t_cmd *cmd)
 	return (i);
 }
 
-void	exec(const char *input, t_cmd *cmd, char **env)
+static
+void	pipe_redirection(t_data *data, const int index_pid)
+{
+	const int	lstcount = ft_lstcount(data -> cmd);
+
+	if (index_pid != 0)
+	{
+		dup2(data -> prev_pipe, STDIN_FILENO);
+		close(data -> prev_pipe);
+	}
+	if (index_pid != lstcount - 1)
+		dup2(data -> pipes[1], STDOUT_FILENO);
+	close(data -> pipes[1]);
+	close(data -> pipes[0]);
+}
+
+static
+void	is_child(t_data *data, t_cmd *ptr, int index_pid, const char **path_env, char **env)
+{
+	int	path_id = valid_command(ptr -> command, path_env);
+
+	if (path_id == -1)
+	{
+		if (ptr -> args && ptr -> args[0] && is_in_string(ptr -> args[0], "><"))
+		{
+			ptr -> command = ptr -> args[0];
+			path_id = valid_command(ptr -> command, path_env);
+		}
+		else
+			ft_printf("%s: command not found\n", ptr -> command);// exit code 127
+	}
+	is_redirection(ptr);
+	if (path_id > -1)
+	{
+		pipe_redirection(data, index_pid);
+		if (ft_strchr(ptr -> command, '/'))
+			execve(ptr -> command, ptr -> args, env);
+		else
+		{
+			char *tmpcmd = ft_strjoin(path_env[path_id], ptr -> command);
+			if (tmpcmd)
+			{
+				execve(tmpcmd, ptr -> args, env);
+				ft_memdel((void **)& tmpcmd);
+			}
+		}
+	}
+	ft_putendl_fd("Failed execve", 2);
+	exit(EXIT_FAILURE);
+}
+
+static
+void	is_father(t_data *data)
+{
+	if (data -> prev_pipe != -1)
+		close(data -> prev_pipe);
+	close(data -> pipes[1]);
+	data -> prev_pipe = data -> pipes[0];
+}
+
+void	exec(const char *input, t_data *data, char **env)
 {
 	t_cmd		*ptr;
-	pid_t		pids[4096]; // test
 	const char	**path_env;
 	int			size_path_env;
 	int			index_pid;
 	int			path_id;
 	int			status;
-	ptr = cmd;
+
+	ptr = data -> cmd;
 	path_env = env_paths_to_string(env, & size_path_env);
-	int pipes[2]; // test   1 = write   0 = read
-	index_pid = 0;
-	int		prev_pipes = -1;
 	status = 0;
-	int lstcount = ft_lstcount(cmd);
-	//ft_printf("nbcmd: %d\n", lstcount);
-	if (is_builtin(ptr) == EXIT_FAILURE)
+	index_pid = 0;
+	while (ptr)
 	{
-		while (ptr)
-		{	
-			if (pipe(pipes) < 0)
-				return ;
-			pids[index_pid] = fork();
-			if (pids[index_pid] == 0)
-			{
-				path_id = valid_command(ptr -> command, path_env);
-				if (path_id == -1)
-				{
-					if (is_in_string(ptr -> command, "><") == EXIT_SUCCESS)
-					{
-						is_redirection(ptr);
-						if (ptr -> args)
-						{
-							close(pipes[0]);
-							close(pipes[1]);
-							if (ft_strchr(ptr -> args[0], '/'))
-								execve(ptr -> args[0], ptr -> args, env);
-							else
-							{
-								path_id = valid_command(ptr -> args[0], path_env);
-								char *tmpcmd = ft_strjoin(path_env[path_id], ptr -> args[0]);
-								if (tmpcmd)
-								{
-									execve(tmpcmd, ptr -> args, env);
-									ft_memdel((void **)& tmpcmd);
-									ft_putendl_fd("Failed exec\n", 2);
-								}
-							}
-						}
-					}
-					else
-						ft_printf("%s: command not found\n", ptr -> command);
-				}
-				else
-				{
-					if (lstcount > 1)
-					{
-						if (index_pid == 0)
-						{
-							close(pipes[0]);
-							//dup2(, STDIN_FILENO);
-							dup2(pipes[1], STDOUT_FILENO);
-							//close(pipes[1]);
-						}
-						else if (index_pid == lstcount - 1)
-						{
-							close(pipes[1]);
-							close(pipes[0]);
-							dup2(prev_pipes, STDIN_FILENO);
-							
-						}
-						else
-						{
-							if (prev_pipes != -1)
-								dup2(prev_pipes, STDIN_FILENO);
-							dup2(pipes[1], STDOUT_FILENO);
-							//close(pipes[1]);
-						}
-						//is_heredoc(ptr);
-					}
-						is_redirection(ptr);
-					if (prev_pipes != -1)
-						close(prev_pipes);
-					close(pipes[0]);
-					if (ft_strchr(ptr -> command, '/'))
-						execve(ptr -> command, ptr -> args, env);
-					else
-					{
-						char *tmpcmd = ft_strjoin(path_env[path_id], ptr -> command);
-						if (tmpcmd)
-						{
-							execve(tmpcmd, ptr -> args, env);
-							ft_memdel((void **)& tmpcmd);
-						}
-					}
-					ft_putstr_fd("Execve error\n",2);
-				}
-				exit(EXIT_FAILURE);
-			}
-			else
-			{
-				if (prev_pipes != -1)
-					close(prev_pipes);
-				close(pipes[1]);
-				prev_pipes = pipes[0];
-			}
-			index_pid++;
-			ptr = ptr -> next;
+		if (pipe(data -> pipes) < 0)
+			return ;
+		data -> pids[index_pid] = fork();
+		if (data -> pids[index_pid] == -1)
+			return ;
+		if (data -> pids[index_pid] == 0)
+		{
+			if (is_builtin(ptr) == EXIT_SUCCESS)
+				exit(EXIT_SUCCESS);
+			is_child(data, ptr, index_pid, path_env, env);
 		}
-		close(pipes[0]);
-		close(pipes[1]);
-		for (int i = 0; i < index_pid; i++)
-			waitpid(pids[i], &status, 0);
-		if (WIFEXITED(status))//?
-			status = WEXITSTATUS(status);//?
-		
-		ft_arraydel((void **)path_env);
-		//printf("Return status is : %d\n", status);
+		if (data -> pids[index_pid] > 0)
+			is_father(data);
+		index_pid++;
+		ptr = ptr -> next;
 	}
+	close(data -> pipes[0]);
+	close(data -> pipes[1]);
+	for (int i = 0; i < index_pid; i++)
+		waitpid(data -> pids[i], &status, 0);
+	if (WIFEXITED(status))
+		status = WEXITSTATUS(status);
+	ft_arraydel((char **)path_env);
+	//printf("Return status is : %d\n", status);
 }
