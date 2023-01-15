@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/15 01:50:55 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/15 04:52:42 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,9 +183,9 @@ void			print_cmd(t_cmd *cmd);
 void			free_shell(t_data data);
 void			free_cmd(t_cmd *ptr);
 
-t_cmd	*lstlast(t_cmd *cmd);
+t_cmd			*lstlast(t_cmd *cmd);
 
-void	display_env(t_env *env);
+void			display_env(t_env *env);
 
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 12:42:43 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/15 01:39:39 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/15 04:43:48 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,6 @@ void	parse_input(const char *input, t_cmd *cmd, t_data *data)
 	//for (int i = 0; split[i]; i++)
 	//	free(split[i]);
 	//free(split);
-	//ft_arraydel(parse);
-	//ft_arraydel(split);
+	ft_arraydel(parse);
+	ft_arraydel(split);
 }
