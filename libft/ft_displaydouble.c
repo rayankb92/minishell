@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/31 16:49:46 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/16 03:24:53 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/16 17:08:15 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	ft_displaydouble(char **str)
 	int	i;
 
 	i = -1;
+	if (!str || !*str)
+		return ;
 	while (str[++i])
 		fprintf(stderr, "[%s] ", str[i]);
 	ft_putchar('\n');

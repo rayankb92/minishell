@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/15 23:44:16 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/16 17:13:39 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ typedef struct	s_env
 {
 	char			*key;
 	char			*value;
+	int				equal;
 	struct s_env	*next;
 }	t_env;
 
@@ -82,6 +83,7 @@ typedef struct s_data
 	pid_t			pids[4096];
 	int				pipes[2];
 	int				prev_pipe;
+	char			*path;
 	struct t_data	*next;
 }	t_data;
 
@@ -130,7 +132,7 @@ void			display_lst(t_list *lst);
 void			set_data(char **env, t_data *data);
 
 // T_ENV
-t_env			*new_env(char *key, char *value);
+t_env			*new_env(char *key, char *value, int eq);
 void			add_back_env(t_env **env, t_env *new);
 
 

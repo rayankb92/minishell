@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 12:42:43 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/16 17:02:51 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/16 17:16:09 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,11 +111,12 @@ void	parse_input(const char *input, t_cmd *cmd, t_data *data)
 			ptr = ptr -> next;
 		}
 	}
-	//for (int i = 0; parse[i]; i++)
-	//	ft_memdel((void **)& parse[i]);
+	for (int i = 0; parse[i]; i++)
+		ft_memdel((void **)& parse[i]);
+	free(parse);
 	//for (int i = 0; split[i]; i++)
 	//	ft_memdel((void **)& split[i]);
 	//free(split);
-	ft_arraydel(parse);
+	//ft_arraydel(parse);
 	ft_arraydel(split);
 }

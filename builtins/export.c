@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/31 14:35:41 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/16 00:54:03 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/16 17:14:01 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,7 @@ int	isset_var(t_env *temp, char *name, char *value)
 	return (1);
 }
 
-static
-void	make_export(t_data *data, char *name, char *value)
+static void	make_export(t_data *data, char *name, char *value, int eq)
 {
 	t_env	*temp;
 	int		len;
@@ -65,8 +64,9 @@ void	make_export(t_data *data, char *name, char *value)
 	}
 	if (!isset_var(temp, name, value))
 			return ;
-	temp->next = new_env(name, value);
+	temp->next = new_env(name, value, eq);
 }
+
 
 void	export(t_data *data, const char *str)
 {
@@ -83,5 +83,5 @@ void	export(t_data *data, const char *str)
 	value = ft_substr(str, (len + 1), (ft_strlen(str) - len));
 	if (!varname)
 		return ;
-	make_export(data, varname, value);
+	make_export(data, varname, value, (ft_strchr(str, '=') != 0));
 }

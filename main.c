@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 05:47:36 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/16 05:21:30 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/16 17:12:27 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int main(int ac, char **av, char **env)
 		return (EXIT_FAILURE);
 	data . prev_pipe = -1;
 	set_data(env, & data);
+	// export(&data, "test=");
 	while (1)
 	{
 		input = readline("Fumier$ ");

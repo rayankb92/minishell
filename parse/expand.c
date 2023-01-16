@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 15:15:38 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/16 17:03:36 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/16 17:10:40 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	*find_var(t_data *data, const char *var)
 	tmp = data->env;
 	while (tmp != NULL)
 	{
-		if (ft_strncmp(var, tmp->key, len) == 0)
+		if (ft_strncmp(var, tmp->key, len) == 0 && ft_strlen(tmp->key) == len)
 			return (tmp->value);
 		tmp = tmp->next;
 	}
