@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 15:15:38 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/16 17:10:40 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/16 19:44:12 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int		get_varname_len(const char *var)
+int	get_varname_len(const char *var)
 {
 	int	i;
 
@@ -24,7 +24,7 @@ int		get_varname_len(const char *var)
 	return (i);
 }
 
-int		get_varvalue_len(t_data *data, const char *var)
+int	get_varvalue_len(t_data *data, const char *var)
 {
 	int	i;
 
@@ -34,7 +34,7 @@ int		get_varvalue_len(t_data *data, const char *var)
 	return (ft_strlen(find_var(data, var)));
 }
 
-int		is_variable(const char c)
+int	is_variable(const char c)
 {
 	return (ft_isalpha(c) || c == '_');
 }

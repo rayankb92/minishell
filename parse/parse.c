@@ -3,23 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:25:58 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/16 04:20:56 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/16 19:48:52 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-
 int	check_quote(const char *str)
 {
 	int	i;
+	int	singleopen;
+	int	doubleopen;
 
 	i = -1;
-	int singleopen = 0;
-	int	doubleopen = 0;
+	singleopen = 0;
+	doubleopen = 0;
 	while (str[++i])
 	{
 		if (str[i] == '"' && singleopen == 0 && doubleopen == 0)
@@ -38,10 +39,8 @@ int	check_quote(const char *str)
 	return (EXIT_SUCCESS);
 }
 
-
-
-// a modifier: OK SI PIPE AVANT	
-# define SYNTAX_ERROR	"bash: syntax error near unexpected token"
+// a modifier: OK SI PIPE AVANT
+#define SYNTAX_ERROR "bash: syntax error near unexpected token"
 static int	check_chevron(const char *str, const char c)
 {
 	int	i;
@@ -80,5 +79,5 @@ static int	check_chevron(const char *str, const char c)
 int	check_chevrons(const char *str)
 {
 	return (check_chevron(str, '<') > 0 || check_chevron(str, '>') > 0
-			|| check_chevron(str, '|') > 0);
+		|| check_chevron(str, '|') > 0);
 }

@@ -54,11 +54,13 @@ SRCS_DIRS	= $(SRCS_DIR)\
 			$(SIGNAL_DIR)\
 			$(EXEC_DIR)\
 			$(FREE_DIR)\
+			
 
 SRC_FILES =	$(addprefix parse/, \
 				parse.c			parse_input.c		utils_parse_input.c			utils.c \
-				expand.c		splitquote.c				cleanstring.c	t_env.c) \
-			$(addprefix parse/env/, paths_to_string.c) \
+				expand.c		splitquote.c				cleanstring.c\
+				add_expand_to_str.c		neg_chars.c )\
+			$(addprefix parse/env/,	t_env.c paths_to_string.c) \
 			$(addprefix builtins/, \
 				cd.c			pwd.c				export.c					unset.c \
 				echo.c			exit.c				is_builtin.c) \

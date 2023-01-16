@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 12:42:43 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/16 17:26:36 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/16 21:00:40 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ void	parse_input(const char *input, t_cmd *cmd, t_data *data)
 	int		index_split = 0;
 
 	parse = clean_string((char *)input, data); // check malloc
-	ft_displaydouble(parse);
 	if (!parse || !parse[0])
 	{
 		if (!parse[0])

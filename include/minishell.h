@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/16 17:13:39 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/16 19:18:33 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,11 @@ char			**clean_string(char *str, t_data *data);
 int				check_quote(const char *str);
 int				check_chevrons(const char *str);
 int				get_varname_len(const char *var);
+int				find_char(char c);
+int				add_value_nospace(char *new, char *str, t_data *data, int *j);
+int				add_value(char *new, char *str, t_data *data, int *j);
+char	*putspace_between_operateur(char *str);
+
 
 //	parse_input.c
 void			parse_input(const char *input, t_cmd *cmd, t_data *data);
