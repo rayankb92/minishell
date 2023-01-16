@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 05:47:36 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/16 17:32:34 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/16 19:46:19 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,9 @@ int main(int ac, char **av, char **env)
 	if (!data . cmd)
 		return (EXIT_FAILURE);
 	data . prev_pipe = -1;
+	data . pipes[0] = -1;
+	data . pipes[1] = -1;
 	set_data(env, & data);
-	// export(&data, "test=");
 	while (1)
 	{
 		input = readline("Fumier$ ");
@@ -51,9 +52,11 @@ int main(int ac, char **av, char **env)
 						return (EXIT_FAILURE);
 				}
 				data . prev_pipe = -1;
+				data . pipes[0] = -1;
+				data . pipes[1] = -1;
 				parse_input(input, data . cmd, & data);
-				//print_cmd(data . cmd);
-				//exec(input, & data, env);
+				print_cmd(data . cmd);
+				exec(input, & data, env);
 			}
 			else
 				ft_putstr_fd("Syntax error\n", 2);

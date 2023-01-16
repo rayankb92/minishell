@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 17:41:08 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/16 04:42:39 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/16 18:00:57 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,22 +36,12 @@ void	free_cmd(t_cmd *ptr)
 	cmd = ptr;
 	while (cmd)
 	{
-		//ft_printf(">> command: %s\n", cmd -> command);
 		ft_memdel((void **)& cmd -> command);
-		//cmd -> command = 0;
-		//ft_printf(">> command: %s\n", cmd -> command);
 		cmd_tmp = cmd -> next;
-		if (cmd -> args) {
-			for (int i = 0; cmd -> args[i]; i++)
-				ft_memdel((void **)& cmd -> args[i]);
-			free(cmd -> args);
-		}
-		//ft_arraydel(cmd -> args);
-		//for (int i = 0; i < cmd -> length_sequence; i++)
-		//	ft_memdel((void **)& cmd -> sequence[i] . redirect);
-		//ft_memdel((void **)& cmd -> sequence);
-		free(cmd -> sequence);
-		cmd -> sequence = 0;
+		ft_arraydel(cmd -> args);
+		for (int i = 0; i < cmd -> length_sequence; i++)
+			ft_memdel((void **)& cmd -> sequence[i] . redirect);
+		ft_memdel((void **)& cmd -> sequence);
 		ft_memdel((void **)& cmd);
 		cmd = cmd_tmp;
 	}

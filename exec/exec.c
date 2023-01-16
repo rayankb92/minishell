@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 13:52:31 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/16 05:01:39 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/16 19:46:52 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,15 +48,19 @@ void	is_child(t_data *data, t_cmd *ptr, int index_pid, const char **path_env, ch
 {
 	int	path_id = valid_command(ptr -> command, path_env);
 
-	is_redirection(ptr);
 	if (path_id == -1)
 	{
 		if (ptr -> command)
 			ft_printf("%s: command not found\n", ptr -> command);// exit code 127
+		if (data -> pipes[0] != -1)
+			close(data -> pipes[0]);
+		if (data -> pipes[1] != -1)
+			close(data -> pipes[1]);
 	}
 	else
 	{
 		pipe_redirection(data, index_pid);
+		is_redirection(ptr);
 		if (ft_strchr(ptr -> command, '/'))
 			execve(ptr -> command, ptr -> args, env);
 		else

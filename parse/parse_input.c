@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 12:42:43 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/16 17:26:36 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/16 19:32:28 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ void	attribute_sequence(int *start, int *index_args, char **parse, t_cmd *ptr)
 	int	index_sequence;
 
 	index_sequence = 0;
+	if (!parse[*start + 1])
+		return ;
 	ptr -> sequence = ft_calloc(sizeof(t_sequence), ptr -> length_sequence); // check malloc
 	(*start)++;
 	while (index_sequence < ptr -> length_sequence)
@@ -69,6 +71,30 @@ void	attribute_sequence(int *start, int *index_args, char **parse, t_cmd *ptr)
 			(*start)++;
 	}
 }
+
+//void	pre_parse()
+//{
+//	t_cmd	*ptr;
+//	char	**parse;
+//	char	**split;
+//	int		k = 0;
+//	int		index_args = 0;
+//	int		index_split = 0;
+
+//	parse = clean_string((char *)input, data); // check malloc
+//	ft_displaydouble(parse);
+//	if (!parse || !parse[0])
+//	{
+//		if (!parse[0])
+//			free(parse);
+//		return ;
+//	}
+//	char *tmp = array_to_string(parse);
+//	split = ft_split(tmp, '|'); // check malloc
+//	ft_memdel((void **)& tmp);
+//	if (!split)
+//		return ;
+//}
 
 void	parse_input(const char *input, t_cmd *cmd, t_data *data)
 {
@@ -118,12 +144,6 @@ void	parse_input(const char *input, t_cmd *cmd, t_data *data)
 			ptr = ptr -> next;
 		}
 	}
-	for (int i = 0; parse[i]; i++)
-		free(parse[i]);
-	free(parse);
-	//for (int i = 0; split[i]; i++)
-	//	ft_memdel((void **)& split[i]);
-	//free(split);
-	//ft_arraydel(parse);
+	ft_arraydel(parse);
 	ft_arraydel(split);
 }
