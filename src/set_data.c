@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 11:22:50 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/16 17:14:14 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/16 17:19:10 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	display_env(t_env *env)
 	{
 		if (env->key && (env)->value[0])
 			ft_printf("%s=%s\n", env->key, env->value);
-		else if (env->key && env->equal);
+		else if (env->key && env->equal)
 			ft_printf("%s=\n", env->key);
 		env = env->next;
 	}
