@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_data.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 11:22:50 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/13 23:43:06 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/16 00:08:31 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	display_env(t_env *env)
 	{
 		if (env->key && (env)->value[0])
 			ft_printf("%s=%s\n", env->key, env->value);
+		else if (env->key && env->equal);
+			ft_printf("%s=\n", env->key);
 		env = env->next;
 	}
 }
@@ -52,16 +54,21 @@ t_env	*copy_tenv(char **env)
 	t_env	*new;
 
 	i = 0;
-	new = new_env(get_key(env[i]), get_value(env[i]));
+	new = new_env(get_key(env[i]), get_value(env[i]), 1);
 	while (env[++i])
 	{
-		add_back_env(&new, new_env(get_key(env[i]), get_value(env[i])));
+		add_back_env(&new, new_env(get_key(env[i]), get_value(env[i]), 1));
 	}
 	return (new);
 }
 
+// static void	set_path(t_data *data, t_env *env)
+
 void		set_data(char **env, t_data *data)
 {
 	if (env && *env)
+	{
 		data->tenv = copy_tenv(env);
+		// set_path(data, data->tenv);
+	}
 }

@@ -6,13 +6,13 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 21:10:34 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/11 23:30:48 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/15 18:12:58 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-t_env	*new_env(char *key, char *value)
+t_env	*new_env(char *key, char *value, int eq)
 {
 	t_env	*new;
 
@@ -21,6 +21,7 @@ t_env	*new_env(char *key, char *value)
 		return (NULL);
 	new->key = key;
 	new->value = value;
+	new->equal = eq;
 	new->next = NULL;
 	return (new);
 }

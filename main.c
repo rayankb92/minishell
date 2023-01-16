@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 05:47:36 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/13 23:44:15 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/16 16:58:36 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ int main(int ac, char **av, char **env)
 		return (EXIT_FAILURE);
 	cmd -> next = 0;
 	set_data(env, & data);
+	// export(&data, "test=");
 	while (1)
 	{
 		input = readline("Fumier$ ");
@@ -94,8 +95,8 @@ int main(int ac, char **av, char **env)
 		{
 			if (check_quote(input) == EXIT_SUCCESS)
 			{
-				res = clean_string((char*)input, &data);
-				ft_displaydouble(res);
+				// res = clean_string((char*)input, &data);
+				// ft_displaydouble(res);
 				parse_input(input, cmd, & data);
 				set_files(cmd);
 				if (cmd -> command)

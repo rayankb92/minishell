@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/31 14:35:41 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/13 23:39:24 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/15 18:37:04 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static int	isset_var(t_env *temp, char *name, char *value)
 	return (1);
 }
 
-static void	make_export(t_data *data, char *name, char *value)
+static void	make_export(t_data *data, char *name, char *value, int eq)
 {
 	t_env	*temp;
 	int		len;
@@ -62,23 +62,8 @@ static void	make_export(t_data *data, char *name, char *value)
 	}
 	if (!isset_var(temp, name, value))
 			return ;
-	temp->next = new_env(name, value);
+	temp->next = new_env(name, value, eq);
 }
-
-// o--->o--->o--->o--->o--->NUL
-
-// int	export(t_data *data, char *str)
-// {
-// 	char	*export;
-// 	int		len;
-// 	t_list	*tmp;
-
-// 	if (!is_valid_name(str))
-// 		return (0);
-// 	if (ft_strchr(str, '='))
-// 		make_export(data, str);
-// 	return (0);
-// }
 
 
 int	export(t_data *data, char *str)
@@ -96,7 +81,7 @@ int	export(t_data *data, char *str)
 	value = ft_substr(str, (len + 1), (ft_strlen(str) - len));
 	if (!varname)
 		return (0);
-	make_export(data, varname, value);
+	make_export(data, varname, value, (ft_strchr(str, '=') != 0));
 	
 	
 }
