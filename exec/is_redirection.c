@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 23:18:11 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/15 01:43:55 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/16 01:16:44 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,10 @@ void	is_redirection(t_cmd *ptr)
 				if (ptr -> sequence[i] . index_redirect > 0)
 					fd = open(ptr -> sequence[i] . redirect, indexs[index_redirect - 1], 0666);
 				if (fd < 0)
-					ft_putendl_fd("Cannot open file1", 2);
+				{
+					ft_printf("bash: %s: No such file or directory\n", ptr -> sequence[i] . redirect);
+					exit(EXIT_FAILURE);
+				}
 				if (index_redirect > 0 && index_redirect != LESS)
 					dup_or_printerr(fd, STDOUT_FILENO, "Cannot open great / dgreat");
 				else

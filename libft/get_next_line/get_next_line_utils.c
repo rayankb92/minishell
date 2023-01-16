@@ -57,10 +57,10 @@ void	ft_freetab(char ***ptr, int force)
 		i = -1;
 		while ((*ptr)[++i] != NULL)
 		{
-			free((*ptr)[i]);
+			ft_memdel((void **)& (*ptr)[i]);
 			(*ptr)[i] = NULL;
 		}
-		free(*ptr);
+		ft_memdel((void **)& *ptr);
 		*ptr = NULL;
 	}
 }
@@ -80,13 +80,13 @@ void	ft_strnjoin(char **line, const char *s1, int size)
 		{
 			ft_strdupcpy(res, *line, NULL, -1);
 			ft_strdupcpy(res + i, (char *)s1, NULL, -1);
-			free(*line);
+			ft_memdel((void **)& *line);
 			*line = res;
 		}
 		return ;
 	}
 	if (*line && !**line)
-		free(*line);
+		ft_memdel((void **)& *line);
 	*line = ft_strdupcpy(NULL, NULL, (char *)s1, -1);
 }
 

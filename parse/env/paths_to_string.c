@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 23:14:13 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/11 23:36:11 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/16 04:58:00 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ const char	**env_paths_to_string(char **env, int *size)
 	char	**paths;
 
 	i = -1;
+	*size = 0;
 	while (env[++i])
 	{
 		if (ft_strnstr(env[i], "PATH", 4))

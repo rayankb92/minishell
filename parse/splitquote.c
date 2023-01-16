@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 17:47:26 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/11 05:36:42 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/16 00:54:03 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 char	**cleaner(char ***str, int len)
 {
 	while (--len >= 0)
-		free((*str)[len]);
-	free(*str);
+		ft_memdel((void **)& (*str)[len]);
+	ft_memdel((void **)& *str);
 	return (0);
 }
 

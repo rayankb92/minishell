@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 12:42:43 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/15 01:39:39 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/16 05:23:56 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	attribute_sequence(int *start, int *index_args, char **parse, t_cmd *ptr)
 	(*start)++;
 	while (index_sequence < ptr -> length_sequence)
 	{
-		ptr -> sequence[index_sequence] . redirect = parse[(*start)];
+		ptr -> sequence[index_sequence] . redirect = ft_strdup(parse[(*start)]);
 		ptr -> sequence[index_sequence++] . index_redirect = get_index_redirect(parse[(*start) - 1]);
 		if (parse[(*start)])
 			(*start)++;
@@ -64,7 +64,7 @@ void	attribute_sequence(int *start, int *index_args, char **parse, t_cmd *ptr)
 			parse[(*start)][0] != '>' &&
 			parse[(*start)][0] != '<' &&
 			parse[(*start)][0] != '|')
-			ptr -> args[(*index_args)++] = parse[(*start)++];
+			ptr -> args[(*index_args)++] = ft_strdup(parse[(*start)++]);
 		if (parse[(*start)] && (parse[(*start)][0] == '>' || parse[(*start)][0] == '<'))
 			(*start)++;
 	}
@@ -82,14 +82,19 @@ void	parse_input(const char *input, t_cmd *cmd, t_data *data)
 	parse = clean_string((char *)input, data); // check malloc
 	char *tmp = array_to_string(parse);
 	split = ft_split(tmp, '|'); // check malloc
+	ft_memdel((void **)& tmp);
 	if (!split)
 		return ;
-	ft_memdel((void **)& tmp);
 	ptr = cmd;
+	int e;
 	while (parse[k])
 	{
+		e = 0;
 		index_args = 0;
-		ptr -> command = ft_strdup(parse[k]);
+		while (parse[k][e] == '>' || parse[k][e] == '<')
+			e++;
+		if (parse[k][e] != '\0')
+			ptr -> command = ft_strdup(parse[k]);
 		attribute_args(& k, & index_args, parse, ptr);
 		if (parse[k])
 		{
@@ -107,11 +112,13 @@ void	parse_input(const char *input, t_cmd *cmd, t_data *data)
 		}
 	}
 	//for (int i = 0; parse[i]; i++)
-	//	free(parse[i]);
-	//free(parse);
+	//	ft_memdel((void **)& parse[i]);
 	//for (int i = 0; split[i]; i++)
-	//	free(split[i]);
+	//	ft_memdel((void **)& split[i]);
 	//free(split);
-	//ft_arraydel(parse);
-	//ft_arraydel(split);
+	ft_arraydel(parse);
+				ft_printf("ENTR\n");
+
+	ft_arraydel(split);
+				ft_printf("ENTR\n");
 }

@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 01:38:06 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/14 01:20:03 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/16 00:54:03 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ int	unset(t_data *data, char *name)
 		{
 			del = tmp->next;
 			tmp->next = tmp->next->next;
-			free(del->content);
-			free(del);
+			ft_memdel((void **)& del->content);
+			ft_memdel((void **)& del);
 			break;
 		}
 		tmp = tmp->next;

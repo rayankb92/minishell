@@ -93,14 +93,14 @@ char	*next_line(char ***buffer, int pos)
 		ft_freetab(buffer, 0);
 		if (*buffer && (*buffer)[pos])
 		{
-			free((*buffer)[pos]);
+			ft_memdel((void **)& (*buffer)[pos]);
 			(*buffer)[pos] = ft_strdupcpy(NULL, NULL, "", -1);
 		}
 		return (tmp);
 	}
 	temp = ft_strdupcpy(NULL, NULL, (*buffer)[pos], endl - (*buffer)[pos] + 1);
 	tmp = ft_strdupcpy(NULL, NULL, endl + 1, -1);
-	free((*buffer)[pos]);
+	ft_memdel((void **)& (*buffer)[pos]);
 	(*buffer)[pos] = tmp;
 	return (temp);
 }

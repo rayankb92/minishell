@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 21:48:57 by ooxn              #+#    #+#             */
-/*   Updated: 2022/12/31 13:11:54 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/16 00:54:03 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,6 @@ char	*ft_substr(char const *str, unsigned int start, size_t len)
 	}
 	temp[i] = '\0';
 	res = ft_strdup(temp);
-	free(temp);
+	ft_memdel((void **)& temp);
 	return (res);
 }

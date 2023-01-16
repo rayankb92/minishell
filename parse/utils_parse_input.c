@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 16:25:30 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/14 18:01:41 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/16 00:54:03 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,13 +92,13 @@ void	ft_realloc(char **line, const char *s1)
 		{
 			ft_strcpy(res, *line);
 			ft_strcpy(res + i, s1);
-			free(*line);
+			ft_memdel((void **)& *line);
 			*line = res;
 		}
 		return ;
 	}
 	if (*line && !**line)
-		free(*line);
+		ft_memdel((void **)& *line);
 	*line = ft_strdup(s1);
 }
 

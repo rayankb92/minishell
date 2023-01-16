@@ -130,6 +130,9 @@ fclean: clean
 
 re : fclean all
 
+leaks : ${NAME}
+	valgrind --suppressions=ignore.txt -s  --leak-check=full --show-leak-kinds=all --track-fds=yes  ./minishell
+
 -include $(DEPS)
 
 .PHONY: all clean fclean re

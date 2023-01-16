@@ -22,7 +22,7 @@ void	clean_tree(tree *tr)
 	clean_tree(tr->tleft);
 	clean_tree(tr->tright);
 	
-	free(tr);
+	ft_memdel((void **)& tr);
 }
 
 tree	*join_tree(tree *left, tree *right, int node)

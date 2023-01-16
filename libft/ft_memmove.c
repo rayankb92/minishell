@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 21:31:46 by ooxn              #+#    #+#             */
-/*   Updated: 2022/12/31 13:11:54 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/16 00:54:03 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	*ft_memmove(void *dst, const void *src, size_t len)
 	{
 		ft_memcpy(tmp, src, len);
 		ft_memcpy(dst, tmp, len);
-		free(tmp);
+		ft_memdel((void **)& tmp);
 	}
 	return (dst);
 }

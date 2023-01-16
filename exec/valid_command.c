@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 00:39:16 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/14 00:39:40 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/16 04:03:22 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	valid_command(const char *command, const char **env)
 	int			i;
 	char	*joined;
 
+	if (!command)
+		return (-1);
 	i = -1;
 	joined = 0;
 	while (command && env[++i])

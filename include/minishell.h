@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/15 01:50:55 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/15 23:44:16 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void			positive_chars(char **str);
 char			**clean_string(char *str, t_data *data);
 int				check_quote(const char *str);
 int				check_chevrons(const char *str);
-int				get_varname_len(char *var);
+int				get_varname_len(const char *var);
 
 //	parse_input.c
 void			parse_input(const char *input, t_cmd *cmd, t_data *data);
@@ -114,15 +114,14 @@ int				count_occurence(const char *str, const char c);
 int				get_length_args(char **ptr);
 //	expand.c
 void			expand(char **str, t_data *data);
-int				get_varvalue_len(t_data *data, char *var);
-int				is_variable(char c);
+int				get_varvalue_len(t_data *data, const char *var);
+int				is_variable(const char c);
 
 //	utils.c
 int				is_in_charset(char c, char *charset);
 int				is_in_string(const char *str, const char *charset);
 int				error_msg(char *str);
-char			*find_var(t_data *data, char *var);
-char			*find__var(t_data *data, char *var);
+char			*find_var(t_data *data, const char *var);
 void			display_lst(t_list *lst);
 /*
 	DIRECTORY: ./SRC
@@ -139,20 +138,20 @@ void			add_back_env(t_env **env, t_env *new);
 	DIRECTORY: ./BUILTINS
 */
 //	is_builtin.c
-int				is_builtin(t_cmd *cmd);
+int				is_builtin(t_cmd *cmd, t_data *data);
 //	is_exit.c
 void			is_exit(char **argument);
 //	pwd.c
 void			pwd(void);
 const char		*pwd_malloc(void);
 //	cd.c
-int				cd(const char *path);
+void			cd(const char *path);
 //	unset.c
 int				unset(t_data *data, char *name);
 //	echo.c
 void			echo(const char **arg);
 //	export.c
-int				export(t_data *data, char *str);
+void			export(t_data *data, const char *str);
 
 /*
 	DIRECTORY: ./EXEC

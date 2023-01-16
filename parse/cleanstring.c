@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 01:26:17 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/15 01:25:53 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/16 05:15:44 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,9 @@ char	**clean_string(char *str, t_data *data)
 
 	neg = negative_chars(str, data);
 	ope = putspace_between_operateur(neg);
-	clean = split_quote(ope, ISSPACE);
-	free(neg);
-	//free(ope);
+	clean = split_quote(ope, " ");
+	ft_memdel((void **)& neg);
+	ft_memdel((void **)& ope);
 	positive_chars(clean);
 	return (clean);
 }
@@ -305,7 +305,10 @@ char	*negative_chars(char *str, t_data *data)
 			i++;
 		}
 		else if (str[i] == '$' && str[i + 1] && is_variable(str[i + 1]))
-			i += add_value_nospace(new, &str[i++],  data, &j);
+		{
+			i += add_value_nospace(new, str + i,  data, &j);
+			i++;
+		}
 		else
 			new[j++] = str[i++];
 	}
