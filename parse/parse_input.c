@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 12:42:43 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/16 19:32:28 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/16 22:08:46 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,6 @@ void	parse_input(const char *input, t_cmd *cmd, t_data *data)
 	int		index_split = 0;
 
 	parse = clean_string((char *)input, data); // check malloc
-	ft_displaydouble(parse);
 	if (!parse || !parse[0])
 	{
 		if (!parse[0])
