@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 05:47:36 by rferradi          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/01/16 19:46:19 by jewancti         ###   ########.fr       */
-=======
-/*   Updated: 2023/01/16 20:59:31 by rferradi         ###   ########.fr       */
->>>>>>> refs/remotes/origin/main
+/*   Updated: 2023/01/16 22:09:57 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
