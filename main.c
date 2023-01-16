@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 05:47:36 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/16 17:31:19 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/16 17:32:34 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,18 +44,16 @@ int main(int ac, char **av, char **env)
 			add_history(input);
 			if (check_quote(input) == EXIT_SUCCESS)
 			{
-				res = clean_string(input, &data);
-				ft_displaydouble(res);
-				// if (!data . cmd)
-				// {
-				// 	data . cmd = ft_calloc(sizeof(t_cmd), 1);
-				// 	if (!data . cmd)
-				// 		return (EXIT_FAILURE);
-				// }
-				// data . prev_pipe = -1;
-				// parse_input(input, data . cmd, & data);
-				// print_cmd(data . cmd);
-				// exec(input, & data, env);
+				if (!data . cmd)
+				{
+					data . cmd = ft_calloc(sizeof(t_cmd), 1);
+					if (!data . cmd)
+						return (EXIT_FAILURE);
+				}
+				data . prev_pipe = -1;
+				parse_input(input, data . cmd, & data);
+				//print_cmd(data . cmd);
+				//exec(input, & data, env);
 			}
 			else
 				ft_putstr_fd("Syntax error\n", 2);

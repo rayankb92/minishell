@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanstring.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 01:26:17 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/16 17:12:18 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/16 17:54:50 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,11 +153,13 @@ int	count_ope(char *str)
 	count = 0;
 	while (str[i])
 	{
-		if (is_in_charset(str[i], "|<>") && !is_in_charset( str[i - 1], "|<>"))
+		if ((i > 0) && (str[i] && is_in_charset(str[i], "|<>") && !is_in_charset( str[i - 1], "|<>")))
+			count += 2;
+		if (str[i] && is_in_charset(str[i], "|<>"))
 			count += 2;
 		i++;
 	}
-	return (i + count);
+	return (count + i);
 }
 
 char	*putspace_between_operateur(char *str)
@@ -173,7 +175,7 @@ char	*putspace_between_operateur(char *str)
 		return (NULL);
 	while (str[i])
 	{
-		if (str[i] > 0 && is_in_charset(str[i], "|<>"))
+		if (str[i] && str[i] > 0 && is_in_charset(str[i], "|<>"))
 		{
 			new[j++] = ' ';
 			if ((ft_strncmp(str + i, ">>", 2) == 0 || ft_strncmp(str + i, "<<", 2) == 0) && str[i + 1])
