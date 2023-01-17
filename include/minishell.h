@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/17 07:30:59 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/17 11:39:58 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include <readline/history.h>
 # include <signal.h>
 # include <unistd.h>
+# include <errno.h>
 
 #define ISSPACE "\t\v\n\r\f "
 
@@ -89,30 +90,19 @@ typedef struct s_data
 	struct t_data	*next;
 }	t_data;
 
-static	t_data	*return_struct(t_data *data);
+/*
+	DIRECTORY: ./SRC
+*/
+//	init_data.c
+int				init_data(t_data *data, char **env);
 
 /*
 	DIRECTORY: ./PARSE
+		./
 */
-//	./parse/env
-//		tenv.c
-t_env			*new_env(char *key, char *value, int eq);
-void			add_back_env(t_env **env, t_env *new);
-
 //	parse.c
-static size_t	countword(const char *s, char *sep);
-void			expand(char **str, t_data *data);
-char			**split_quote(char const *s, char *charset);
-char			*negative_chars(char *str, t_data *data);
-void			positive_chars(char **str);
-char			**clean_string(char *str, t_data *data);
 int				check_quote(const char *str);
 int				check_chevrons(const char *str);
-int				get_varname_len(const char *var);
-int				find_char(char c);
-int				add_value_nospace(char *new, char *str, t_data *data, int *j);
-int				add_value(char *new, char *str, t_data *data, int *j);
-char	*putspace_between_operateur(char *str);
 //	parse_input.c
 void			parse_input(const char *input, t_cmd *cmd, t_data *data);
 //	utils_parse_input.c
@@ -120,24 +110,42 @@ char			*array_to_string(char **array);
 void			ft_realloc(char **line, const char *s1);
 int				count_occurence(const char *str, const char c);
 int				get_length_args(char **ptr);
+//	utils.c
+int				ft_lstcount(t_cmd *cmd);
+int				is_in_charset(char c, char *charset);
+int				error_msg(char *str);
+
+/*
+	DIRECTORY: ./PARSE
+		./env
+*/
+//		tenv.c
+t_env			*new_env(char *key, char *value, int eq);
+void			add_back_env(t_env **env, t_env *new);
+
+/*
+	DIRECTORY: ./PARSE
+		./expand
+*/
 //	expand.c
+char			*find_var(t_data *data, const char *var);
 void			expand(char **str, t_data *data);
 int				get_varvalue_len(t_data *data, const char *var);
 int				is_variable(const char c);
-
-//	utils.c
-int				is_in_charset(char c, char *charset);
-int				is_in_string(const char *str, const char *charset);
-int				error_msg(char *str);
-char			*find_var(t_data *data, const char *var);
-void			display_lst(t_list *lst);
-
-/*
-	DIRECTORY: ./SRC
-*/
-//	init_data.c
-int				init_data(t_data *data, char **env);
-
+//	clean_string.c
+int				get_varname_len(const char *var);
+char			**clean_string(char *str, t_data *data);
+char			*putspace_between_operateur(char *str);
+void			positive_chars(char **str);
+//	split_quote.c
+char			**split_quote(char const *s, char *charset);
+//	add_expand_to_str.c
+int				add_varlen_(t_data *data, char *str, int *len);
+int				add_value(char *new, char *str, t_data *data, int *j);
+int				add_value_nospace(char *new, char *str, t_data *data, int *j);
+//	neg_chars.c
+char			*negative_chars(char *str, t_data *data);
+int				find_char(char c);
 /*
 	DIRECTORY: ./BUILTINS
 */
@@ -180,7 +188,8 @@ void			ctrlc(int sig);
 */
 //	print.c
 void			print_cmd(t_cmd *cmd);
-
+void			display_lst(t_list *lst);
+void			display_env(t_env *env);
 /*
 	DIRECTORY: ./free
 */
@@ -189,9 +198,7 @@ void			free_shell(t_data *data);
 void			free_cmd(t_cmd *ptr);
 void			free_tenv(t_env *ptr);
 
-t_cmd	*lstlast(t_cmd *cmd);
-
-void	display_env(t_env *env);
+t_cmd			*lstlast(t_cmd *cmd);
 
 
 #endif

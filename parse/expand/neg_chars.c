@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   neg_chars.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 18:03:52 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/16 19:20:28 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/17 10:43:57 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "./../../include/minishell.h"
 
-static int	count_newlen(t_data *data, char *str)
+static
+int	count_newlen(t_data *data, char *str)
 {
 	int	i;
 	int	len;
@@ -55,6 +56,7 @@ int	find_char(char c)
 		return (c);
 }
 
+static
 void	double_quote_check(char **dbl, int *i, int *j, t_data *data)
 {
 	char *str;
@@ -84,7 +86,7 @@ char	*negative_chars(char *str, t_data *data)
 	i = 0;
 	j = 0;
 	new = malloc(sizeof(char ) * (count_newlen(data, str) + 1));
-	if (!new || new == NULL)
+	if (!new)
 		return (NULL);
 	while (str[i])
 	{

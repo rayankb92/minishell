@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 13:47:12 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/14 11:08:23 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/17 09:58:02 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,26 @@ void	print_cmd(t_cmd *cmd)
 	ft_printf("{red}\t\t---------------------{reset}\n");
 }
 
-//ls -a -b > e -f -8 << h > redi -f -h | > e << g
+void	display_env(t_env *env)
+{
+	while (env)
+	{
+		if (env->key && (env)->value[0])
+			ft_printf("%s=%s\n", env->key, env->value);
+		else if (env->key && env->equal)
+			ft_printf("%s=\n", env->key);
+		env = env->next;
+	}
+}
+
+void	display_lst(t_list *lst)
+{
+	t_list	*tmp;
+
+	tmp = lst;
+	while (tmp)
+	{
+		ft_printf("%s\n", tmp->content);
+		tmp = tmp->next;
+	}
+}

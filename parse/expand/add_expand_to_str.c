@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   add_expand_to_str.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 18:17:14 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/16 22:14:26 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/17 10:43:51 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "./../../include/minishell.h"
 
 
 int	add_varlen_(t_data *data, char *str, int *len)

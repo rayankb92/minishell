@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 21:14:28 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/11 01:27:34 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/17 09:37:49 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,9 @@ void	is_exit(char **argument)
 		if (index > 1)
 		{
 			ft_putendl("exit");
-			ft_printf("bash: exit: too many arguments\n", tmp);
-			exit(1);
+			ft_printf("bash: exit: too many arguments\n", tmp); // status code 1
+			return ;
+			//exit(1);
 		}
 		if (*tmp != '\0' || res > LLMAX || res < LLMIN)
 		{
@@ -49,6 +50,6 @@ void	is_exit(char **argument)
 	}
 	ft_putendl("exit");
 	if (argument[1])
-		exit(ft_atoull(argument[1]));
+		exit(ft_atoull(argument[1]) % 256);
 	exit(EXIT_SUCCESS);
 }

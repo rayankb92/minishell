@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 16:25:30 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/16 00:54:03 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/17 09:58:43 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,6 @@ int		count_occurence(const char *str, const char c)
 	return (occur);
 }
 
-static
-int	get_size(char **ptr)
-{
-	int	i;
-
-	i = -1;
-	while (ptr[++i])
-		;
-	return i;
-}
-
 int		get_length_args(char **ptr)
 {
 	int	i;
@@ -55,7 +44,7 @@ int		get_length_args(char **ptr)
 
 	size = 1;
 	i = 1;
-	length = get_size(ptr);
+	length = ft_arraylen(ptr);
 	while (ptr[i])
 	{
 		while (ptr[i])

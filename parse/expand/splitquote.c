@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   splitquote.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 17:47:26 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/16 17:21:58 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/17 10:44:01 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "./../../include/minishell.h"
 
+static
 char	**cleaner(char ***str, int len)
 {
 	while (--len >= 0)
@@ -20,6 +21,7 @@ char	**cleaner(char ***str, int len)
 	return (0);
 }
 
+static
 int	countword_r(const char *s, char *charset)
 {
 	int	i;
@@ -42,6 +44,7 @@ int	countword_r(const char *s, char *charset)
 	return (count);
 }
 
+static
 char	*put_in_tab(const char *s, int *i, char *charset)
 {
 	static int	j;

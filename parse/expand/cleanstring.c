@@ -6,11 +6,11 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 01:26:17 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/17 01:14:07 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/17 10:43:52 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "./../../include/minishell.h"
 
 char	**clean_string(char *str, t_data *data)
 {
@@ -47,8 +47,10 @@ char	*positive_char(char *str)
 			ft_putchar(str[i]);
 	}
 	write(1, "\n", 1);
+	return (str);
 }
 
+static
 int	count_ope(char *str)
 {
 	int	i;

@@ -6,11 +6,20 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 05:47:36 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/17 07:49:53 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/17 11:11:17 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/minishell.h"
+
+static
+void	quit(t_data *data)
+{
+	free_shell(data);
+	rl_clear_history();
+	ft_putendl_fd("exit", 2);
+	exit(EXIT_SUCCESS);	//exit code 130
+}
 
 int main(int ac, char **av, char **env)
 {
@@ -26,10 +35,7 @@ int main(int ac, char **av, char **env)
 	{
 		input = readline("Fumier$ ");
 		if (!input)
-		{
-			free_shell(& data);
-			break ;	//exit code 130
-		}
+			quit(& data);
 		if (*input && check_chevrons(input) == EXIT_SUCCESS)
 		{
 			add_history(input);
@@ -37,10 +43,8 @@ int main(int ac, char **av, char **env)
 			{
 				if (init_data(& data, env))
 					return (EXIT_FAILURE);
-				//display_env(data . tenv);
-				//ft_displaydouble(data . env);
 				parse_input(input, data . cmd, & data);
-				//print_cmd(data . cmd);
+				print_cmd(data . cmd);
 				exec(input, & data);
 				free_shell(& data);
 			}
@@ -49,8 +53,7 @@ int main(int ac, char **av, char **env)
 		}
 		ft_memdel((void **)& input);
 	}
-	rl_clear_history();
-	return (EXIT_SUCCESS);
+	quit(& data);
 }
 
 

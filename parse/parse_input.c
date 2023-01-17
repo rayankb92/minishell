@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 12:42:43 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/17 07:20:21 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/17 11:24:28 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,9 +144,7 @@ void	parse_input(const char *input, t_cmd *cmd, t_data *data)
 		while (parse[k][e] == '>' || parse[k][e] == '<')
 			e++;
 		if (parse[k][e] != '\0')
-		{
 			ptr -> command = ft_strdup(positive_stringchar(parse[k]));
-		}
 		attribute_args(& k, & index_args, parse, ptr);
 		if (parse[k])
 		{
@@ -159,6 +157,8 @@ void	parse_input(const char *input, t_cmd *cmd, t_data *data)
 			attribute_sequence(& k, & index_args, parse, ptr);
 		while (parse[k] && parse[k][0] == '|')
 			k++;
+		if (!ptr -> command && ptr -> args && ptr -> args[0])
+			ptr -> command = ft_strdup(ptr -> args[0]);
 		if (parse[k])
 		{
 			ptr -> next = ft_calloc(sizeof(t_cmd), 1); // check malloc
