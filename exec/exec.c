@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 13:52:31 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/17 12:04:15 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/17 21:21:31 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	is_child(t_data *data, t_cmd *ptr, int index_pid)
 	tmp = 0;
 	command = valid_command(ptr -> command, data -> path);
 	is_heredoc(data, ptr);
-	if (!command)
+	if (!command && ptr -> command)
 		ft_printf("%s: command not found\n", ptr -> command, tmp += 1);// status code 127
 	else
 	{
