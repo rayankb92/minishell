@@ -6,19 +6,19 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 00:39:16 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/16 04:03:22 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/17 07:15:10 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	valid_command(const char *command, const char **env)
+char	*valid_command(const char *command, char **env)
 {
 	int			i;
 	char	*joined;
 
 	if (!command)
-		return (-1);
+		return (NULL);
 	i = -1;
 	joined = 0;
 	while (command && env[++i])
@@ -26,13 +26,13 @@ int	valid_command(const char *command, const char **env)
 		if (ft_strchr(command, '/'))
 			joined = ft_strdup(command);
 		else
-			joined = ft_strjoin(env[i], command);
-		if (access(joined, X_OK) == 0)
 		{
-			ft_memdel((void **)& joined);
-			return (i);
+			joined = ft_strjoin(env[i], "/");
+			ft_realloc(& joined, command);
 		}
+		if (access(joined, X_OK) == 0)
+			return (joined);
 		ft_memdel((void **)& joined);
 	}
-	return (-1);
+	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/31 14:35:41 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/16 17:14:01 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/17 07:48:49 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static void	make_export(t_data *data, char *name, char *value, int eq)
 	t_env	*temp;
 	int		len;
 
-	temp = data->env;
+	temp = data->tenv;
 	while(temp->next)
 	{
 		if (!isset_var(temp, name, value))

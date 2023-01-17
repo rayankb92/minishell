@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   set_data.c                                         :+:      :+:    :+:   */
+/*   init_data.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 11:22:50 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/16 17:19:10 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/17 07:14:01 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,34 @@ t_env	*copy_tenv(char **env)
 	return (new);
 }
 
-// static void	set_path(t_data *data, t_env *env)
-
-void		set_data(char **env, t_data *data)
+static
+void	tenv_to_env(t_data *data, char **env)
 {
+	int		i;
+
+	data -> env = ft_calloc(sizeof(char *), ft_arraylen(env) + 1);
+	i = -1;
+	while (env[++i])
+	{
+		if (ft_strnstr(env[i], "PATH", 4))
+			data -> path = ft_split(env[i] + 5, ':');
+		data -> env[i] = ft_strdup(env[i]);
+	}
+}
+
+int	init_data(t_data *data, char **env)
+{
+	ft_bzero(data, sizeof(t_data));
+	data -> cmd = ft_calloc(sizeof(t_cmd), 1);
+	if (!data)
+		return (EXIT_FAILURE);
+	data -> prev_pipe = -1;
+	data -> pipes[0] = -1;
+	data -> pipes[1] = -1;
 	if (env && *env)
 	{
-		data->env = copy_tenv(env);
-		// set_path(data, data->tenv);
+		data -> tenv = copy_tenv(env);
+		tenv_to_env(data, env);
 	}
+	return (EXIT_SUCCESS);
 }

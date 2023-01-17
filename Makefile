@@ -39,7 +39,7 @@
 #								SOURCES											#
  #=============================================================================#
 
-SRCS_DIR	= src
+INIT_DIR	= init
 BLTS_DIR	= builtins
 PARSE_DIR	= parse
 ENV_DIR		= $(PARSE_DIR)/env
@@ -47,7 +47,7 @@ SIGNAL_DIR	= signal
 EXEC_DIR	= exec
 FREE_DIR	= free
 
-SRCS_DIRS	= $(SRCS_DIR)\
+INIT_DIRS	= $(INIT_DIR)\
 			$(BLTS_DIR)\
 			$(PARSE_DIR)\
 			$(ENV_DIR)\
@@ -60,18 +60,18 @@ SRC_FILES =	$(addprefix parse/, \
 				parse.c			parse_input.c		utils_parse_input.c			utils.c \
 				expand.c		splitquote.c				cleanstring.c\
 				add_expand_to_str.c		neg_chars.c )\
-			$(addprefix parse/env/,	t_env.c paths_to_string.c) \
+			$(addprefix parse/env/,	t_env.c) \
 			$(addprefix builtins/, \
 				cd.c			pwd.c				export.c					unset.c \
 				echo.c			exit.c				is_builtin.c) \
 			$(addprefix signal/, ctrlc.c) \
-			$(addprefix src/, set_data.c) \
-			$(addprefix exec/, exec.c is_redirection.c valid_command.c) \
+			$(addprefix init/, init_data.c) \
+			$(addprefix exec/, exec.c is_heredoc.c is_redirection.c valid_command.c) \
 			$(addprefix free/, free.c) \
 			main.c print.c
 				
 
-#SRCS = $(addsuffix .c, $(SRC_FILES))
+#INIT = $(addsuffix .c, $(SRC_FILES))
 
  #=============================================================================#
 #									OBJETS										#
@@ -111,7 +111,7 @@ $(NAME) : $(OBJS_DIR) $(OBJS)
 $(OBJS_DIR) :
 	$(MAKE) -C $(LIB_DIR)
 	mkdir $(OBJS_DIR)
-	mkdir $(OBJS_DIR)/$(SRCS_DIR)
+	mkdir $(OBJS_DIR)/$(INIT_DIR)
 	mkdir $(OBJS_DIR)/$(BLTS_DIR)
 	mkdir $(OBJS_DIR)/$(PARSE_DIR)
 	mkdir $(OBJS_DIR)/$(ENV_DIR)

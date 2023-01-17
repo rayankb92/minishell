@@ -6,13 +6,12 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 17:41:08 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/16 18:00:57 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/17 07:23:06 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static
 void	free_tenv(t_env *ptr)
 {
 	t_env	*tmp;
@@ -36,8 +35,8 @@ void	free_cmd(t_cmd *ptr)
 	cmd = ptr;
 	while (cmd)
 	{
-		ft_memdel((void **)& cmd -> command);
 		cmd_tmp = cmd -> next;
+		ft_memdel((void **)& cmd -> command);
 		ft_arraydel(cmd -> args);
 		for (int i = 0; i < cmd -> length_sequence; i++)
 			ft_memdel((void **)& cmd -> sequence[i] . redirect);
@@ -47,19 +46,14 @@ void	free_cmd(t_cmd *ptr)
 	}
 }
 
-void	free_shell(t_data data)
+void	free_shell(t_data *data)
 {
-	t_env	*env;
-	t_env	*env_tmp;
-
-	env = data.env;
-	while (env)
-	{
-		env_tmp = env -> next;
-		ft_memdel((void **)& env -> key);
-		ft_memdel((void **)& env -> value);
-		ft_memdel((void **)& env);
-		env = env_tmp;
-	}
-	free_cmd(data . cmd);
+	ft_arraydel(data -> path);
+	ft_arraydel(data -> env);
+	free_tenv(data -> tenv);
+	free_cmd(data -> cmd);
+	data -> cmd = 0;
+	data -> tenv = 0;
+	data -> path = 0;
+	data -> env = 0;
 }

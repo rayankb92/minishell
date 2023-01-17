@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 15:15:38 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/16 19:44:12 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/17 05:45:48 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	*find_var(t_data *data, const char *var)
 	if (!is_variable(var[0]))
 		return (NULL);
 	len = get_varname_len(var);
-	tmp = data->env;
+	tmp = data->tenv;
 	while (tmp != NULL)
 	{
 		if (ft_strncmp(var, tmp->key, len) == 0 && ft_strlen(tmp->key) == len)

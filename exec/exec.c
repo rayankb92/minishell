@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 13:52:31 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/16 22:08:51 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/17 07:27:06 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,12 @@ void	pipe_redirection(t_data *data, const int index_pid)
 }
 
 static
-void	is_child(t_data *data, t_cmd *ptr, int index_pid, const char **path_env, char **env)
+void	is_child(t_data *data, t_cmd *ptr, int index_pid)
 {
-	int	path_id = valid_command(ptr -> command, path_env);
+	is_heredoc(data, ptr);
+	char *command = valid_command(ptr -> command, data -> path);
 
-	if (path_id == -1)
+	if (!command)
 	{
 		if (ptr -> command)
 			ft_printf("%s: command not found\n", ptr -> command);// exit code 127
@@ -62,35 +63,34 @@ void	is_child(t_data *data, t_cmd *ptr, int index_pid, const char **path_env, ch
 		pipe_redirection(data, index_pid);
 		is_redirection(ptr);
 		if (ft_strchr(ptr -> command, '/'))
-			execve(ptr -> command, ptr -> args, env);
+			execve(ptr -> command, ptr -> args, data -> env);
 		else
 		{
-			char *tmpcmd = ft_strjoin(path_env[path_id], ptr -> command);
-			if (tmpcmd)
+			if (command)
 			{
-				execve(tmpcmd, ptr -> args, env);
-				ft_memdel((void **)& tmpcmd);
+				
+				execve(command, ptr -> args, data -> env);
+				ft_memdel((void **)& command);
 			}
 		}
 		ft_putendl_fd("Failed execve", 2);
 	}
+	free_shell(data);
 	exit(EXIT_FAILURE);
 }
 
 static
 void	is_father(t_data *data)
 {
-	//printf("%i|%i|%i\n", data -> pipes[0],data -> pipes[1],data -> prev_pipe);
 	if (data -> prev_pipe != -1)
 		close(data -> prev_pipe);
 	close(data -> pipes[1]);
 	data -> prev_pipe = data -> pipes[0];
 }
 
-void	exec(const char *input, t_data *data, char **env)
+void	exec(const char *input, t_data *data)
 {
 	t_cmd		*ptr;
-	const char	**path_env;
 	int			size_path_env;
 	int			index_pid;
 	int			path_id;
@@ -98,7 +98,6 @@ void	exec(const char *input, t_data *data, char **env)
 
 	ptr = data -> cmd;
 	size_path_env = 0;
-	path_env = env_paths_to_string(env, & size_path_env);
 	status = 0;
 	index_pid = 0;
 	while (ptr)
@@ -107,12 +106,26 @@ void	exec(const char *input, t_data *data, char **env)
 			return ;
 		data -> pids[index_pid] = fork();
 		if (data -> pids[index_pid] == -1)
+		{
+			if (data -> pipes[0] != -1)
+				close(data -> pipes[0]);
+			if (data -> pipes[1] != -1)
+				close(data -> pipes[1]);
+			free_shell(data);
 			return ;
+		}
 		if (data -> pids[index_pid] == 0)
 		{
 			if (is_builtin(ptr, data) == EXIT_SUCCESS)
+			{
+				if (data -> pipes[0] != -1)
+					close(data -> pipes[0]);
+				if (data -> pipes[1] != -1)
+					close(data -> pipes[1]);
+				free_shell(data);
 				exit(EXIT_SUCCESS);
-			is_child(data, ptr, index_pid, path_env, env);
+			}
+			is_child(data, ptr, index_pid);
 		}
 		if (data -> pids[index_pid] > 0)
 			is_father(data);
@@ -120,11 +133,10 @@ void	exec(const char *input, t_data *data, char **env)
 		ptr = ptr -> next;
 	}
 	close(data -> pipes[0]);
-	close(data -> pipes[1]); 
+	close(data -> pipes[1]);
 	for (int i = 0; i < index_pid; i++)
 		waitpid(data -> pids[i], &status, 0);
 	if (WIFEXITED(status))
 		status = WEXITSTATUS(status);
-	ft_arraydel((char **)path_env);
 	//printf("Return status is : %d\n", status);
 }

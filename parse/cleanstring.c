@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanstring.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 01:26:17 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/16 19:48:29 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/17 01:14:07 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ void	positive_chars(char **str)
 		j = -1;
 		while (str[i][++j])
 		{
-			if (str[i][j] < -5)
+			if (str[i][j] <= -9 && str[i][j] >= -13)
 				str[i][j] = (str[i][j] * -1);
 		}
 	}

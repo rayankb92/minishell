@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 05:47:36 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/16 22:09:57 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/17 07:34:25 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,27 +17,17 @@ int main(int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 	const char	*input;
-	t_data		data;
+	t_data		data = {0};
 	char		**res;
 
-	if (!env || !*env)
-		return (0);
-	ft_bzero(& data, sizeof(t_data));
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, & ctrlc);
-	data . cmd = ft_calloc(sizeof(t_cmd), 1);
-	if (!data . cmd)
-		return (EXIT_FAILURE);
-	data . prev_pipe = -1;
-	data . pipes[0] = -1;
-	data . pipes[1] = -1;
-	set_data(env, & data);
 	while (1)
 	{
 		input = readline("Fumier$ ");
 		if (!input)
 		{
-			free_shell(data);
+			free_shell(& data);
 			break ;	//exit code 130
 		}
 		if (*input && check_chevrons(input) == EXIT_SUCCESS)
@@ -45,26 +35,21 @@ int main(int ac, char **av, char **env)
 			add_history(input);
 			if (check_quote(input) == EXIT_SUCCESS)
 			{
-				if (!data . cmd)
-				{
-					data . cmd = ft_calloc(sizeof(t_cmd), 1);
-					if (!data . cmd)
-						return (EXIT_FAILURE);
-				}
-				data . prev_pipe = -1;
-				data . pipes[0] = -1;
-				data . pipes[1] = -1;
+				if (init_data(& data, env))
+					return (EXIT_FAILURE);
+				//display_env(data . tenv);
+				//ft_displaydouble(data . env);
 				parse_input(input, data . cmd, & data);
-				print_cmd(data . cmd);
-				exec(input, & data, env);
+				//print_cmd(data . cmd);
+				exec(input, & data);
+				free_shell(& data);
 			}
 			else
 				ft_putstr_fd("Syntax error\n", 2);
 		}
-		free_cmd(data . cmd);
-		data . cmd = 0;
 		ft_memdel((void **)& input);
 	}
+	rl_clear_history();
 	return (EXIT_SUCCESS);
 }
 

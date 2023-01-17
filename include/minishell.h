@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/16 19:18:33 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/17 07:30:59 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #define CHEVRON "<>"
 
 # include "../libft/includes/libft.h"
+# include "../libft/includes/get_next_line.h"
 
 # include <stdio.h>
 # include <sys/types.h>
@@ -78,12 +79,13 @@ typedef struct	s_env
 
 typedef struct s_data
 {
-	t_env			*env;
+	t_env			*tenv;
 	t_cmd			*cmd;
 	pid_t			pids[4096];
 	int				pipes[2];
 	int				prev_pipe;
-	char			*path;
+	char			**path;
+	char			**env;
 	struct t_data	*next;
 }	t_data;
 
@@ -93,9 +95,10 @@ static	t_data	*return_struct(t_data *data);
 	DIRECTORY: ./PARSE
 */
 //	./parse/env
-//		env.c
-const char		**env_paths_to_string(char **env, int *size);
-const char		**set_paths(char **paths, int *size);
+//		tenv.c
+t_env			*new_env(char *key, char *value, int eq);
+void			add_back_env(t_env **env, t_env *new);
+
 //	parse.c
 static size_t	countword(const char *s, char *sep);
 void			expand(char **str, t_data *data);
@@ -110,8 +113,6 @@ int				find_char(char c);
 int				add_value_nospace(char *new, char *str, t_data *data, int *j);
 int				add_value(char *new, char *str, t_data *data, int *j);
 char	*putspace_between_operateur(char *str);
-
-
 //	parse_input.c
 void			parse_input(const char *input, t_cmd *cmd, t_data *data);
 //	utils_parse_input.c
@@ -130,16 +131,12 @@ int				is_in_string(const char *str, const char *charset);
 int				error_msg(char *str);
 char			*find_var(t_data *data, const char *var);
 void			display_lst(t_list *lst);
+
 /*
 	DIRECTORY: ./SRC
 */
-//	set_data.c
-void			set_data(char **env, t_data *data);
-
-// T_ENV
-t_env			*new_env(char *key, char *value, int eq);
-void			add_back_env(t_env **env, t_env *new);
-
+//	init_data.c
+int				init_data(t_data *data, char **env);
 
 /*
 	DIRECTORY: ./BUILTINS
@@ -164,11 +161,13 @@ void			export(t_data *data, const char *str);
 	DIRECTORY: ./EXEC
 */
 //	exec.c
-void			exec(const char *input, t_data *data, char **env);
+void			exec(const char *input, t_data *data);
+//	is_heredoc.c
+void			is_heredoc(t_data *data, t_cmd *cmd);
 //	is_redirection.c
 void			is_redirection(t_cmd *ptr);
 //	valid_command.c
-int				valid_command(const char *command, const char **env);
+char			*valid_command(const char *command, char **env);
 
 /*
 	DIRECTORY: ./SIGNAL
@@ -186,8 +185,9 @@ void			print_cmd(t_cmd *cmd);
 	DIRECTORY: ./free
 */
 //	free.c
-void			free_shell(t_data data);
+void			free_shell(t_data *data);
 void			free_cmd(t_cmd *ptr);
+void			free_tenv(t_env *ptr);
 
 t_cmd	*lstlast(t_cmd *cmd);
 

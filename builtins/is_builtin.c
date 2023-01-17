@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 17:05:34 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/16 00:34:47 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/17 07:48:55 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,11 @@ static void	do_builtin(const char *match, t_cmd *cmd, t_data *data)
 	if (ft_strcmp("export", match) == 0)
 	{	
 		char *temp = array_to_string(cmd -> args + 1);
-		ft_printf("ATOS: %s\n", temp);
-		export(data,  temp);
+		export(data, temp);
 		ft_memdel((void **)& temp);
 	}
 	if (ft_strcmp("env", match) == 0)
-		display_env(data -> env);
+		display_env(data -> tenv);
 }
 
 int	is_builtin(t_cmd *cmd, t_data *data)
