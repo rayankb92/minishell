@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 18:17:14 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/16 19:39:34 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/16 22:14:26 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,5 +66,6 @@ int	add_value_nospace(char *new, char *str, t_data *data, int *j)
 			*j += 1;
 		}
 	}
+	free(var);
 	return (get_varname_len(str + 1));
 }
