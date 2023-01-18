@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 17:05:34 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/17 07:48:55 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/18 21:02:11 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ static int	matching(const char *match)
 	static const char	*matchs[SIZEMATCH] = {
 		"cd", "echo", "exit", "export", "pwd", "unset", "env"
 	};
-	const char			*tmp;
 	int					i;
 
 	i = 0;

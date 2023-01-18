@@ -6,13 +6,12 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 18:19:49 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/18 06:27:17 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/18 22:34:22 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "./../include/minishell.h"
-
 
 int	len_here_doc(t_cmd *ptr)
 {
@@ -36,21 +35,21 @@ int	len_here_doc(t_cmd *ptr)
 	return (len);
 }
 
-void	close_pipes(t_heredoc **tab, int read, int write)
+void	close_pipes(t_heredoc *tab, int read, int write, int len)
 {
 	int	i;
 
 	i = -1;
-	while (tab[++i])
+	while (++i < len)
 	{
 		if (write)
-			close(tab[i]->pipe[1]);
+			close(tab[i].pipe[1]);
 		if (read)
-			close(tab[i]->pipe[0]);
+			close(tab[i].pipe[0]);
 	}
 }
 
-void	set_tabs(t_heredoc **tab, t_cmd *ptr)
+void	set_tabs(t_heredoc *tab, t_cmd *ptr)
 {
 	t_cmd	*tmp;
 	int		i;
@@ -65,11 +64,8 @@ void	set_tabs(t_heredoc **tab, t_cmd *ptr)
 		{
 			if (tmp -> sequence[i] . index_redirect == DLESS)
 			{
-				tab[j] = ft_calloc(sizeof(t_heredoc), 1);
-				if (!tab[j])
-					return ;
-				tab[j]->limiter = tmp->sequence[i].redirect;
-				pipe(tab[j++]->pipe);
+				tab[j].limiter = tmp->sequence[i].redirect;
+				pipe(tab[j++].pipe);
 			}
 			i++;
 		}
@@ -77,25 +73,38 @@ void	set_tabs(t_heredoc **tab, t_cmd *ptr)
 	}
 }
 
-void	write_to_pipe(t_heredoc **tab, int len)
+void	write_to_pipe(t_heredoc *tab, int len)
 {
 	int		i;
 	char	*line;
 
 	i = -1;
-	while (tab[++i])
+	while (++i < len)
 	{
 		while (1)
 		{
 			line = readline("heredoc :");
-			if (!line || !ft_strcmp(line, tab[i]->limiter))
+			if (!line || !ft_strcmp(line, tab[i].limiter))
 				break ;
-			ft_putendl_fd(line, tab[i]->pipe[1]);
+			ft_putendl_fd(line, tab[i].pipe[1]);
 		}
-		close(tab[i]->pipe[1]);
-		close(tab[i]->pipe[0]);
+		close(tab[i].pipe[1]);
+		close(tab[i].pipe[0]);
 	}
 	exit(0);
+}
+
+int		find_pipe(t_heredoc *tab, const char *limiter, int len)
+{
+	int	i;
+
+	i = -1;
+	while (++i < len)
+	{
+		if (limiter == tab[i].limiter)
+			break ;
+	}
+	return (tab[i].pipe[0]);
 }
 
 void	is_heredoc(t_data *data, t_cmd *ptr)
@@ -105,27 +114,13 @@ void	is_heredoc(t_data *data, t_cmd *ptr)
 	
 	status = 0;
 	data -> len_here = len_here_doc(data -> cmd);
-	data -> tab = ft_calloc(sizeof(t_heredoc*), data -> len_here + 1);
-	if (!data -> tab)
+	data -> here_doc = ft_calloc(sizeof(t_heredoc), data -> len_here);
+	if (!data -> here_doc)
 		return ;
-	set_tabs(data -> tab, ptr);
+	set_tabs(data -> here_doc, ptr);
 	pid = fork();
 	if (pid == 0)
-		write_to_pipe(data -> tab, data -> len_here);
-	close_pipes(data -> tab, 0, 1);
+		write_to_pipe(data -> here_doc, data -> len_here);
+	close_pipes(data -> here_doc, 0, 1, data -> len_here);
 	waitpid(pid, &status, 0);
-	//ft_memdel((void **)& entry);
-}
-
-int		find_pipe(t_heredoc **tab, char *limiter, int len)
-{
-	int	i;
-
-	i = -1;
-	while (++i < len)
-	{
-		if (limiter == tab[i]->limiter)
-			break ;
-	}
-	return (tab[i]->pipe[0]);
 }

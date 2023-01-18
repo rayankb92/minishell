@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 13:52:31 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/18 06:30:50 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/18 22:35:16 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	is_child(t_data *data, t_cmd *ptr, int index_pid)
 	else
 	{
 		pipe_redirection(data, index_pid);
-		is_redirection(ptr);
+		is_redirection(data, ptr);
 		if (ptr -> command)
 		{
 			if (ft_strchr(ptr -> command, '/'))
@@ -83,15 +83,18 @@ void	is_father(t_data *data)
 static
 void	reactiv(int sig)
 {
-	write(1, "Quit (core dumped)\n", 19);
-	exit(131);
+	if (sig == SIGQUIT)
+	{
+		write(1, "Quit (core dumped)\n", 19);
+		exit(131);
+	}
 }
 
 void	exec(const char *input, t_data *data)
 {
+	(void)input;
 	t_cmd		*ptr;
 	int			index_pid;
-	int			path_id;
 	int			status;
 
 	ptr = data -> cmd;
@@ -128,7 +131,7 @@ void	exec(const char *input, t_data *data)
 		ptr = ptr -> next;
 	}
 	close_fd(& data -> pipes);
-	close_pipes(data -> tab, 1, 0);
+	close_pipes(data -> here_doc, 1, 0, data -> len_here);
 	for (int i = 0; i < index_pid; i++)
 	{
 		waitpid(data -> pids[i], &status, 0);

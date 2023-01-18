@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 05:47:36 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/18 04:36:57 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/18 22:28:26 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int main(int ac, char **av, char **env)
 	(void)av;
 	const char	*input;
 	t_data		data = {0};
-	char		**res;
 
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, & ctrlc);
@@ -36,15 +35,16 @@ int main(int ac, char **av, char **env)
 		input = readline("Fumier$ ");
 		if (!input)
 			quit(& data);
+		if (*input)
+			add_history(input);
 		if (*input && check_chevrons(input) == EXIT_SUCCESS)
 		{
-			add_history(input);
 			if (check_quote(input) == EXIT_SUCCESS)
 			{
 				if (init_data(& data, env))
 					return (EXIT_FAILURE);
 				parse_input(input, data . cmd, & data);
-				print_cmd(data . cmd);
+				//print_cmd(data . cmd);
 				exec(input, & data);
 				//free_shell(& data);
 				free_cmd(data . cmd);

@@ -6,15 +6,15 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 01:38:06 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/16 00:54:03 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/18 21:01:58 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	var_name_len(char *name)
+size_t	var_name_len(char *name)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
 	while (name[i] && name[i] != '=')
@@ -24,23 +24,25 @@ int	var_name_len(char *name)
 
 int	unset(t_data *data, char *name)
 {
-	int	len;
-	t_list	*tmp;
-	t_list	*del;
+	(void)data;
+	(void)name;
+	//size_t	len;
+	//t_list	*tmp;
+	//t_list	*del;
 
-	len = var_name_len(name);
-	while (tmp)
-	{
-		if (tmp->next && ft_strncmp(name, tmp->next->content, len) == 0)
-		{
-			del = tmp->next;
-			tmp->next = tmp->next->next;
-			ft_memdel((void **)& del->content);
-			ft_memdel((void **)& del);
-			break;
-		}
-		tmp = tmp->next;
-	}
+	//len = var_name_len(name);
+	//while (tmp)
+	//{
+	//	if (tmp->next && ft_strncmp(name, tmp->next->content, len) == 0)
+	//	{
+	//		del = tmp->next;
+	//		tmp->next = tmp->next->next;
+	//		ft_memdel((void **)& del->content);
+	//		ft_memdel((void **)& del);
+	//		break ;
+	//	}
+	//	tmp = tmp->next;
+	//}
 	return (1);
 }
 

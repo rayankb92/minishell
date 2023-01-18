@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 12:42:43 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/18 05:28:08 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/18 20:40:50 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ static
 char	**positive_arraychars(char **str)
 {
 	int	i;
-	int	j;
 
 	i = -1;
 	while (str[++i])
@@ -171,7 +170,6 @@ void	parse_input(const char *input, t_cmd *cmd, t_data *data)
 			k++;
 		if (!ptr -> command && ptr -> args && ptr -> args[0])
 			ptr -> command = ft_strdup(ptr -> args[0]);
-		ptr -> data = data;
 		if (parse[k])
 		{
 			ptr -> next = ft_calloc(sizeof(t_cmd), 1); // check malloc

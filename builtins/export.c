@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/31 14:35:41 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/18 00:42:03 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/18 20:59:16 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ int	isset_var(t_env *temp, char *name, char *value)
 static void	make_export(t_data *data, char *name, char *value, int eq)
 {
 	t_env	*temp;
-	int		len;
 
 	temp = data->tenv;
 	while(temp->next)
@@ -72,9 +71,7 @@ static void	make_export(t_data *data, char *name, char *value, int eq)
 
 void	export(t_data *data, const char *str)
 {
-	char	*export;
-	int		len;
-	t_list	*tmp;
+	size_t	len;
 	char	*varname;
 	char	*value;
 
@@ -84,13 +81,11 @@ void	export(t_data *data, const char *str)
 	varname = ft_substr(str, 0, len);
 	if (!varname)
 		return ;
-	value = ft_substr(str, (len + 1), (ft_strlen(str) - len));
+	value = ft_substr(str, len + 1, ft_strlen(str) - len);
 	if (!value)
 	{
 		ft_memdel((void **)& varname);
 		return ;
 	}
-	make_export(data, varname, value, (ft_strchr(str, '=') != 0));
-	//ft_memdel((void **)& varname);
-	//ft_memdel((void **)& value);
+	make_export(data, varname, value, ft_strchr(str, '=') != 0);
 }
