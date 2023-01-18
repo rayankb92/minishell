@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/31 14:35:41 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/18 00:13:55 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/18 23:24:29 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ int	is_valid_name(const char *str)
 	int	i;
 
 	i = 0;
+	if (!str)
+		return (0);
 	if (*str == '=')
 	{
 		ft_printf("export: `%s' not a valid identifier\n", str);
@@ -53,7 +55,6 @@ int	isset_var(t_env *temp, char *name, char *value)
 static void	make_export(t_data *data, char *name, char *value, int eq)
 {
 	t_env	*temp;
-	int		len;
 
 	temp = data->tenv;
 	while(temp->next)
@@ -70,8 +71,7 @@ static void	make_export(t_data *data, char *name, char *value, int eq)
 
 void	export(t_data *data, const char *str)
 {
-	char	*export;
-	int		len;
+	size_t	len;
 	char	*varname;
 	char	*value;
 
@@ -80,9 +80,13 @@ void	export(t_data *data, const char *str)
 	if (!is_valid_name(str))
 		return ;
 	varname = ft_substr(str, 0, len);
-	value = ft_substr(str, (len + 1), (ft_strlen(str) - len));
 	if (!varname)
 		return ;
-	make_export(data, varname, value, (ft_strchr(str, '=') != 0));
-	display_env(data->tenv);
+	value = ft_substr(str, len + 1, ft_strlen(str) - len);
+	if (!value)
+	{
+		ft_memdel((void **)& varname);
+		return ;
+	}
+	make_export(data, varname, value, ft_strchr(str, '=') != 0);
 }

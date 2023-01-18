@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 05:47:36 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/18 22:52:05 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/18 23:25:43 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ int main(int ac, char **av, char **env)
 	(void)av;
 	const char	*input;
 	t_data		data = {0};
-	char		**res;
 
 	
 	signal(SIGQUIT, SIG_IGN);
@@ -39,14 +38,15 @@ int main(int ac, char **av, char **env)
 		input = readline("Fumier$ ");
 		if (!input)
 			quit(& data);
+		if (*input)
+			add_history(input);
 		if (*input && check_chevrons(input) == EXIT_SUCCESS)
 		{
-			add_history(input);
 			if (check_quote(input) == EXIT_SUCCESS)
 			{
 				if (init_data(& data, env))
 					return (EXIT_FAILURE);
-				res = clean_string((char *)input, &data);
+				char **res = clean_string((char *)input, &data);
 				// char **here = split_iscote((char *)input);
 				// find_here_doc(res, here);
 				// char **test = re_change_delim(here, &data);
@@ -57,6 +57,12 @@ int main(int ac, char **av, char **env)
 				// print_cmd(data . cmd);
 				// exec(input, & data);
 				// free_shell(& data);
+				parse_input(input, data . cmd, & data);
+				//print_cmd(data . cmd);
+				exec(input, & data);
+				//free_shell(& data);
+				free_cmd(data . cmd);
+				data . cmd = 0;
 			}
 			else
 				ft_putstr_fd("Syntax error\n", 2);

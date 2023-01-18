@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 01:26:17 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/18 22:23:58 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/18 23:24:59 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,23 +35,7 @@ char	**clean_string(char *str, t_data *data)
 	ft_displaydouble(clean);
 	return (clean);
 }
-
-char	*positive_char(char *str)
-{
-	int	i;
-
-	i = -1;
-	while (str[++i])
-	{
-		if (str[i] < 0)
-			ft_putchar(str[i] * -1);
-		else
-			ft_putchar(str[i]);
-	}
-	write(1, "\n", 1);
-	return (str);
-}
-
+	
 static
 int	count_ope(char *str)
 {
@@ -112,7 +96,7 @@ void	positive_chars(char **str)
 		j = -1;
 		while (str[i][++j])
 		{
-			if (str[i][j] <= -9 && str[i][j] >= -13)
+			if ((str[i][j] <= -9 && str[i][j] >= -13) || str[i][j] == -32)
 				str[i][j] = (str[i][j] * -1);
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 13:52:31 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/18 20:22:24 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/18 23:24:35 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,12 @@ void	is_child(t_data *data, t_cmd *ptr, int index_pid)
 
 	tmp = 0;
 	command = valid_command(ptr -> command, data -> path);
-	is_heredoc(data, ptr);
 	if (!command && ptr -> command)
 		ft_printf("%s: command not found\n", ptr -> command, tmp += 1);// status code 127
 	else
 	{
 		pipe_redirection(data, index_pid);
-		is_redirection(ptr);
+		is_redirection(data, ptr);
 		if (ptr -> command)
 		{
 			if (ft_strchr(ptr -> command, '/'))
@@ -81,22 +80,34 @@ void	is_father(t_data *data)
 	data -> prev_pipe = data -> pipes[0];
 }
 
+static
+void	reactiv(int sig)
+{
+	if (sig == SIGQUIT)
+	{
+		write(1, "Quit (core dumped)\n", 19);
+		exit(131);
+	}
+}
+
 void	exec(const char *input, t_data *data)
 {
+	(void)input;
 	t_cmd		*ptr;
 	int			index_pid;
-	int			path_id;
 	int			status;
 
 	ptr = data -> cmd;
 	status = 0;
 	index_pid = 0;
+	//is_heredoc(data, ptr);
 	while (ptr)
 	{
 		if (is_builtin(ptr, data) == EXIT_FAILURE)
 		{
 			if (pipe(data -> pipes) < 0)
 				return ;
+			signal(SIGINT, SIG_IGN);
 			data -> pids[index_pid] = fork();
 			if (data -> pids[index_pid] == -1)
 			{
@@ -105,17 +116,29 @@ void	exec(const char *input, t_data *data)
 				exit(EXIT_FAILURE);
 			}
 			if (data -> pids[index_pid] == 0)
+			{
+				signal(SIGQUIT, & reactiv);
 				is_child(data, ptr, index_pid);
+			}
 			if (data -> pids[index_pid] > 0)
+			{
 				is_father(data);
+				signal(SIGQUIT, SIG_IGN);
+				signal(SIGINT, & ctrlc);
+			}
 		}
 		index_pid++;
 		ptr = ptr -> next;
 	}
 	close_fd(& data -> pipes);
+	//close_pipes(data -> here_doc, 1, 0, data -> len_here);
 	for (int i = 0; i < index_pid; i++)
+	{
 		waitpid(data -> pids[i], &status, 0);
-	if (WIFEXITED(status))
-		status = WEXITSTATUS(status);
+		if (WIFEXITED(status))
+			status = WEXITSTATUS(status);
+		if (status == 131)
+			ft_putendl_fd("Quit (core dumped)", 2);
+	}
 	//printf("Return status is : %d\n", status);
 }

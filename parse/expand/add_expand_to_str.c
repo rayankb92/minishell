@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 18:17:14 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/18 21:44:16 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/18 23:24:54 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	add_value(char *new, char *str, t_data *data, int *j)
 	char	*var;
 
 	i = -1;
-	var = find_var(data, str + 1);
+	var = expand(data, str + 1);
 	if (!var)
 		return (get_varname_len(str + 1));
 	while (var[++i])
@@ -47,7 +47,7 @@ int	add_value_nospace(char *new, char *str, t_data *data, int *j)
 	char	*var;
 
 	i = -1;
-	var = find_var(data, str + 1);
+	var = expand(data, str + 1);
 	if (!var)
 		return (get_varname_len(str + 1));
 	var = ft_strtrim(var, ISSPACE);

@@ -6,17 +6,16 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 15:15:38 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/18 21:47:40 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/18 23:25:01 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../../include/minishell.h"
 
-char	*find_var(t_data *data, const char *var)
+char	*expand(t_data *data, const char *var)
 {
-	int		i;
 	t_env	*tmp;
-	int		len;
+	size_t	len;
 
 	if (!is_variable(var[0]))
 		return (NULL);
@@ -31,7 +30,7 @@ char	*find_var(t_data *data, const char *var)
 	return (NULL);
 }
 
-int	get_varname_len(const char *var)
+size_t	get_varname_len(const char *var)
 {
 	int	i;
 
@@ -43,20 +42,16 @@ int	get_varname_len(const char *var)
 	return (i);
 }
 
-int	get_varvalue_len(t_data *data, const char *var)
+size_t	get_varvalue_len(t_data *data, const char *var)
 {
-	int	i;
-
-	i = 0;
 	if (!var || !*var)
 		return (0);
-	return (ft_strlen(find_var(data, var)));
+	return (ft_strlen(expand(data, var)));
 }
 
-int	is_variable(const char c)
+size_t	is_variable(const char c)
 {
 	if (!ft_isalpha(c) && c != '_')
 		return (0);
 	return (1);
 }
-

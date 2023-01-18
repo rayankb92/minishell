@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 11:22:50 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/17 09:57:15 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/18 00:31:23 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,15 +64,21 @@ void	tenv_to_env(t_data *data, char **env)
 
 int	init_data(t_data *data, char **env)
 {
-	ft_bzero(data, sizeof(t_data));
+	static int	env_set = 0;
+
+	if (!env_set)
+		ft_bzero(data, sizeof(t_data));
+	else
+		data -> cmd = 0;
 	data -> cmd = ft_calloc(sizeof(t_cmd), 1);
 	if (!data)
 		return (EXIT_FAILURE);
 	data -> prev_pipe = -1;
 	data -> pipes[0] = -1;
 	data -> pipes[1] = -1;
-	if (env && *env)
+	if (env && *env && env_set == 0)
 	{
+		env_set++;
 		data -> tenv = copy_tenv(env);
 		tenv_to_env(data, env);
 	}

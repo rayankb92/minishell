@@ -6,30 +6,11 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 12:42:43 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/17 11:24:28 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/18 20:40:50 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-static
-char	**positive_arraychars(char **str)
-{
-	int	i;
-	int	j;
-
-	i = -1;
-	while (str[++i])
-	{
-		j = -1;
-		while (str[i][++j])
-		{
-			if (str[i][j] < 0)
-				str[i][j] *= -1;
-		}
-	}
-	return (str);
-}
 
 static
 char	*positive_stringchar(char *str)
@@ -39,10 +20,46 @@ char	*positive_stringchar(char *str)
 	i = -1;
 	while (str[++i])
 	{
-		if (str[i] < 0)
-			str[i] *= -1;
+		if (str[i] == PIPE)
+			str[i] = '|';
+		if (str[i] == CHEVRIGHT)
+			str[i] = '>';
+		if (str[i] == CHEVLEFT)
+			str[i] = '<';
+		if (str[i] == SLASHBACK)
+			str[i] = '\0';
 	}
 	return (str);
+}
+
+static
+char	**positive_arraychars(char **str)
+{
+	int	i;
+
+	i = -1;
+	while (str[++i])
+		positive_stringchar(str[i]);
+	return (str);
+}
+
+static
+void	to_positive(t_cmd *cmd)
+{
+	t_cmd	*ptr;
+
+	ptr = cmd;
+	while (ptr)
+	{
+		if (ptr -> command)
+			positive_stringchar(ptr -> command);
+		if (ptr -> args)
+			positive_arraychars(ptr -> args);
+		//for (int i = 0; i < ptr -> length_sequence; i++) {
+		//	positive_stringchar(ptr -> sequence[i] . redirect);
+		//}
+		ptr = ptr -> next;
+	}
 }
 
 static
@@ -62,9 +79,7 @@ void	attribute_args(int *start, int *index_args, char **parse, t_cmd *ptr)
 				&& str[1] == '\0')
 				|| (ft_strcmp(str, ">>") == 0 || ft_strcmp(str, "<<") == 0))
 				break ;
-			ptr -> args[(*index_args)] = ft_strdup(parse[(*start)++]);
-			positive_stringchar(ptr -> args[(*index_args)]);
-			(*index_args)++;
+			ptr -> args[(*index_args)++] = ft_strdup(parse[(*start)++]);
 		}
 	}
 }
@@ -95,7 +110,7 @@ void	attribute_sequence(int *start, int *index_args, char **parse, t_cmd *ptr)
 	{
 		if (!parse[*start])
 			return ;
-		ptr -> sequence[index_sequence] . redirect = ft_strdup(positive_stringchar(parse[(*start)]));
+		ptr -> sequence[index_sequence] . redirect = ft_strdup(parse[(*start)]);
 		ptr -> sequence[index_sequence++] . index_redirect = get_index_redirect(parse[(*start) - 1]);
 		if (parse[(*start)])
 			(*start)++;
@@ -103,11 +118,7 @@ void	attribute_sequence(int *start, int *index_args, char **parse, t_cmd *ptr)
 			parse[(*start)][0] != '>' &&
 			parse[(*start)][0] != '<' &&
 			parse[(*start)][0] != '|')
-		{
-			ptr -> args[(*index_args)] = ft_strdup(parse[(*start)++]);
-			positive_stringchar(ptr -> args[(*index_args)]);
-			(*index_args)++;
-		}
+			ptr -> args[(*index_args)++] = ft_strdup(parse[(*start)++]);
 		if (parse[(*start)] && (parse[(*start)][0] == '>' || parse[(*start)][0] == '<'))
 			(*start)++;
 	}
@@ -144,7 +155,7 @@ void	parse_input(const char *input, t_cmd *cmd, t_data *data)
 		while (parse[k][e] == '>' || parse[k][e] == '<')
 			e++;
 		if (parse[k][e] != '\0')
-			ptr -> command = ft_strdup(positive_stringchar(parse[k]));
+			ptr -> command = ft_strdup(parse[k]);
 		attribute_args(& k, & index_args, parse, ptr);
 		if (parse[k])
 		{
@@ -165,6 +176,7 @@ void	parse_input(const char *input, t_cmd *cmd, t_data *data)
 			ptr = ptr -> next;
 		}
 	}
+	to_positive(cmd);
 	ft_arraydel(parse);
 	ft_arraydel(split);
 }

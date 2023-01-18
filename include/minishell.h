@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/18 04:39:13 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/18 23:24:49 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ enum redirect_index
 enum operator
 {
 	PIPE = -1,// >
-	CHEVRIGHT = -2,// >>
+	CHEVRIGHT = -2,// >
 	CHEVLEFT = -3,
 	CHEVLEFTD = -4,//<
 	CHEVRIGHTD = -5,//<<
@@ -64,7 +64,7 @@ typedef struct s_cmd
 {
 	char			*command;
 	char			**args;
-	
+
 	t_sequence		*sequence;
 	int				length_sequence;
 	struct s_cmd	*next;
@@ -75,18 +75,31 @@ typedef struct	s_env
 	char			*key;
 	char			*value;
 	int				equal;
+
 	struct s_env	*next;
 }	t_env;
+
+typedef struct t_heredoc
+{
+	int			pipe[2];
+	const char 	*limiter;
+}	t_heredoc;
 
 typedef struct s_data
 {
 	t_env			*tenv;
+
 	t_cmd			*cmd;
 	pid_t			pids[4096];
 	int				pipes[2];
 	int				prev_pipe;
+
 	char			**path;
 	char			**env;
+
+	t_heredoc		*here_doc;
+	int				len_here;
+
 	struct t_data	*next;
 }	t_data;
 
@@ -131,12 +144,11 @@ void			add_back_env(t_env **env, t_env *new);
 		./expand
 */
 //	expand.c
-char			*find_var(t_data *data, const char *var);
-void			expand(char **str, t_data *data);
-int				get_varvalue_len(t_data *data, const char *var);
-int				is_variable(const char c);
+char			*expand(t_data *data, const char *var);
+size_t			get_varvalue_len(t_data *data, const char *var);
+size_t			is_variable(const char c);
+size_t			get_varname_len(const char *var);
 //	clean_string.c
-int				get_varname_len(const char *var);
 char			**clean_string(char *str, t_data *data);
 char			*putspace_between_operateur(char *str);
 void			positive_chars(char **str);
@@ -175,8 +187,10 @@ void			export(t_data *data, const char *str);
 void			exec(const char *input, t_data *data);
 //	is_heredoc.c
 void			is_heredoc(t_data *data, t_cmd *cmd);
+int				find_pipe(t_heredoc *tab, const char *limiter, int len);
+void			close_pipes(t_heredoc *tab, int read, int write, int len);
 //	is_redirection.c
-void			is_redirection(t_cmd *ptr);
+void			is_redirection(t_data *data, t_cmd *ptr);
 //	valid_command.c
 char			*valid_command(const char *command, char **env);
 
