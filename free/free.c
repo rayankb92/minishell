@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 17:41:08 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/17 07:23:06 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/18 00:26:55 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	free_cmd(t_cmd *ptr)
 		ft_memdel((void **)& cmd);
 		cmd = cmd_tmp;
 	}
+	ptr = 0;
 }
 
 void	free_shell(t_data *data)

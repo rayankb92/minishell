@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 01:26:17 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/17 10:43:52 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/18 03:23:21 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,23 +33,7 @@ char	**clean_string(char *str, t_data *data)
 	positive_chars(clean);
 	return (clean);
 }
-
-char	*positive_char(char *str)
-{
-	int	i;
-
-	i = -1;
-	while (str[++i])
-	{
-		if (str[i] < 0)
-			ft_putchar(str[i] * -1);
-		else
-			ft_putchar(str[i]);
-	}
-	write(1, "\n", 1);
-	return (str);
-}
-
+	
 static
 int	count_ope(char *str)
 {
@@ -110,7 +94,7 @@ void	positive_chars(char **str)
 		j = -1;
 		while (str[i][++j])
 		{
-			if (str[i][j] <= -9 && str[i][j] >= -13)
+			if ((str[i][j] <= -9 && str[i][j] >= -13) || str[i][j] == -32)
 				str[i][j] = (str[i][j] * -1);
 		}
 	}

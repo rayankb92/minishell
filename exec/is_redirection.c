@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 23:18:11 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/17 21:21:34 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/18 06:32:29 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,20 @@ void	is_redirection(t_cmd *ptr)
 			fd = -1;
 			if (index_redirect > 0 && index_redirect != DLESS)
 				fd = open(ptr -> sequence[i] . redirect, indexs[index_redirect - 1], 0666);
+			else if (index_redirect == DLESS)
+			{
+				printf("Entered\n");
+				fd = find_pipe(ptr -> data -> tab, ptr -> sequence[i].redirect, ptr -> data -> len_here);
+				printf("file descriptor : %d\n", fd);
+			}
 			if (fd < 0)
 			{
 				ft_printf("bash: %s: No such file or directory\n", ptr -> sequence[i] . redirect);
 				exit(EXIT_FAILURE);
 			}
-			if (index_redirect > 0 && index_redirect != LESS)
+			if (index_redirect > 0 && index_redirect != LESS && index_redirect != DLESS)
 				dup_or_printerr(fd, STDOUT_FILENO, "Cannot open great / dgreat");
-			else if (index_redirect != DLESS)
+			else
 				dup_or_printerr(fd, STDIN_FILENO, "Cannot open less");
 		}
 		i++;

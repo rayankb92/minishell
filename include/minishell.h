@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/17 11:39:58 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/18 06:29:41 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,14 @@
 
 #define ISSPACE "\t\v\n\r\f "
 
+typedef struct s_data t_data;
+
+typedef struct t_heredoc
+{
+	int		pipe[2];
+	char 	*limiter;
+}	t_heredoc;
+
 enum redirect_index
 {
 	GREAT = 1,// >
@@ -41,7 +49,7 @@ enum redirect_index
 enum operator
 {
 	PIPE = -1,// >
-	CHEVRIGHT = -2,// >>
+	CHEVRIGHT = -2,// >
 	CHEVLEFT = -3,
 	CHEVLEFTD = -4,//<
 	CHEVRIGHTD = -5,//<<
@@ -64,7 +72,7 @@ typedef struct s_cmd
 {
 	char			*command;
 	char			**args;
-	
+	t_data 			*data;
 	t_sequence		*sequence;
 	int				length_sequence;
 	struct s_cmd	*next;
@@ -86,6 +94,8 @@ typedef struct s_data
 	int				pipes[2];
 	int				prev_pipe;
 	char			**path;
+	t_heredoc		**tab;
+	int				len_here;
 	char			**env;
 	struct t_data	*next;
 }	t_data;
@@ -172,6 +182,8 @@ void			export(t_data *data, const char *str);
 void			exec(const char *input, t_data *data);
 //	is_heredoc.c
 void			is_heredoc(t_data *data, t_cmd *cmd);
+int				find_pipe(t_heredoc **tab, char *limiter, int len);
+void			close_pipes(t_heredoc **tab, int read, int write);
 //	is_redirection.c
 void			is_redirection(t_cmd *ptr);
 //	valid_command.c

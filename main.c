@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 05:47:36 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/18 00:05:35 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/18 04:36:57 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,9 @@ int main(int ac, char **av, char **env)
 				parse_input(input, data . cmd, & data);
 				print_cmd(data . cmd);
 				exec(input, & data);
-				free_shell(& data);
+				//free_shell(& data);
+				free_cmd(data . cmd);
+				data . cmd = 0;
 			}
 			else
 				ft_putstr_fd("Syntax error\n", 2);

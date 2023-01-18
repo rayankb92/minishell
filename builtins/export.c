@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/31 14:35:41 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/17 10:06:22 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/18 00:42:03 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ int	is_valid_name(const char *str)
 	int	i;
 
 	i = 0;
+	if (!str)
+		return (0);
 	if (*str == '=')
 	{
 		ft_printf("export: `%s' not a valid identifier\n", str);
@@ -80,8 +82,15 @@ void	export(t_data *data, const char *str)
 	if (!is_valid_name(str))
 		return ;
 	varname = ft_substr(str, 0, len);
-	value = ft_substr(str, (len + 1), (ft_strlen(str) - len));
 	if (!varname)
 		return ;
+	value = ft_substr(str, (len + 1), (ft_strlen(str) - len));
+	if (!value)
+	{
+		ft_memdel((void **)& varname);
+		return ;
+	}
 	make_export(data, varname, value, (ft_strchr(str, '=') != 0));
+	//ft_memdel((void **)& varname);
+	//ft_memdel((void **)& value);
 }
