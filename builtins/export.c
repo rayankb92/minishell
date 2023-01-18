@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/31 14:35:41 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/17 10:06:22 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/18 00:13:55 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,10 @@ void	export(t_data *data, const char *str)
 {
 	char	*export;
 	int		len;
-	t_list	*tmp;
 	char	*varname;
 	char	*value;
 
+	display_env(data->tenv);
 	len = get_varname_len(str);
 	if (!is_valid_name(str))
 		return ;
@@ -84,4 +84,5 @@ void	export(t_data *data, const char *str)
 	if (!varname)
 		return ;
 	make_export(data, varname, value, (ft_strchr(str, '=') != 0));
+	display_env(data->tenv);
 }

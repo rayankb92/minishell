@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 05:47:36 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/18 00:05:35 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/18 22:52:05 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	quit(t_data *data)
 	exit(EXIT_SUCCESS);	//exit code 130
 }
 
+char	**re_change_delim(char **str, t_data *data);
+
 int main(int ac, char **av, char **env)
 {
 	(void)ac;
@@ -29,6 +31,7 @@ int main(int ac, char **av, char **env)
 	t_data		data = {0};
 	char		**res;
 
+	
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, & ctrlc);
 	while (1)
@@ -43,10 +46,17 @@ int main(int ac, char **av, char **env)
 			{
 				if (init_data(& data, env))
 					return (EXIT_FAILURE);
-				parse_input(input, data . cmd, & data);
-				print_cmd(data . cmd);
-				exec(input, & data);
-				free_shell(& data);
+				res = clean_string((char *)input, &data);
+				// char **here = split_iscote((char *)input);
+				// find_here_doc(res, here);
+				// char **test = re_change_delim(here, &data);
+				// ft_printf("test = %s\n", test[0]);
+				// ft_displaydouble(test);
+				// ft_printf("INPUT = %s\n", input);
+				// parse_input(input, data . cmd, & data);
+				// print_cmd(data . cmd);
+				// exec(input, & data);
+				// free_shell(& data);
 			}
 			else
 				ft_putstr_fd("Syntax error\n", 2);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 15:15:38 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/17 10:43:42 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/18 21:47:40 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ int	get_varvalue_len(t_data *data, const char *var)
 
 int	is_variable(const char c)
 {
-	return (ft_isalpha(c) || c == '_');
+	if (!ft_isalpha(c) && c != '_')
+		return (0);
+	return (1);
 }
 

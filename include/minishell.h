@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/17 11:39:58 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/18 04:39:13 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ int				init_data(t_data *data, char **env);
 //	parse.c
 int				check_quote(const char *str);
 int				check_chevrons(const char *str);
+char			**split_iscote(char *str);
 //	parse_input.c
 void			parse_input(const char *input, t_cmd *cmd, t_data *data);
 //	utils_parse_input.c
@@ -115,6 +116,8 @@ int				ft_lstcount(t_cmd *cmd);
 int				is_in_charset(char c, char *charset);
 int				error_msg(char *str);
 
+
+void	find_here_doc(char **clean, char **here);
 /*
 	DIRECTORY: ./PARSE
 		./env

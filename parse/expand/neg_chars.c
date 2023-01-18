@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   neg_chars.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 18:03:52 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/17 10:43:57 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/18 23:00:31 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,13 @@ int	count_newlen(t_data *data, char *str)
 			
 				len++;
 			}
+			i++;
+		}
+		else if (str[i] == '\'')
+		{
+				len++;
+			while (str[++i] != '\'')
+				len++;
 			i++;
 		}
 		else if ((i <= len) && (str[i] == '$') && (str[i + 1]) && (is_variable(str[i + 1])))
@@ -94,10 +101,11 @@ char	*negative_chars(char *str, t_data *data)
 			double_quote_check((char *[2]){str, new}, &i, &j, data);
 		else if (str[i] == '\'')
 		{
-			if (str[i + 1] == '\'')
+			if (str[i + 1] == '\'' && str[i + 2] && is_in_charset(str[i + 2], ISSPACE))
 				new[j++] = SLASHBACK;
-			while (str[++i] && str[i] != '\'')
-				new[j++] = find_char(str[i]);
+			else
+				while (str[++i] && str[i] != '\'')
+					new[j++] = find_char(str[i]);
 			i++;
 		}
 		else if (str[i] == '$' && str[i + 1] && is_variable(str[i + 1]))
