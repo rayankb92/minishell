@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 13:52:31 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/18 22:35:16 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/18 23:14:48 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void	exec(const char *input, t_data *data)
 	ptr = data -> cmd;
 	status = 0;
 	index_pid = 0;
-	is_heredoc(data, ptr);
+	//is_heredoc(data, ptr);
 	while (ptr)
 	{
 		if (is_builtin(ptr, data) == EXIT_FAILURE)
@@ -131,7 +131,7 @@ void	exec(const char *input, t_data *data)
 		ptr = ptr -> next;
 	}
 	close_fd(& data -> pipes);
-	close_pipes(data -> here_doc, 1, 0, data -> len_here);
+	//close_pipes(data -> here_doc, 1, 0, data -> len_here);
 	for (int i = 0; i < index_pid; i++)
 	{
 		waitpid(data -> pids[i], &status, 0);
