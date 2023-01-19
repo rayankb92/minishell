@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/31 12:50:48 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/18 23:35:12 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/19 22:00:06 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void print(const char **arg, int i, int fd)
 		i++;
 	}
 	if (!boolean)
-		ft_printf("\n");
+		ft_putstr_fd("\n", fd);
 }
 
 void	echo(const char **arg, int fd)

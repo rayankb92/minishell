@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_heredoc.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 00:27:26 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/19 09:22:07 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/19 22:13:54 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	countlen(char *str)
 	int	word = 0;
 	char quote;
 
+	if (!str)
+		return (0);
 	while (str[i])
 	{
 		while (ft_isspace(str[i]))
@@ -35,12 +37,13 @@ int	countlen(char *str)
 		else if (str[i] && is_in_charset(str[i], "|><"))
 		{
 			i++;
-			if (str[i - 1] == str[i])
+			if (str[i] && str[i - 1] == str[i])
 				i++;
 		}
 		else
-			while (!is_in_charset(str[i], ISSEP))
-			i++;
+			while (str[i] && !is_in_charset(str[i], ISSEP))
+				i++;
+
 	}
 	return (word);
 }
@@ -121,6 +124,8 @@ char **split_iscote(char *str)
 	int		i;
 
 	i = -1;
+	if (!str || !*str)
+		return (NULL);
 	len = countlen(str);
 	if (len == 0)
 		return (0);

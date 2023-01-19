@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   is_heredoc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 18:19:49 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/19 11:11:04 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/19 22:04:07 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ void	write_to_pipe(t_heredoc *tab, int len)
 				break ;
 			ft_putendl_fd(line, tab[i].pipe[1]);
 		}
+		free((char *)tab[i].limiter);
 		close(tab[i].pipe[1]);
 		close(tab[i].pipe[0]);
 	}
@@ -135,12 +136,10 @@ void	is_heredoc(t_data *data, t_cmd *ptr)
 		data->expand = 1;
 		//ft_arraydel(data->path);
 		write_to_pipe(data -> here_doc, data -> len_here);
-		fprintf(stderr, ">> %s | %d\n", data -> here_doc[0] . limiter, (int)ft_strlen(data -> here_doc[0] . limiter));
 		//free((void *)data -> here_doc[0] . limiter);
 		//free(data -> here_doc);
 		//ft_arraydel(data->env);
 		free_shell(data);
-		printf("pointeur du heredoc %p\n", data -> here_doc);
 		exit(EXIT_SUCCESS);
 	}
 	close_pipes(data -> here_doc, 0, 1, data -> len_here);

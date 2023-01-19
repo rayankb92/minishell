@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 13:52:31 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/19 20:56:52 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/19 21:51:28 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ void	is_child(t_data *data, t_cmd *ptr, int index_pid)
 	{
 		pipe_redirection(data, index_pid);
 		is_redirection(data, ptr);
+		if (is_builtin(ptr, data) == EXIT_FAILURE)
+		{
 		if (ptr -> command && ptr -> command[0])
 		{
 			if (ft_strchr(ptr -> command, '/'))
@@ -58,6 +60,8 @@ void	is_child(t_data *data, t_cmd *ptr, int index_pid)
 				execve(command, ptr -> args, data -> env);
 			ft_putendl_fd("Failed execve", 2);
 		}
+		}
+
 	}
 	if (13 == errno && !tmp && ptr -> command && ptr -> args[1])
 		ft_printf("%s: %s: Permission denied\n", ptr -> command, ptr -> args[1]); // status code 1
@@ -86,6 +90,7 @@ void	exec(const char *input, t_data *data)
 	t_cmd		*ptr;
 	int			index_pid;
 	int			status;
+	static int rayan = 0;
 
 	ptr = data -> cmd;
 	status = 0;
@@ -94,8 +99,8 @@ void	exec(const char *input, t_data *data)
 	set_path_from_tenv(data);
 	while (ptr)
 	{
-		if (is_builtin(ptr, data) == EXIT_FAILURE)
-		{
+		// if (is_builtin(ptr, data) == EXIT_FAILURE)
+		// {
 			if (pipe(data -> pipes) < 0)
 				return ;
 			signal(SIGINT, SIG_IGN);
@@ -110,14 +115,14 @@ void	exec(const char *input, t_data *data)
 			{
 				signal(SIGINT, & ctrlc);
 				signal(SIGQUIT, & reactiv);
-				is_child(data, ptr, index_pid);
+					is_child(data, ptr, index_pid);
 			}
 			if (data -> pids[index_pid] > 0)
 			{
 				is_father(data);
 				signal(SIGQUIT, SIG_IGN);
 			}
-		}
+		// }
 		index_pid++;
 		ptr = ptr -> next;
 	}
@@ -129,9 +134,13 @@ void	exec(const char *input, t_data *data)
 		waitpid(data -> pids[i], &status, 0);
 		if (WIFEXITED(status))
 			status = WEXITSTATUS(status);
-		if (status == 131)
+		if (status == 131 && !rayan)
+		{
 			ft_putendl_fd("Quit (core dumped)", 2);
+			rayan++;
+		}
 	}
+	rayan = 0;
 	signal(SIGINT, & ctrlc);
 	//printf("Return status is : %d\n", status);
 }

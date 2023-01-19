@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 18:17:14 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/19 20:33:26 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/19 22:16:39 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ int	add_value(char *new, char *str, t_data *data, int *j)
 	{
 		if (ft_isspace(var[i]))
 			new[*j] = var[i] * -1;
-		else if (str[i] == '|')
-			new[*j] = 'K';
+		else if (var[i] == '|')
+			new[*j] = PIPE;
 		else
 			new[*j] = var[i];
 		*j += 1;
