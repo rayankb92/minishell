@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 13:52:31 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/19 10:24:39 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/19 20:56:52 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	is_child(t_data *data, t_cmd *ptr, int index_pid)
 	{
 		pipe_redirection(data, index_pid);
 		is_redirection(data, ptr);
-		if (ptr -> command)
+		if (ptr -> command && ptr -> command[0])
 		{
 			if (ft_strchr(ptr -> command, '/'))
 				execve(ptr -> command, ptr -> args, data -> env);
@@ -59,11 +59,11 @@ void	is_child(t_data *data, t_cmd *ptr, int index_pid)
 			ft_putendl_fd("Failed execve", 2);
 		}
 	}
-	if (13 == errno && !tmp)
+	if (13 == errno && !tmp && ptr -> command && ptr -> args[1])
 		ft_printf("%s: %s: Permission denied\n", ptr -> command, ptr -> args[1]); // status code 1
-	if (1 == errno && !tmp)
+	if (1 == errno && !tmp && ptr -> command && ptr -> args[1])
 		ft_printf("%s: %s: No such file or directory\n", ptr -> command, ptr -> args[1]); //status 1
-	if (126 == errno && !tmp)
+	if (126 == errno && !tmp && ptr -> command && ptr -> args[1])
 		ft_printf("%s: %s: Is a directory\n", ptr -> command, ptr -> args[1]);// status code 126
 	close_fd(& data -> pipes);
 	ft_memdel((void **)& command);

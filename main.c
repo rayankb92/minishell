@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 05:47:36 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/19 13:45:36 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/19 20:37:50 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int main(int ac, char **av, char **env)
 				data.expand = 1;
 				parse_input(input, data . cmd, & data);
 				data.herecopy = split_iscote((char *)input);
+				print_cmd(data.cmd);
 				exec(input, & data);
 				//free_shell(& data);
 				free_heredoc(data . here_doc, data . len_here);
