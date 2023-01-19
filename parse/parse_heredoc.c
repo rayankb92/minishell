@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 00:27:26 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/19 22:13:54 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/20 00:40:19 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,8 @@ char	*re_clean(char *str, t_data *data)
 	return (result);
 }
 
+char	*positive_stringchar(char *str);
+
 void	find_here_doc(char **here, t_data *data)
 {
 	int i = -1;
@@ -159,11 +161,14 @@ void	find_here_doc(char **here, t_data *data)
 		if (ft_strcmp(here[i], "<<") == 0)
 		{
 			i++;
+			ft_printf("PARSE HERE AVANT = '%s'\n", data->here_doc[count].limiter);
 			if (ft_strchr(here[i], '"') || ft_strchr(here[i], '\''))
-				data->here_doc[count].expand = 1;
-			else
 				data->here_doc[count].expand = 0;
-			data->here_doc[count].limiter = re_clean(here[i], data);
+			else
+				data->here_doc[count].expand = 1;
+			data->here_doc[count].limiter = positive_stringchar(re_clean(here[i], data));
+
+			ft_printf("PARSE HERE APRES = '%s'\n", data->here_doc[count].limiter);
 			count++;
 		}
 		if (!here[i])

@@ -6,13 +6,13 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 12:42:43 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/19 20:34:27 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/20 00:37:09 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static
+
 char	*positive_stringchar(char *str)
 {
 	int	i;
@@ -55,9 +55,9 @@ void	to_positive(t_cmd *cmd)
 			positive_stringchar(ptr -> command);
 		if (ptr -> args)
 			positive_arraychars(ptr -> args);
-		//for (int i = 0; i < ptr -> length_sequence; i++) {
-		//	positive_stringchar(ptr -> sequence[i] . redirect);
-		//}
+		for (int i = 0; i < ptr -> length_sequence; i++) {
+			positive_stringchar(ptr -> sequence[i] . redirect);
+		}
 		ptr = ptr -> next;
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/19 13:25:23 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/20 00:28:31 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,13 @@ enum operator
 
 typedef struct s_sequence
 {
-	const char	*redirect;
+	char	*redirect;
 	int			index_redirect;
 }	t_sequence;
 
 typedef struct t_file
 {
-	const char	*redirect;
+	char	*redirect;
 	int			index_redirect;
 }	t_file;
 
