@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 05:47:36 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/19 04:42:23 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/19 13:45:36 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	quit(t_data *data)
 	free_shell(data);
 	rl_clear_history();
 	ft_putendl_fd("exit", 2);
-	exit(EXIT_SUCCESS);	//exit code 130
+	exit(EXIT_SUCCESS);	//exit code 130 ?
 }
 
 int main(int ac, char **av, char **env)
@@ -32,6 +32,8 @@ int main(int ac, char **av, char **env)
 	signal(SIGINT, & ctrlc);
 	while (1)
 	{
+		// il reste un leak dans les here doc
+		// mon mate gere le stp, je comprend pas je serre :(
 		input = readline("Fumier$ ");
 		if (!input)
 			quit(& data);
@@ -43,13 +45,19 @@ int main(int ac, char **av, char **env)
 			{
 				if (init_data(& data, env))
 					return (EXIT_FAILURE);
+				data.expand = 1;
 				parse_input(input, data . cmd, & data);
-				//ft_printf("SIZE: %d\n", ft_lstsize((t_list *)data .  tenv));
-				//print_cmd(data . cmd);
+				data.herecopy = split_iscote((char *)input);
 				exec(input, & data);
 				//free_shell(& data);
-				//free_heredoc(data . here_doc, data . len_here);
+				free_heredoc(data . here_doc, data . len_here);
+				data . here_doc = 0;
+				data . len_here = 0;
 				free_cmd(data . cmd);
+				ft_arraydel(data . path);
+				data . path = 0;
+				ft_arraydel(data . herecopy);
+				data . herecopy = 0;
 				data . cmd = 0;
 			}
 			else

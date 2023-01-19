@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 13:47:12 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/19 00:19:59 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/19 13:41:08 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,11 @@ void	display_env(t_env *env)
 	temp = env;
 	while (temp)
 	{
-		if (temp->key && (temp)->value[0])
-			ft_printf("%s=%s\n", temp->key, temp->value);
-		else if (temp->key && temp->equal)
-			ft_printf("%s=\n", temp->key);
-		temp = temp->next;
+		if (temp -> key && temp -> value)
+			ft_printf("%s=%s\n", temp -> key, temp -> value);
+		else if (temp -> key && temp -> equal)
+			ft_printf("%s=\n", temp -> key);
+		temp = temp -> next;
 	}
 }
 
@@ -62,7 +62,7 @@ void	display_lst(t_list *lst)
 	tmp = lst;
 	while (tmp)
 	{
-		ft_printf("%s\n", tmp->content);
-		tmp = tmp->next;
+		ft_printf("%s\n", tmp -> content);
+		tmp = tmp -> next;
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:25:58 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/16 19:48:52 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/19 13:11:32 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,22 @@ int	check_quote(const char *str)
 	return (EXIT_SUCCESS);
 }
 
+static
+int	exist_before(const char *str, int index)
+{
+	int	bypass;
+
+	bypass = 0;
+	while (--index >= 0 && str[index])
+	{
+		if (str[index] == '|' && !bypass)
+			return (EXIT_FAILURE);
+		if (str[index] != '|' && !ft_isspace(str[index]))
+			bypass = 1;
+	}
+	return (EXIT_SUCCESS);
+}
+
 // a modifier: OK SI PIPE AVANT
 #define SYNTAX_ERROR "bash: syntax error near unexpected token"
 static int	check_chevron(const char *str, const char c)
@@ -55,7 +71,11 @@ static int	check_chevron(const char *str, const char c)
 		while (ft_isspace(str[i]))
 			i++;
 		while (str[i + j] == c)
+		{
+			if (exist_before(str, i + j))
+				return (ft_putendl_fd("Syntax error", 2));
 			j++;
+		}
 		while (ft_isspace(str[i + j]))
 			i++;
 		if (j == 3)

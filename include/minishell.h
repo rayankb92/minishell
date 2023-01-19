@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/19 04:18:31 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/19 13:25:23 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ typedef struct t_heredoc
 {
 	int			pipe[2];
 	const char 	*limiter;
+	int			expand;
 }	t_heredoc;
 
 typedef struct s_data
@@ -100,6 +101,8 @@ typedef struct s_data
 	t_heredoc		*here_doc;
 	int				len_here;
 
+	char			**herecopy;
+	int				expand;
 	struct t_data	*next;
 }	t_data;
 
@@ -108,7 +111,6 @@ typedef struct s_data
 */
 //	init_data.c
 int				init_data(t_data *data, char **env);
-void			tenv_to_env(t_data *data, char **env);
 
 /*
 	DIRECTORY: ./PARSE
@@ -117,6 +119,7 @@ void			tenv_to_env(t_data *data, char **env);
 //	parse.c
 int				check_quote(const char *str);
 int				check_chevrons(const char *str);
+char			**split_iscote(char *str);
 //	parse_input.c
 void			parse_input(const char *input, t_cmd *cmd, t_data *data);
 //	utils_parse_input.c
@@ -128,14 +131,22 @@ int				get_length_args(char **ptr);
 int				ft_lstcount(t_cmd *cmd);
 int				is_in_charset(char c, char *charset);
 int				error_msg(char *str);
+//	parse_heredoc.c
+void			find_here_doc(char **here, t_data *data);
 
 /*
 	DIRECTORY: ./PARSE
 		./env
 */
-//		tenv.c
+//	t_env_init.c
 t_env			*new_env(char *key, char *value, int eq);
 void			add_back_env(t_env **env, t_env *new);
+//	t_env.c
+void			tenv_to_env(t_data *data, char **env);	
+t_env			*copy_tenv(char **env);
+//	t_env_utils.c
+char	*get_key_from_tenv(t_env *tenv, const char *key);
+void	set_path_from_tenv(t_data *data);
 
 /*
 	DIRECTORY: ./PARSE
@@ -172,9 +183,9 @@ const char		*pwd_malloc(void);
 //	cd.c
 void			cd(const char *path);
 //	unset.c
-int				unset(t_data *data, char *name);
+void			unset(t_data *data, const char *key);
 //	echo.c
-void			echo(const char **arg);
+void			echo(const char **arg, int fd);
 //	export.c
 void			export(t_data *data, const char *str);
 
@@ -197,6 +208,7 @@ char			*valid_command(const char *command, char **env);
 */
 //	signal.c
 void			ctrlc(int sig);
+void			reactiv(int sig);
 
 /*
 	DIRECTORY: ./

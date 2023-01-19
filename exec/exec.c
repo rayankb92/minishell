@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 13:52:31 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/19 04:45:37 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/19 10:24:39 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ void	is_child(t_data *data, t_cmd *ptr, int index_pid)
 	char	*command;
 	int		tmp;
 
-	tmp = 0;
 	command = valid_command(ptr -> command, data -> path);
+	tmp = 0;
 	if (!command && ptr -> command)
 		ft_printf("%s: command not found\n", ptr -> command, tmp += 1);// status code 127
 	else
@@ -80,16 +80,6 @@ void	is_father(t_data *data)
 	data -> prev_pipe = data -> pipes[0];
 }
 
-static
-void	reactiv(int sig)
-{
-	if (sig == SIGQUIT)
-	{
-		write(1, "Quit (core dumped)\n", 19);
-		exit(131);
-	}
-}
-
 void	exec(const char *input, t_data *data)
 {
 	(void)input;
@@ -101,13 +91,14 @@ void	exec(const char *input, t_data *data)
 	status = 0;
 	index_pid = 0;
 	is_heredoc(data, ptr);
+	set_path_from_tenv(data);
 	while (ptr)
 	{
 		if (is_builtin(ptr, data) == EXIT_FAILURE)
 		{
 			if (pipe(data -> pipes) < 0)
 				return ;
-			//signal(SIGINT, SIG_IGN);
+			signal(SIGINT, SIG_IGN);
 			data -> pids[index_pid] = fork();
 			if (data -> pids[index_pid] == -1)
 			{
@@ -117,6 +108,7 @@ void	exec(const char *input, t_data *data)
 			}
 			if (data -> pids[index_pid] == 0)
 			{
+				signal(SIGINT, & ctrlc);
 				signal(SIGQUIT, & reactiv);
 				is_child(data, ptr, index_pid);
 			}
@@ -124,7 +116,6 @@ void	exec(const char *input, t_data *data)
 			{
 				is_father(data);
 				signal(SIGQUIT, SIG_IGN);
-				//signal(SIGINT, & ctrlc);
 			}
 		}
 		index_pid++;
@@ -133,7 +124,6 @@ void	exec(const char *input, t_data *data)
 	close_fd(& data -> pipes);
 	if (data -> len_here != 0)
 		close_pipes(data -> here_doc, 1, 0, data -> len_here);
-	//free_heredoc(data -> here_doc, data -> len_here);
 	for (int i = 0; i < index_pid; i++)
 	{
 		waitpid(data -> pids[i], &status, 0);
@@ -142,5 +132,6 @@ void	exec(const char *input, t_data *data)
 		if (status == 131)
 			ft_putendl_fd("Quit (core dumped)", 2);
 	}
+	signal(SIGINT, & ctrlc);
 	//printf("Return status is : %d\n", status);
 }

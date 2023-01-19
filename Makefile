@@ -59,9 +59,9 @@ INIT_DIRS	= $(INIT_DIR)\
 			
 
 SRC_FILES =	$(addprefix parse/, \
-				parse.c			parse_input.c		utils_parse_input.c			utils.c) \
+				parse.c			parse_input.c		utils_parse_input.c			utils.c		parse_heredoc.c) \
 			$(addprefix parse/env/, \
-				t_env.c) \
+				t_env_init.c	t_env.c				t_env_utils.c) \
 			$(addprefix parse/expand/, \
 				expand.c		splitquote.c		cleanstring.c				add_expand_to_str.c\
 				neg_chars.c) \
@@ -100,7 +100,7 @@ LIB_DIR = libft
  #=============================================================================#
 
 CC = cc
-CFLAGS = -g3# -Wall -Wextra -Werror # -lreadline
+CFLAGS = -g3 -Wall -Wextra -Werror # -lreadline
 CDFLAGS = -MMD -MP
 CIFLAGS = -Iincludes -I$(LIB_DIR)/includes
 CLFLAGS = -L$(LIB_DIR) -lft -lreadline

@@ -6,46 +6,33 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 01:38:06 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/18 21:01:58 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/19 13:44:34 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-size_t	var_name_len(char *name)
+void	unset(t_data *data, const char *key)
 {
-	size_t	i;
+	t_env	*tmp;
+	t_env	*copy;
 
-	i = 0;
-	while (name[i] && name[i] != '=')
-		i++;
-	return (i);
+	tmp = data -> tenv;
+	copy = data -> tenv;
+	while (copy)
+	{
+		if (copy -> key && ft_strcmp(copy -> key, key) == 0)
+		{
+			if (copy -> next)
+				tmp -> next = copy -> next;
+			else
+				tmp -> next = 0;
+			ft_memdel((void **)& copy -> key);
+			ft_memdel((void **)& copy -> value);
+			ft_memdel((void **)& copy);
+			return ;
+		}
+		tmp = copy;
+		copy = copy -> next;
+	}
 }
-
-int	unset(t_data *data, char *name)
-{
-	(void)data;
-	(void)name;
-	//size_t	len;
-	//t_list	*tmp;
-	//t_list	*del;
-
-	//len = var_name_len(name);
-	//while (tmp)
-	//{
-	//	if (tmp->next && ft_strncmp(name, tmp->next->content, len) == 0)
-	//	{
-	//		del = tmp->next;
-	//		tmp->next = tmp->next->next;
-	//		ft_memdel((void **)& del->content);
-	//		ft_memdel((void **)& del);
-	//		break ;
-	//	}
-	//	tmp = tmp->next;
-	//}
-	return (1);
-}
-
-// rayan=okok
-// J=wefwe
-// moha=2efois

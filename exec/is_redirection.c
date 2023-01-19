@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 23:18:11 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/19 04:40:18 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/19 04:50:09 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,10 @@ void	is_redirection(t_data *data, t_cmd *ptr)
 	int					fd;
 	int					index_redirect;
 	int					i;
+	int					j;
 
 	i = 0;
+	j = 0;
 	while (i < ptr -> length_sequence)
 	{
 		index_redirect = ptr -> sequence[i] . index_redirect;
@@ -46,8 +48,9 @@ void	is_redirection(t_data *data, t_cmd *ptr)
 				fd = open(ptr -> sequence[i] . redirect, indexs[index_redirect - 1], 0666);
 			else
 			{
-				fd = find_pipe(data -> here_doc, ptr -> sequence[i].redirect, data -> len_here);
-				ft_printf("+-----> %d | %p | %s\n", fd , data -> here_doc, ptr -> sequence[i].redirect);
+				if (data -> len_here != 0)
+					fd = find_pipe(data -> here_doc, data -> here_doc[j].limiter, data -> len_here);
+				j++;
 			}
 			if (fd < 0)
 			{

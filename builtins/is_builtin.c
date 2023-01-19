@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 17:05:34 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/19 00:19:14 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/19 13:29:30 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,18 @@ static void	do_builtin(const char *match, t_cmd *cmd, t_data *data)
 {
 	if (ft_strcmp("cd", match) == 0)
 	{
+		if (cmd -> args[1] && cmd -> args[2])
+		{
+			ft_putendl_fd("bash: cd: too many arguments", 2);
+			return ;
+		}
 		if (ft_strcmp("cd", cmd -> args[0]) == 0 && cmd -> args[1])
 			cd(cmd -> args[1]);
 		else
 			cd("~");
 	}
 	if (ft_strcmp("echo", match) == 0)
-		echo((const char **)cmd -> args + 1);
+		echo((const char **)cmd -> args + 1, 1);
 	if (ft_strcmp("pwd", match) == 0)
 		pwd();
 	if (ft_strcmp("exit", match) == 0)
@@ -51,6 +56,11 @@ static void	do_builtin(const char *match, t_cmd *cmd, t_data *data)
 		char *temp = array_to_string(cmd -> args + 1);
 		export(data, temp);
 		ft_memdel((void **)& temp);
+	}
+	if (ft_strcmp("unset", match) == 0)
+	{
+		for (int i = 1; cmd -> args[i]; i++)
+			unset(data, cmd -> args[i]);
 	}
 	if (ft_strcmp("env", match) == 0)
 		display_env(data -> tenv);
