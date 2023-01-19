@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 17:41:08 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/19 11:09:26 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/19 14:14:34 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,10 @@ void	free_heredoc(t_heredoc *heredoc, const int size)
 	i = 0;
 	if (size == 0)
 		return ;
+	// C est le meme pointeur maintenant, inutile de free
+	// car il est deja free dans free_cmd(t_sequence[x].redirect)
+	// ou alors faire un strdup dans set_tab dans les heredoc
+	
 	//ft_printf("Taille: %d\n", size);
 	//while (i < size)
 	//{
