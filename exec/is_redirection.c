@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 23:18:11 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/18 20:31:59 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/19 04:40:18 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,14 @@ void	is_redirection(t_data *data, t_cmd *ptr)
 			if (index_redirect != DLESS)
 				fd = open(ptr -> sequence[i] . redirect, indexs[index_redirect - 1], 0666);
 			else
+			{
 				fd = find_pipe(data -> here_doc, ptr -> sequence[i].redirect, data -> len_here);
+				ft_printf("+-----> %d | %p | %s\n", fd , data -> here_doc, ptr -> sequence[i].redirect);
+			}
 			if (fd < 0)
 			{
 				ft_printf("bash: %s: No such file or directory\n", ptr -> sequence[i] . redirect);
+				free_shell(data);
 				exit(EXIT_FAILURE);
 			}
 			if (index_redirect != LESS && index_redirect != DLESS)
@@ -59,3 +63,7 @@ void	is_redirection(t_data *data, t_cmd *ptr)
 		i++;
 	}
 }
+
+/*
+ls> ""a
+*/

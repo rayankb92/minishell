@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 17:41:08 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/18 00:26:55 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/19 04:45:47 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,27 @@ void	free_cmd(t_cmd *ptr)
 	ptr = 0;
 }
 
+void	free_heredoc(t_heredoc *heredoc, const int size)
+{
+	int	i;
+
+	i = 0;
+	while (i < size)
+	{
+		ft_memdel((void **)& heredoc[i] . limiter);
+		i++;
+	}
+	free(heredoc);
+}
+
 void	free_shell(t_data *data)
 {
 	ft_arraydel(data -> path);
 	ft_arraydel(data -> env);
 	free_tenv(data -> tenv);
 	free_cmd(data -> cmd);
+	//free_heredoc(data -> here_doc, data -> len_here);
+	//data -> here_doc = 0;
 	data -> cmd = 0;
 	data -> tenv = 0;
 	data -> path = 0;

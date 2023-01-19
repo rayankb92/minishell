@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/18 20:54:43 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/19 04:18:31 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ typedef struct s_data
 */
 //	init_data.c
 int				init_data(t_data *data, char **env);
+void			tenv_to_env(t_data *data, char **env);
 
 /*
 	DIRECTORY: ./PARSE
@@ -211,6 +212,7 @@ void			display_env(t_env *env);
 void			free_shell(t_data *data);
 void			free_cmd(t_cmd *ptr);
 void			free_tenv(t_env *ptr);
+void			free_heredoc(t_heredoc *heredoc, const int size);
 
 t_cmd			*lstlast(t_cmd *cmd);
 

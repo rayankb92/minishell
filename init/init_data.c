@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 11:22:50 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/18 00:31:23 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/19 00:50:47 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ t_env	*copy_tenv(char **env)
 	return (new);
 }
 
-static
 void	tenv_to_env(t_data *data, char **env)
 {
 	int		i;
@@ -81,6 +80,14 @@ int	init_data(t_data *data, char **env)
 		env_set++;
 		data -> tenv = copy_tenv(env);
 		tenv_to_env(data, env);
+	}
+	else
+	{
+		if (env_set == 0)
+		{
+			data -> tenv = ft_calloc(sizeof(t_env), 1);
+			env_set++;
+		}
 	}
 	return (EXIT_SUCCESS);
 }

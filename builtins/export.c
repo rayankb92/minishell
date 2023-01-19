@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/31 14:35:41 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/18 20:59:16 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/19 00:24:20 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	is_valid_name(const char *str)
 static
 int	isset_var(t_env *temp, char *name, char *value)
 {		
-	if (ft_strcmp(temp->key, name) == 0)
+	if (temp->key && ft_strcmp(temp->key, name) == 0)
 	{
 		if (value)
 		{
@@ -57,6 +57,8 @@ static void	make_export(t_data *data, char *name, char *value, int eq)
 	t_env	*temp;
 
 	temp = data->tenv;
+	if (!temp)
+		return ;
 	while(temp->next)
 	{
 		if (!isset_var(temp, name, value))

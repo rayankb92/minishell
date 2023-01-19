@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 13:52:31 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/18 23:14:48 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/19 04:45:37 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,14 +100,14 @@ void	exec(const char *input, t_data *data)
 	ptr = data -> cmd;
 	status = 0;
 	index_pid = 0;
-	//is_heredoc(data, ptr);
+	is_heredoc(data, ptr);
 	while (ptr)
 	{
 		if (is_builtin(ptr, data) == EXIT_FAILURE)
 		{
 			if (pipe(data -> pipes) < 0)
 				return ;
-			signal(SIGINT, SIG_IGN);
+			//signal(SIGINT, SIG_IGN);
 			data -> pids[index_pid] = fork();
 			if (data -> pids[index_pid] == -1)
 			{
@@ -124,14 +124,16 @@ void	exec(const char *input, t_data *data)
 			{
 				is_father(data);
 				signal(SIGQUIT, SIG_IGN);
-				signal(SIGINT, & ctrlc);
+				//signal(SIGINT, & ctrlc);
 			}
 		}
 		index_pid++;
 		ptr = ptr -> next;
 	}
 	close_fd(& data -> pipes);
-	//close_pipes(data -> here_doc, 1, 0, data -> len_here);
+	if (data -> len_here != 0)
+		close_pipes(data -> here_doc, 1, 0, data -> len_here);
+	//free_heredoc(data -> here_doc, data -> len_here);
 	for (int i = 0; i < index_pid; i++)
 	{
 		waitpid(data -> pids[i], &status, 0);

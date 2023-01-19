@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 18:19:49 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/18 22:34:22 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/19 04:47:38 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	set_tabs(t_heredoc *tab, t_cmd *ptr)
 		{
 			if (tmp -> sequence[i] . index_redirect == DLESS)
 			{
-				tab[j].limiter = tmp->sequence[i].redirect;
+				tab[j].limiter = ft_strdup(tmp->sequence[i].redirect);
 				pipe(tab[j++].pipe);
 			}
 			i++;
@@ -91,6 +91,7 @@ void	write_to_pipe(t_heredoc *tab, int len)
 		close(tab[i].pipe[1]);
 		close(tab[i].pipe[0]);
 	}
+	//free_heredoc(tab, len);
 	exit(0);
 }
 
@@ -99,6 +100,8 @@ int		find_pipe(t_heredoc *tab, const char *limiter, int len)
 	int	i;
 
 	i = -1;
+	if (!tab || !tab[0].limiter)
+		return (-1);
 	while (++i < len)
 	{
 		if (limiter == tab[i].limiter)
@@ -114,6 +117,8 @@ void	is_heredoc(t_data *data, t_cmd *ptr)
 	
 	status = 0;
 	data -> len_here = len_here_doc(data -> cmd);
+	if (data->len_here == 0)
+		return ;
 	data -> here_doc = ft_calloc(sizeof(t_heredoc), data -> len_here);
 	if (!data -> here_doc)
 		return ;
@@ -123,4 +128,8 @@ void	is_heredoc(t_data *data, t_cmd *ptr)
 		write_to_pipe(data -> here_doc, data -> len_here);
 	close_pipes(data -> here_doc, 0, 1, data -> len_here);
 	waitpid(pid, &status, 0);
+	//ft_memdel((void **)& data-> here_doc[0]. limiter);
+	//free(data-> here_doc);
+	//data->here_doc = NULL;
+	//free_heredoc(data -> here_doc, data -> len_here);
 }

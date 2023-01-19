@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 05:47:36 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/18 22:28:26 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/19 04:42:23 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,11 @@ int main(int ac, char **av, char **env)
 				if (init_data(& data, env))
 					return (EXIT_FAILURE);
 				parse_input(input, data . cmd, & data);
+				//ft_printf("SIZE: %d\n", ft_lstsize((t_list *)data .  tenv));
 				//print_cmd(data . cmd);
 				exec(input, & data);
 				//free_shell(& data);
+				//free_heredoc(data . here_doc, data . len_here);
 				free_cmd(data . cmd);
 				data . cmd = 0;
 			}
