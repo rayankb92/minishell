@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/31 12:50:48 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/15 22:19:40 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/18 23:35:12 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	is_valid_option(const char *opt)
 	return (1);
 }
 
-void print(const char **arg, int i)
+void print(const char **arg, int i, int fd)
 {
 	int boolean;
 
@@ -38,22 +38,25 @@ void print(const char **arg, int i)
 	while (arg[i])
 	{
 		if (arg[i + 1])
-			ft_printf("%s ", arg[i]);
+		{
+			ft_putstr_fd(arg[i], fd);
+			ft_putstr_fd(" ", fd);
+		}
 		else
-			ft_printf("%s", arg[i]);
+			ft_putstr_fd(arg[i], fd);
 		i++;
 	}
 	if (!boolean)
 		ft_printf("\n");
 }
 
-void	echo(const char **arg)
+void	echo(const char **arg, int fd)
 {
 	int i = 0;
 	
 	while (arg[i] && is_valid_option(arg[i]))
 		i++;
-	print(arg, i);
+	print(arg, i, fd);
 }
 
 

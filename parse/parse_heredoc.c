@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 00:27:26 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/18 22:26:00 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/19 03:16:58 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,54 +126,62 @@ char **split_iscote(char *str)
 	while (++i < len)
 		new[i] = fill_tab(&str);
 	new[i] = 0;
-	ft_displaydouble(new);
-	ft_printf("LEN = %i\n", len);
 	return (new);
 }
 
-void	find_here_doc(char **clean, char **here)
+char	*re_clean(char *str, t_data *data)
+{
+	char	*result;
+	char		**strr;
+
+	strr = clean_string(str, data);
+	result = ft_strdup(*strr);
+	// ft_arraydel(strr);
+	// 	ft_printf("str = %s\n", *str);
+	return (result);
+}
+
+void	find_here_doc(char **here, t_data *data)
 {
 	int i = -1;
+	int count = 0;
+	char *test;
 
-	while (clean[++i])
+	while (here[++i])
 	{
-		if (ft_strcmp(clean[i], "<<") == 0)
+		if (ft_strcmp(here[i], "<<") == 0)
 		{
 			i++;
-			free(clean[i]);
-			clean[i] = ft_strdup(here[i]);
+			if (ft_strchr(here[i], '"') || ft_strchr(here[i], '\''))
+				data->here_doc[count].expand = 1;
+			else
+				data->here_doc[count].expand = 0;
+			data->here_doc[count].limiter = re_clean(here[i], data);
+
+			// test = re_clean(here[i], data);
+			count++;
 		}
 	}
 }
 
-char	**re_clean(char *str, t_data *data)
-{
-	char	*ptr;
-	char **strr;
-
-	strr = clean_string(str, data);
-	// if (*strr)
-	// 	ft_printf("str = %s\n", *str);
-	return (strr);
-}
 
 // // "salut'bg'ok"
 
-char	**re_change_delim(char **str, t_data *data)
-{
-	int	i;
-	int	j;
-	char **res;
+// char	**re_change_delim(char **str, t_data *data)
+// {
+// 	int	i;
+// 	int	j;
+// 	char **res;
 
-	i = -1;
-	j = 0;
-	while (str[++i])
-	{
-		if (strcmp(str[i], "<<") == 0)
-		{
-			i++;
-			res = re_clean(str[i], data);
-		}
-	}
-	return (res);
-}
+// 	i = -1;
+// 	j = 0;
+// 	while (str[++i])
+// 	{
+// 		if (strcmp(str[i], "<<") == 0)
+// 		{
+// 			i++;
+// 			res = re_clean(str[i], data);
+// 		}
+// 	}
+// 	return (res);
+// }

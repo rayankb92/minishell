@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 18:03:52 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/18 23:25:06 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/19 03:15:59 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,11 @@ int	count_newlen(t_data *data, char *str)
 		else if (str[i] == '\'')
 		{
 				len++;
-			while (str[++i] != '\'')
-				len++;
+				while (str[++i] != '\'' && str[i])
+					len++;
 			i++;
 		}
-		else if ((i <= len) && (str[i] == '$') && (str[i + 1]) && (is_variable(str[i + 1])))
+		else if ((i <= len) && data->expand && (str[i] == '$') && (str[i + 1]) && (is_variable(str[i + 1])))
 					i += add_varlen_(data, &str[i + 1], &len);
 		len++;
 	}
@@ -76,7 +76,7 @@ void	double_quote_check(char **dbl, int *i, int *j, t_data *data)
 		new[(*j)++] = SLASHBACK;
 	while (str[++(*i)] && str[*i] != '"')
 	{
-		if ((str[*i] == '$') && (str[*i + 1]) && (is_variable(str[*i + 1])))
+		if (data->expand && (str[*i] == '$') && (str[*i + 1]) && (is_variable(str[*i + 1])))
 			*i += add_value(new, &str[*i],  data, j);
 		else
 			new[(*j)++] = find_char(str[*i]);
@@ -92,7 +92,7 @@ char	*negative_chars(char *str, t_data *data)
 
 	i = 0;
 	j = 0;
-	new = malloc(sizeof(char ) * (count_newlen(data, str) + 1));
+	new = malloc(sizeof(char ) * (count_newlen(data, str) + 2));
 	if (!new)
 		return (NULL);
 	while (str[i])
@@ -108,7 +108,7 @@ char	*negative_chars(char *str, t_data *data)
 					new[j++] = find_char(str[i]);
 			i++;
 		}
-		else if (str[i] == '$' && str[i + 1] && is_variable(str[i + 1]))
+		else if (data->expand && str[i] == '$' && str[i + 1] && is_variable(str[i + 1]))
 		{
 			i += add_value_nospace(new, str + i,  data, &j);
 			i++;

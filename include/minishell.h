@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/18 23:24:49 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/19 02:29:58 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ typedef struct t_heredoc
 {
 	int			pipe[2];
 	const char 	*limiter;
+	int			expand;
 }	t_heredoc;
 
 typedef struct s_data
@@ -100,6 +101,8 @@ typedef struct s_data
 	t_heredoc		*here_doc;
 	int				len_here;
 
+	char			**herecopy;
+	int				expand;
 	struct t_data	*next;
 }	t_data;
 
@@ -130,7 +133,7 @@ int				is_in_charset(char c, char *charset);
 int				error_msg(char *str);
 
 
-void	find_here_doc(char **clean, char **here);
+void	find_here_doc(char **here, t_data *data);
 /*
 	DIRECTORY: ./PARSE
 		./env
@@ -176,7 +179,7 @@ void			cd(const char *path);
 //	unset.c
 int				unset(t_data *data, char *name);
 //	echo.c
-void			echo(const char **arg);
+void			echo(const char **arg, int fd);
 //	export.c
 void			export(t_data *data, const char *str);
 

@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 05:47:36 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/18 23:25:43 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/19 03:25:17 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	quit(t_data *data)
 	exit(EXIT_SUCCESS);	//exit code 130
 }
 
-char	**re_change_delim(char **str, t_data *data);
+char	*re_change_delim(char **str, t_data *data);
 
 int main(int ac, char **av, char **env)
 {
@@ -46,20 +46,22 @@ int main(int ac, char **av, char **env)
 			{
 				if (init_data(& data, env))
 					return (EXIT_FAILURE);
-				char **res = clean_string((char *)input, &data);
-				// char **here = split_iscote((char *)input);
-				// find_here_doc(res, here);
 				// char **test = re_change_delim(here, &data);
 				// ft_printf("test = %s\n", test[0]);
 				// ft_displaydouble(test);
+				data.expand = 1;
 				// ft_printf("INPUT = %s\n", input);
-				// parse_input(input, data . cmd, & data);
-				// print_cmd(data . cmd);
-				// exec(input, & data);
-				// free_shell(& data);
 				parse_input(input, data . cmd, & data);
-				//print_cmd(data . cmd);
+				// print_cmd(data . cmd);
+				// ft_arraydel(res);
+				data.herecopy = split_iscote((char *)input);
+				ft_arraydel(data.herecopy);
+				// find_here_doc(here, &data);
 				exec(input, & data);
+				// free_shell(& data);
+				// parse_input(input, data . cmd, & data);
+				//print_cmd(data . cmd);
+				// exec(input, & data);
 				//free_shell(& data);
 				free_cmd(data . cmd);
 				data . cmd = 0;

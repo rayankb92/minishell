@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   is_heredoc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 18:19:49 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/18 22:34:22 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/19 02:59:07 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ int		find_pipe(t_heredoc *tab, const char *limiter, int len)
 	return (tab[i].pipe[0]);
 }
 
+
 void	is_heredoc(t_data *data, t_cmd *ptr)
 {
 	pid_t	pid;
@@ -118,9 +119,16 @@ void	is_heredoc(t_data *data, t_cmd *ptr)
 	if (!data -> here_doc)
 		return ;
 	set_tabs(data -> here_doc, ptr);
+	// ft_arraydel(data->herecopy);
 	pid = fork();
 	if (pid == 0)
+	{
+
+	data->expand = 0;
+	find_here_doc(data->herecopy, data);
+	data->expand = 1;
 		write_to_pipe(data -> here_doc, data -> len_here);
+	}
 	close_pipes(data -> here_doc, 0, 1, data -> len_here);
 	waitpid(pid, &status, 0);
 }

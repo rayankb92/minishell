@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 01:26:17 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/18 23:24:59 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/19 03:16:19 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ char	**clean_string(char *str, t_data *data)
 	char	*neg;
 	char	*ope;
 
-	ft_printf("CLEAN str = %s\n", str);
 	neg = negative_chars(str, data);
 	if (!neg)
 		return (NULL);
@@ -32,7 +31,6 @@ char	**clean_string(char *str, t_data *data)
 	clean = split_quote(ope, ISSPACE);
 	ft_memdel((void **)&ope);
 	positive_chars(clean);
-	ft_displaydouble(clean);
 	return (clean);
 }
 	

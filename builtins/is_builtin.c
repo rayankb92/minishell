@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   is_builtin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 17:05:34 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/18 21:02:11 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/18 23:39:34 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void	do_builtin(const char *match, t_cmd *cmd, t_data *data)
 			cd("~");
 	}
 	if (ft_strcmp("echo", match) == 0)
-		echo((const char **)cmd -> args + 1);
+		echo((const char **)cmd -> args + 1, 1);
 	if (ft_strcmp("pwd", match) == 0)
 		pwd();
 	if (ft_strcmp("exit", match) == 0)
