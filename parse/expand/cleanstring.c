@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 01:26:17 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/19 03:16:19 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/20 02:24:28 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	**clean_string(char *str, t_data *data)
 	positive_chars(clean);
 	return (clean);
 }
-	
+
 static
 int	count_ope(char *str)
 {
@@ -89,6 +89,8 @@ void	positive_chars(char **str)
 	int	j;
 
 	i = -1;
+	if (!str)
+		return ;
 	while (str[++i])
 	{
 		j = -1;
@@ -99,69 +101,3 @@ void	positive_chars(char **str)
 		}
 	}
 }
-
-// utils pour debug
-
-// void	_display_pos(char *str)
-// {
-// 	int	i;
-
-// 	i = -1;
-// 	while (str[++i])
-// 	{
-// 		if (str[i] < -5)
-// 			ft_putchar(str[i] * -1);
-// 		else
-// 			ft_putchar(str[i]);
-// 	}
-// 	ft_putchar('\n');
-// }
-
-// copy
-// char	*negative_chars(char *str, t_data *data)
-// {
-// int		i;
-// int		j;
-// char	*new;
-//
-// i = 0;
-// j = 0;
-// new = malloc(sizeof(char ) * (count_newlen(data, str) + 1));
-// if (!new || new == NULL)
-// return (NULL);
-// while (str[i])
-// {
-// if (str[i] == '"')
-// {
-// double_quote_check((char *[2]){str, new}, &i, &j, data);
-// if (str[i + 1] == '"')
-// 	new[j++] = SLASHBACK;
-// while (str[++i] && str[i] != '"')
-// {
-// 	if ((str[i] == '$') && (str[i + 1]) && (is_variable(str[i + 1])))
-// 		i += add_value(new, &str[i],  data, &j);
-// 	else
-// 		new[j++] = find_char(str[i]);
-// }
-// i++;
-// }
-// else if (str[i] == '\'')
-// {
-// if (str[i + 1] == '\'')
-// new[j++] = SLASHBACK;
-// while (str[++i] && str[i] != '\'')
-// new[j++] = find_char(str[i++]);
-// i++;
-// }
-// else if (str[i] == '$' && str[i + 1] && is_variable(str[i + 1]))
-// i += add_value_nospace(new, &str[i++],  data, &j);
-// else
-// new[j++] = str[i++];
-// }
-// new[j] = 0;
-// ft_printf("NEG = %s\n", new);
-// ft_printf("POS = ");
-// _display_pos(new);
-// ft_printf("\n");
-// return (new);
-// }

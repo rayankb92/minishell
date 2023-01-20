@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:25:58 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/19 13:11:32 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/20 02:38:12 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
+/*\*/
 int	check_quote(const char *str)
 {
 	int	i;
@@ -55,7 +56,6 @@ int	exist_before(const char *str, int index)
 	return (EXIT_SUCCESS);
 }
 
-// a modifier: OK SI PIPE AVANT
 #define SYNTAX_ERROR "bash: syntax error near unexpected token"
 static int	check_chevron(const char *str, const char c)
 {
@@ -95,9 +95,10 @@ static int	check_chevron(const char *str, const char c)
 	return (EXIT_SUCCESS);
 }
 
-// pas fini, gere pas tous les cas
 int	check_chevrons(const char *str)
 {
 	return (check_chevron(str, '<') > 0 || check_chevron(str, '>') > 0
 		|| check_chevron(str, '|') > 0);
 }
+
+/*\*/

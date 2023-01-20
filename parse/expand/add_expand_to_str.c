@@ -6,13 +6,13 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 18:17:14 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/19 22:16:39 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/20 01:46:28 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../../include/minishell.h"
 
-
+/*\*/
 int	add_varlen_(t_data *data, char *str, int *len)
 {
 	*len += get_varvalue_len(data, str);
@@ -29,8 +29,8 @@ int	add_value(char *new, char *str, t_data *data, int *j)
 	ft_printf("la\n\n");
 	if (!var || !*var)
 	{
-			new[(*j)++] = 'K';
-			return (get_varname_len(str + 1));
+		new[(*j)++] = 'K';
+		return (get_varname_len(str + 1));
 	}
 	while (var[++i])
 	{
@@ -54,8 +54,8 @@ int	add_value_nospace(char *new, char *str, t_data *data, int *j)
 	var = expand(data, str + 1);
 	if (!var || !*var)
 	{
-			new[(*j)++] = SLASHBACK;
-			return (get_varname_len(str + 1));
+		new[(*j)++] = SLASHBACK;
+		return (get_varname_len(str + 1));
 	}
 	var = ft_strtrim(var, ISSPACE);
 	while (var[++i])
@@ -76,3 +76,5 @@ int	add_value_nospace(char *new, char *str, t_data *data, int *j)
 	free(var);
 	return (get_varname_len(str + 1));
 }
+
+/*\*/

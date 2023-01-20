@@ -59,7 +59,7 @@ INIT_DIRS	= $(INIT_DIR)\
 			
 
 SRC_FILES =	$(addprefix parse/, \
-				parse.c			parse_input.c		utils_parse_input.c			utils.c		parse_heredoc.c) \
+				parse.c			parse_input.c		utils_parse_input.c			utils.c		parse_heredoc.c		parse_here2.c) \
 			$(addprefix parse/env/, \
 				t_env_init.c	t_env.c				t_env_utils.c) \
 			$(addprefix parse/expand/, \

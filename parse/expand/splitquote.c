@@ -3,33 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   splitquote.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 17:47:26 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/17 10:44:01 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/20 01:50:03 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../../include/minishell.h"
 
-static
-char	**cleaner(char ***str, int len)
+static char	**cleaner(char ***str, int len)
 {
 	while (--len >= 0)
-		ft_memdel((void **)& (*str)[len]);
-	ft_memdel((void **)& *str);
+		ft_memdel((void **)&(*str)[len]);
+	ft_memdel((void **)&*str);
 	return (0);
 }
 
-static
-int	countword_r(const char *s, char *charset)
+static int	countword_r(const char *s, char *charset)
 {
 	int	i;
 	int	count;
+	int	singleopen;
+	int	doubleopen;
 
 	count = 0;
 	i = 0;
-	int	singleopen, doubleopen;
 	singleopen = 0;
 	doubleopen = 0;
 	while (s[i])
@@ -44,8 +43,7 @@ int	countword_r(const char *s, char *charset)
 	return (count);
 }
 
-static
-char	*put_in_tab(const char *s, int *i, char *charset)
+static char	*put_in_tab(const char *s, int *i, char *charset)
 {
 	static int	j;
 	int			index;
@@ -72,17 +70,17 @@ char	*put_in_tab(const char *s, int *i, char *charset)
 
 char	**split_quote(char const *s, char *charset)
 {
-	char **res;
-	int i;
-	int j;
-	int lenword;
+	char	**res;
+	int		i;
+	int		j;
+	int		lenword;
 
 	j = 0;
 	i = 0;
 	if (!s)
 		return (NULL);
 	lenword = countword_r(s, charset);
-	res = malloc(sizeof(char *) * (lenword + 1)); // manque plus 1 va savoir pk
+	res = malloc(sizeof(char *) * (lenword + 1));
 	if (!res)
 		return (NULL);
 	while (i < lenword)
@@ -95,7 +93,3 @@ char	**split_quote(char const *s, char *charset)
 	res[i] = NULL;
 	return (res);
 }
-
-//**args [echo] [oppsalut''               rejrenkm] [e] [   'c''fghfg]
-// cmd = args[0];
-//execve(cmd, args);
