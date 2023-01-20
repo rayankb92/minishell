@@ -6,13 +6,12 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 18:17:14 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/20 01:46:28 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/20 06:44:53 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../../include/minishell.h"
 
-/*\*/
 int	add_varlen_(t_data *data, char *str, int *len)
 {
 	*len += get_varvalue_len(data, str);
@@ -26,7 +25,6 @@ int	add_value(char *new, char *str, t_data *data, int *j)
 
 	i = -1;
 	var = expand(data, str + 1);
-	ft_printf("la\n\n");
 	if (!var || !*var)
 	{
 		new[(*j)++] = 'K';
@@ -68,13 +66,8 @@ int	add_value_nospace(char *new, char *str, t_data *data, int *j)
 			i--;
 		}
 		else
-		{
-			new[*j] = find_char(var[i]);
-			*j += 1;
-		}
+			new[(*j)++] = find_char(var[i]);
 	}
 	free(var);
 	return (get_varname_len(str + 1));
 }
-
-/*\*/

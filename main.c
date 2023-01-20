@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 05:47:36 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/19 20:37:50 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/20 06:06:38 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int main(int ac, char **av, char **env)
 	{
 		// il reste un leak dans les here doc
 		// mon mate gere le stp, je comprend pas je serre :(
+			// ton mate ---> tqt c'est fait bg
 		input = readline("Fumier$ ");
 		if (!input)
 			quit(& data);
