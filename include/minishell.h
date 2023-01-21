@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/21 18:52:09 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/21 18:56:20 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ typedef struct t_file
 	int				index_redirect;
 }					t_file;
 
-}	t_file;typedef struct s_cmd
+typedef struct s_cmd
 {
 
 	char			*command;
@@ -168,7 +168,7 @@ void				update_status_code(t_data *data, short code);
 //	expand.c
 char				*expand(t_data *data, const char *var);
 size_t				get_varvalue_len(t_data *data, const char *var);
-size_t				is_variable(const char c);
+size_t				is_variable(const char c, int opt);
 size_t				get_varname_len(const char *var);
 //	clean_string.c
 char				**clean_string(char *str, t_data *data);
