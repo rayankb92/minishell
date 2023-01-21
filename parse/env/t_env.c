@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 07:59:57 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/19 08:05:20 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/21 18:28:06 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ t_env	*copy_tenv(char **env)
 	int		i;
 	t_env	*new;
 
-	i = 0;
-	new = new_env(get_key(env[i]), get_value(env[i]), 1);
+	i = -1;
+	new = new_env(ft_strdup("?"), ft_strdup("0"), 0);
 	while (env[++i])
 	{
 		add_back_env(& new, new_env(get_key(env[i]), get_value(env[i]), 1));

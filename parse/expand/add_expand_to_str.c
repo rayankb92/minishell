@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_expand_to_str.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 18:17:14 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/19 22:16:39 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/21 01:21:14 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ int	add_value(char *new, char *str, t_data *data, int *j)
 
 	i = -1;
 	var = expand(data, str + 1);
-	ft_printf("la\n\n");
 	if (!var || !*var)
 	{
 			new[(*j)++] = 'K';

@@ -6,24 +6,30 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/31 12:33:46 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/14 11:10:35 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/20 13:20:58 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+#include <unistd.h>
+
+#ifndef PATH_MAX
+ # define PATH_MAX	10000
+#endif
 
 void	pwd(void)
 {
-	static char		path[4096] = {0};
+	static char		path[PATH_MAX] = {0};
 
-	getcwd(path, 4096);
+	getcwd(path, PATH_MAX);
 	if (path[0])
 		ft_putendl(path);
 }
 
 const char	*pwd_malloc(void)
 {
-	char		path[4096];
+	char		*path;
 
-	return (ft_strdup(getcwd(path, 4096)));
+	path = 0;
+	return (ft_strdup(getcwd(path, PATH_MAX)));
 }

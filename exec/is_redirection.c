@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 23:18:11 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/19 04:50:09 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/21 18:00:08 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void	is_redirection(t_data *data, t_cmd *ptr)
 		}
 		i++;
 	}
+	update_status_code(data, 0);
 }
 
 /*

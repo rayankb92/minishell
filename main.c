@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 05:47:36 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/19 20:37:50 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/21 18:30:26 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,13 @@
 static
 void	quit(t_data *data)
 {
+	int	status;
+
+	status = ft_atoi(get_key_from_tenv(data -> tenv, "?"));
 	free_shell(data);
 	rl_clear_history();
 	ft_putendl_fd("exit", 2);
-	exit(EXIT_SUCCESS);	//exit code 130 ?
+	exit(status);
 }
 
 int main(int ac, char **av, char **env)
@@ -30,10 +33,10 @@ int main(int ac, char **av, char **env)
 
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, & ctrlc);
+	if (!isatty(STDIN_FILENO))
+		return (EXIT_FAILURE);
 	while (1)
 	{
-		// il reste un leak dans les here doc
-		// mon mate gere le stp, je comprend pas je serre :(
 		input = readline("Fumier$ ");
 		if (!input)
 			quit(& data);
@@ -48,8 +51,8 @@ int main(int ac, char **av, char **env)
 				data.expand = 1;
 				parse_input(input, data . cmd, & data);
 				data.herecopy = split_iscote((char *)input);
-				print_cmd(data.cmd);
-				exec(input, & data);
+				//print_cmd(data.cmd);
+				exec(& data);
 				//free_shell(& data);
 				free_heredoc(data . here_doc, data . len_here);
 				data . here_doc = 0;
@@ -64,6 +67,8 @@ int main(int ac, char **av, char **env)
 			else
 				ft_putstr_fd("Syntax error\n", 2);
 		}
+		else
+			update_status_code(& data, 2);
 		ft_memdel((void **)& input);
 	}
 	quit(& data);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   is_heredoc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 18:19:49 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/19 22:04:07 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/20 10:29:52 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,10 @@ void	write_to_pipe(t_heredoc *tab, int len)
 			ft_putendl_fd(line, tab[i].pipe[1]);
 		}
 		free((char *)tab[i].limiter);
-		close(tab[i].pipe[1]);
-		close(tab[i].pipe[0]);
+		if (tab[i].pipe[1] != -1)
+			close(tab[i].pipe[1]);
+		if (tab[i].pipe[0] != -1)
+			close(tab[i].pipe[0]);
 	}
 }
 
@@ -91,9 +93,9 @@ void	close_pipes(t_heredoc *tab, int read, int write, int len)
 	i = -1;
 	while (++i < len)
 	{
-		if (write)
+		if (write && tab[i].pipe[1] != -1)
 			close(tab[i].pipe[1]);
-		if (read)
+		if (read && tab[i].pipe[0] != -1)
 			close(tab[i].pipe[0]);
 	}
 }
@@ -113,13 +115,31 @@ int		find_pipe(t_heredoc *tab, const char *limiter, int len)
 	return (tab[i].pipe[0]);
 }
 
+static
+void	handler(int signum, siginfo_t *client, void *ucontext)
+{
+	(void)client;
+	(void)ucontext;
+	if (signum == SIGINT)
+	{
+		//free_shell((t_data *)ucontext);
+		exit(EXIT_SUCCESS);
+	}
+}
 
 void	is_heredoc(t_data *data, t_cmd *ptr)
 {
-	pid_t	pid;
+	pid_t		pid;
+	t_saction	saction;
 	int		status;
 	
 	status = 0;
+	int e = 214545;
+
+	ft_memset(& saction, 0, sizeof(saction));
+	saction.sa_flags = SA_SIGINFO;
+	saction.sa_sigaction = handler;
+	signal(SIGINT, SIG_IGN);
 	data -> len_here = len_here_doc(data -> cmd);
 	if (data->len_here == 0)
 		return ;
@@ -131,6 +151,7 @@ void	is_heredoc(t_data *data, t_cmd *ptr)
 	pid = fork();
 	if (pid == 0)
 	{
+		sigaction(SIGINT, &saction, (void *)& e);
 		data->expand = 0;
 		find_here_doc(data->herecopy, data);
 		data->expand = 1;
@@ -144,6 +165,7 @@ void	is_heredoc(t_data *data, t_cmd *ptr)
 	}
 	close_pipes(data -> here_doc, 0, 1, data -> len_here);
 	waitpid(pid, &status, 0);
+	signal(SIGINT, SIG_IGN);
 	//ft_memdel((void **)& data-> here_doc[0]. limiter);
 	//free(data-> here_doc);
 	//data->here_doc = NULL;

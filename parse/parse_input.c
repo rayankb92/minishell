@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 12:42:43 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/19 20:34:27 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/20 09:52:22 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ char	*positive_stringchar(char *str)
 	{
 		if (str[i] == PIPE)
 			str[i] = '|';
-		if (str[i] == CHEVRIGHT)
-			str[i] = '>';
 		if (str[i] == CHEVLEFT)
+			str[i] = '>';
+		if (str[i] == CHEVRIGHT)
 			str[i] = '<';
 		if (str[i] == SLASHBACK)
 			str[i] = '\0';
@@ -134,7 +134,7 @@ void	parse_input(const char *input, t_cmd *cmd, t_data *data)
 	int		index_split = 0;
 
 	parse = clean_string((char *)input, data); // check malloc
-	ft_displaydouble(parse);
+	//ft_displaydouble(parse);
 	if (!parse || !parse[0])
 	{
 		if (!parse[0])

@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/31 14:35:41 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/19 07:39:06 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/20 13:41:55 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	is_valid_name(const char *str)
 	}
 	while (str[i] && str[i] != '=')
 	{
-		if (!is_variable(str[i]))
+		if (!is_variable(str[i], 0))
 		{
 			ft_printf("export: `%s' not a valid identifier\n", str);
 			return (0);
@@ -40,12 +40,13 @@ int	is_valid_name(const char *str)
 static
 int	isset_var(t_env *temp, char *name, char *value)
 {
-	if (temp->key && ft_strcmp(temp->key, name) == 0)
+	if (temp -> key && ft_strcmp(temp -> key, name) == 0)
 	{
 		if (value)
 		{
-			ft_memdel((void **)& temp->value);
-			temp->value = value;
+			ft_memdel((void **)& temp -> value);
+			temp -> value = value;
+			ft_memdel((void **)& name);
 			return (0);
 		}
 	}
@@ -69,14 +70,14 @@ static void	make_export(t_data *data, char *name, char *value, int eq)
 }
 
 
-void	export(t_data *data, const char *str)
+void	export(t_data *data, const char *str, int force)
 {
 	size_t	len;
 	char	*varname;
 	char	*value;
 
 	len = get_varname_len(str);
-	if (!is_valid_name(str))
+	if (force == 0 && !is_valid_name(str))
 		return ;
 	varname = ft_substr(str, 0, len);
 	if (!varname)
@@ -87,5 +88,5 @@ void	export(t_data *data, const char *str)
 		ft_memdel((void **)& varname);
 		return ;
 	}
-	make_export(data, varname, value, ft_strchr(str, '=') != 0);
+	make_export(data, varname, value, ft_strchr(str, '=') == 0);
 }

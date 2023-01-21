@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/19 13:25:23 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/21 17:39:30 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,43 +58,42 @@ typedef struct t_file
 {
 	const char	*redirect;
 	int			index_redirect;
-}	t_file;
 
-typedef struct s_cmd
+}	t_file;typedef struct s_cmd
 {
+
 	char			*command;
 	char			**args;
-
 	t_sequence		*sequence;
 	int				length_sequence;
+
 	struct s_cmd	*next;
 }	t_cmd;
-
 typedef struct	s_env
 {
+
 	char			*key;
 	char			*value;
 	int				equal;
-
 	struct s_env	*next;
 }	t_env;
 
 typedef struct t_heredoc
 {
+
 	int			pipe[2];
 	const char 	*limiter;
 	int			expand;
 }	t_heredoc;
-
 typedef struct s_data
 {
-	t_env			*tenv;
 
+	t_env			*tenv;
 	t_cmd			*cmd;
 	pid_t			pids[4096];
+
 	int				pipes[2];
 	int				prev_pipe;
-
 	char			**path;
 	char			**env;
 
@@ -103,17 +102,20 @@ typedef struct s_data
 
 	char			**herecopy;
 	int				expand;
+
 	struct t_data	*next;
 }	t_data;
+typedef struct sigaction	t_saction;
 
 /*
 	DIRECTORY: ./SRC
+
 */
 //	init_data.c
 int				init_data(t_data *data, char **env);
-
 /*
 	DIRECTORY: ./PARSE
+
 		./
 */
 //	parse.c
@@ -133,9 +135,9 @@ int				is_in_charset(char c, char *charset);
 int				error_msg(char *str);
 //	parse_heredoc.c
 void			find_here_doc(char **here, t_data *data);
-
 /*
 	DIRECTORY: ./PARSE
+
 		./env
 */
 //	t_env_init.c
@@ -145,17 +147,18 @@ void			add_back_env(t_env **env, t_env *new);
 void			tenv_to_env(t_data *data, char **env);	
 t_env			*copy_tenv(char **env);
 //	t_env_utils.c
-char	*get_key_from_tenv(t_env *tenv, const char *key);
-void	set_path_from_tenv(t_data *data);
-
+char			*get_key_from_tenv(t_env *tenv, const char *key);
+void			set_path_from_tenv(t_data *data);
+void			update_status_code(t_data *data, short code);
 /*
 	DIRECTORY: ./PARSE
+
 		./expand
 */
 //	expand.c
 char			*expand(t_data *data, const char *var);
 size_t			get_varvalue_len(t_data *data, const char *var);
-size_t			is_variable(const char c);
+size_t			is_variable(const char c, int opt);
 size_t			get_varname_len(const char *var);
 //	clean_string.c
 char			**clean_string(char *str, t_data *data);
@@ -174,9 +177,11 @@ int				find_char(char c);
 	DIRECTORY: ./BUILTINS
 */
 //	is_builtin.c
-int				is_builtin(t_cmd *cmd, t_data *data);
+int				is_builtin(t_cmd *cmd);
+void			do_builtin(t_cmd *cmd, t_data *data);
+int				matching(const char *match);
 //	is_exit.c
-void			is_exit(char **argument);
+void			is_exit(t_data *data, char **argument);
 //	pwd.c
 void			pwd(void);
 const char		*pwd_malloc(void);
@@ -187,13 +192,13 @@ void			unset(t_data *data, const char *key);
 //	echo.c
 void			echo(const char **arg, int fd);
 //	export.c
-void			export(t_data *data, const char *str);
+void			export(t_data *data, const char *str, int force);
 
 /*
 	DIRECTORY: ./EXEC
 */
 //	exec.c
-void			exec(const char *input, t_data *data);
+void			exec(t_data *data);
 //	is_heredoc.c
 void			is_heredoc(t_data *data, t_cmd *cmd);
 int				find_pipe(t_heredoc *tab, const char *limiter, int len);

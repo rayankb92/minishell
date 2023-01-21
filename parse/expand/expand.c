@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 15:15:38 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/19 13:12:51 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/20 13:17:46 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,10 @@ char	*expand(t_data *data, const char *var)
 
 	if (!var)
 		return (0);
-	if (!is_variable(var[0]))
+	if (!is_variable(var[0], 1))
 		return (NULL);
 	len = get_varname_len(var);
 	tmp = data->tenv;
-	fprintf(stderr, "%p | %p | %p\n", tmp, tmp -> key, tmp -> value);
 	while (tmp && tmp -> key)
 	{
 		if (ft_strncmp(var, tmp->key, len) == 0 && ft_strlen(tmp->key) == len)
@@ -52,8 +51,17 @@ size_t	get_varvalue_len(t_data *data, const char *var)
 	return (ft_strlen(expand(data, var)));
 }
 
-size_t	is_variable(const char c)
+size_t	is_variable(const char c, int opt)
 {
+	if (opt)
+	{
+		if (!ft_isalpha(c) && c != '_')
+		{
+			if (c == '?')
+				return (1);
+			return (0);
+		}
+	}
 	if (!ft_isalpha(c) && c != '_')
 		return (0);
 	return (1);

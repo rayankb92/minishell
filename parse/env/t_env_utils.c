@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 08:06:30 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/19 08:19:21 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/21 18:15:17 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,17 @@ void	set_path_from_tenv(t_data *data)
 	temp = get_key_from_tenv(data -> tenv, "PATH");
 	if (temp && !data -> path)
 		data -> path = ft_split(temp, ':');
+}
+
+void	update_status_code(t_data *data, short code)
+{
+	char	*temp;
+	char	*to_string;
+
+	temp = ft_strdup("?=");
+	to_string = ft_itoa(code);
+	ft_realloc(& temp, to_string);
+	export(data, temp, 1);
+	ft_memdel((void **)& temp);
+	ft_memdel((void **)& to_string);
 }

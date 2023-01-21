@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 21:14:28 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/17 09:37:49 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/21 17:59:14 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,15 @@
 #define LLMAX	9223372036854775807LL
 #define LLMIN	-9223372036854775807LL
 
-void	is_exit(char **argument)
+extern int g_exit_status;
+
+void	is_exit(t_data *data, char **argument)
 {
 	const char	*tmp;
 	long long	res;
 	int			index;
 
+	(void)data;
 	if (!argument || !*argument)
 	{
 		ft_putendl("exit");
@@ -38,9 +41,9 @@ void	is_exit(char **argument)
 		if (index > 1)
 		{
 			ft_putendl("exit");
-			ft_printf("bash: exit: too many arguments\n", tmp); // status code 1
+			ft_printf("bash: exit: too many arguments\n", tmp);
+			update_status_code(data, 127);
 			return ;
-			//exit(1);
 		}
 		if (*tmp != '\0' || res > LLMAX || res < LLMIN)
 		{

@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:25:58 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/19 13:11:32 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/21 17:59:34 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,22 +40,29 @@ int	check_quote(const char *str)
 }
 
 static
-int	exist_before(const char *str, int index)
+int	exist_after(const char *str, int index, int c, int search)
 {
-	int	bypass;
+	int	i;
+	int	temp;
 
-	bypass = 0;
-	while (--index >= 0 && str[index])
+	i = index + 1;
+	while (str[i])
 	{
-		if (str[index] == '|' && !bypass)
+		temp = 0;
+		while (ft_isspace(str[i]))
+		{
+			i++;
+			temp++;
+		}
+		if (str[i] != c && str[i] != search)
+			return (EXIT_SUCCESS);
+		if (((str[i] == c && temp != 0) || str[i] == search) || (temp > 0 && c == search))
 			return (EXIT_FAILURE);
-		if (str[index] != '|' && !ft_isspace(str[index]))
-			bypass = 1;
+		i++;
 	}
 	return (EXIT_SUCCESS);
 }
 
-// a modifier: OK SI PIPE AVANT
 #define SYNTAX_ERROR "bash: syntax error near unexpected token"
 static int	check_chevron(const char *str, const char c)
 {
@@ -72,7 +79,10 @@ static int	check_chevron(const char *str, const char c)
 			i++;
 		while (str[i + j] == c)
 		{
-			if (exist_before(str, i + j))
+			if ((i + j == 0 && c == '|') || (c == '|' && exist_after(str, i + j, c, '|')))
+				return (ft_putendl_fd("Syntax error", 2));
+			if ((c == '>' && exist_after(str, i + j, c, '<'))
+				|| (c == '<' && exist_after(str, i + j, c, '>')))
 				return (ft_putendl_fd("Syntax error", 2));
 			j++;
 		}
