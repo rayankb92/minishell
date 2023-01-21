@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcards.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 10:48:57 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/21 17:46:02 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/21 19:08:42 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	copy_files(char *find, t_data *data)
 	while ((dir = readdir(d)))
 		ft_lstadd_back(&data->dir, ft_lstnew(ft_strdup(dir->d_name)));
 	closedir(d);
-	display_lst(data->dir);
+	//display_lst(data->dir);
 }
 
 int list_dir(void)

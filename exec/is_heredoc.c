@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 18:19:49 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/21 18:53:17 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/21 19:07:41 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	print_heredoc(char *str, int fd, int exp, t_data *data)
 	{
 		while (str[i])
 		{
-			if (str[i] == '$' && str[i + 1] && is_variable(str[i + 1]))
+			if (str[i] == '$' && str[i + 1] && is_variable(str[i + 1], 1))
 			{
 				var = expand(data, &str[i + 1]);
 				if (var)
@@ -147,30 +147,12 @@ int		find_pipe(t_heredoc *tab, const char *limiter, int len)
 	return (tab[i].pipe[0]);
 }
 
-static
-void	handler(int signum, siginfo_t *client, void *ucontext)
-{
-	(void)client;
-	(void)ucontext;
-	if (signum == SIGINT)
-	{
-		//free_shell((t_data *)ucontext);
-		exit(EXIT_SUCCESS);
-	}
-}
-
 void	is_heredoc(t_data *data, t_cmd *ptr)
 {
 	pid_t		pid;
-	t_saction	saction;
 	int		status;
 	
 	status = 0;
-	int e = 214545;
-
-	ft_memset(& saction, 0, sizeof(saction));
-	saction.sa_flags = SA_SIGINFO;
-	saction.sa_sigaction = handler;
 	signal(SIGINT, SIG_IGN);
 	data -> len_here = len_here_doc(data -> cmd);
 	if (data->len_here == 0)
@@ -184,7 +166,7 @@ void	is_heredoc(t_data *data, t_cmd *ptr)
 	pid = fork();
 	if (pid == 0)
 	{
-		sigaction(SIGINT, &saction, (void *)& e);
+		signal(SIGINT, & ctrlc);
 		data->expand = 0;
 		find_here_doc(data->herecopy, data);
 		data->expand = 1;
