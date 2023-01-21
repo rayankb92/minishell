@@ -3,14 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   init_data.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 11:22:50 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/19 13:20:04 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/21 15:22:14 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+// void	copy_files(t_data *data)
+// {
+// 	DIR				*d;
+// 	struct dirent	*dir;
+// 	int				i;
+
+// 	i = 0;
+// 	d = opendir(".");
+// 	if (!d)
+// 		return ;
+// 	dir = readdir(d);
+// 	data->dir[i] = dir->d_name;
+// 	while (i < 5)
+// 	{
+// 		data->dir[i++] = dir->d_name;
+// 		dir = readdir(d);
+// 	}
+// 	data->dir[i++] = 0;
+// 	ft_displaydouble(data->dir);
+// }
 
 int	init_data(t_data *data, char **env)
 {

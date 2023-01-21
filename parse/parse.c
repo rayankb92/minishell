@@ -6,12 +6,13 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:25:58 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/21 17:59:34 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/21 18:53:58 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
+/*\*/
 int	check_quote(const char *str)
 {
 	int	i;
@@ -105,9 +106,10 @@ static int	check_chevron(const char *str, const char c)
 	return (EXIT_SUCCESS);
 }
 
-// pas fini, gere pas tous les cas
 int	check_chevrons(const char *str)
 {
 	return (check_chevron(str, '<') > 0 || check_chevron(str, '>') > 0
 		|| check_chevron(str, '|') > 0);
 }
+
+/*\*/

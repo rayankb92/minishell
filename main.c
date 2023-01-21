@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 05:47:36 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/21 18:30:26 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/21 18:50:48 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,17 @@ void	quit(t_data *data)
 	ft_putendl_fd("exit", 2);
 	exit(status);
 }
+
+// int list_dir(void);
+
+// int main()
+// {
+// 	list_dir();
+	
+// 	return 0;
+// }
+void	copy_files(char *find, t_data *data);
+
 
 int main(int ac, char **av, char **env)
 {
@@ -48,6 +59,7 @@ int main(int ac, char **av, char **env)
 			{
 				if (init_data(& data, env))
 					return (EXIT_FAILURE);
+				copy_files("lala", &data);
 				data.expand = 1;
 				parse_input(input, data . cmd, & data);
 				data.herecopy = split_iscote((char *)input);
@@ -73,6 +85,7 @@ int main(int ac, char **av, char **env)
 	}
 	quit(& data);
 }
+
 
 
 //export a=">out"

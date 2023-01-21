@@ -6,12 +6,13 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 16:25:30 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/19 20:54:34 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/20 02:38:38 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
+/*\*/
 int		count_occurence(const char *str, const char c)
 {
 	size_t	i;
@@ -112,3 +113,5 @@ char	*array_to_string(char **array)
 	}
 	return (tostring);
 }
+
+/*\*/

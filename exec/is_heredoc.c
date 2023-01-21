@@ -6,13 +6,13 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 18:19:49 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/20 10:29:52 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/21 18:53:17 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "./../include/minishell.h"
 
+/*\*/
 static
 int	len_here_doc(t_cmd *ptr)
 {
@@ -53,6 +53,7 @@ void	set_tabs(t_heredoc *tab, t_cmd *ptr)
 			if (tmp -> sequence[i] . index_redirect == DLESS)
 			{
 				tab[j].limiter = tmp->sequence[i].redirect;
+				ft_printf("DELIM = '%s'\n", tab[j].limiter);
 				pipe(tab[j++].pipe);
 			}
 			i++;
@@ -61,8 +62,38 @@ void	set_tabs(t_heredoc *tab, t_cmd *ptr)
 	}
 }
 
+void	print_heredoc(char *str, int fd, int exp, t_data *data)
+{
+	char	*var;
+	int		i;
+
+
+	i = 0;
+	if (!exp)
+		ft_putendl_fd(str, fd);
+	else
+	{
+		while (str[i])
+		{
+			if (str[i] == '$' && str[i + 1] && is_variable(str[i + 1]))
+			{
+				var = expand(data, &str[i + 1]);
+				if (var)
+				{
+					i += get_varname_len(&str[i + 1]);
+					ft_putstr_fd(var, fd);
+				}
+			}
+			else
+				ft_putchar_fd(str[i], fd);
+			i++;
+		}
+	}
+	ft_putchar_fd('\n', fd);
+}
+
 static
-void	write_to_pipe(t_heredoc *tab, int len)
+void	write_to_pipe(t_heredoc *tab, int len, t_data *data)
 {
 	int		i;
 	char	*line;
@@ -76,7 +107,8 @@ void	write_to_pipe(t_heredoc *tab, int len)
 			line = readline("heredoc :");
 			if (!line || !ft_strcmp(line, tab[i].limiter))
 				break ;
-			ft_putendl_fd(line, tab[i].pipe[1]);
+			print_heredoc(line, tab[i].pipe[1], tab[i].expand, data);
+			// ft_putendl_fd(line, tab[i].pipe[1]);
 		}
 		free((char *)tab[i].limiter);
 		if (tab[i].pipe[1] != -1)
@@ -146,6 +178,7 @@ void	is_heredoc(t_data *data, t_cmd *ptr)
 	data -> here_doc = ft_calloc(sizeof(t_heredoc), data -> len_here);
 	if (!data -> here_doc)
 		return ;
+	signal(SIGINT, SIG_IGN);
 	set_tabs(data -> here_doc, ptr);
 	// ft_arraydel(data->herecopy);
 	pid = fork();
@@ -156,7 +189,7 @@ void	is_heredoc(t_data *data, t_cmd *ptr)
 		find_here_doc(data->herecopy, data);
 		data->expand = 1;
 		//ft_arraydel(data->path);
-		write_to_pipe(data -> here_doc, data -> len_here);
+		write_to_pipe(data -> here_doc, data -> len_here, data);
 		//free((void *)data -> here_doc[0] . limiter);
 		//free(data -> here_doc);
 		//ft_arraydel(data->env);
@@ -171,3 +204,5 @@ void	is_heredoc(t_data *data, t_cmd *ptr)
 	//data->here_doc = NULL;
 	//free_heredoc(data -> here_doc, data -> len_here);
 }
+
+/*\*/

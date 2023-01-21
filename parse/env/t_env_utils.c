@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   t_env_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 08:06:30 by jewancti          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/01/21 18:15:17 by jewancti         ###   ########.fr       */
+=======
+/*   Updated: 2023/01/20 01:44:47 by rferradi         ###   ########.fr       */
+>>>>>>> refs/remotes/origin/main
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +29,6 @@ char	*get_key_from_tenv(t_env *tenv, const char *key)
 	}
 	return (NULL);
 }
-
 
 void	set_path_from_tenv(t_data *data)
 {

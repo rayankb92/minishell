@@ -6,100 +6,36 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 00:27:26 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/19 22:13:54 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/20 01:31:56 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 #define ISSEP "\t\v\n\r\f <>|"
 
-int	countlen(char *str)
+void	fill_tab2(char *str, char *quote, int *i, char *word)
 {
-	int i = 0;
-	int	word = 0;
-	char quote;
-
-	if (!str)
-		return (0);
-	while (str[i])
-	{
-		while (ft_isspace(str[i]))
-			i++;
-		if (str[i])
-			word++;
-		if (str[i] == '"' || str[i] == '\'')
-		{
-			quote = str[i++];
-			while (str[i] && str[i] != quote)
-				i++;
-			i++;
-		}
-		else if (str[i] && is_in_charset(str[i], "|><"))
-		{
-			i++;
-			if (str[i] && str[i - 1] == str[i])
-				i++;
-		}
-		else
-			while (str[i] && !is_in_charset(str[i], ISSEP))
-				i++;
-
-	}
-	return (word);
-}
-
-int	lenword(char *str)
-{
-	int	i;
-	int	j;
-	char	quote;
-
-	i = 0;
-	j = 0;
-	while (str[i] && ft_isspace(str[i]))
-		i++;
-	if (str[i + j] == '"' || str[i + j] == '\'')
-	{
-		quote = str[i + j++];
-		while (str[i + j] && str[i + j] != quote)
-			j++;
-		j++;
-	}
-	else if (!is_in_charset(str[i + j], ISSEP))
-	{
-		while (!is_in_charset(str[i + j], ISSEP))
-			j++;
-
-	}
-	else
-		while (is_in_charset(str[i + j], "<>|"))
-			j++;
-	return (j);
+	*quote = *str;
+	word[(*i)++] = *str++;
+	while (*str && *str != *quote)
+		word[(*i)++] = *str++;
+	word[(*i)++] = *str++;
 }
 
 char	*fill_tab(char **ptr)
 {
-	int i;
-	char *word;
+	int		i;
+	char	*word;
 	char	quote;
-	int		lenw;
-	char *str;
+	char	*str;
 
 	str = *ptr;
-	lenw = lenword(str);
 	i = 0;
-	word = malloc(sizeof(char) * (lenw + 1));
-	// ft_printf("len str = %i | str = %s\n", lenw, str);
+	word = malloc(sizeof(char) * (lenword(str) + 1));
 	while (*str && ft_isspace(*str))
 		str++;
 	if (*str == '"' || *str == '\'')
-	{
-		quote = *str;
-		word[i++] = *str++;
-		while (*str && *str != quote)
-			word[i++] = *str++;
-		word[i++] = *str++;
-	}
+		fill_tab2(str, &quote, &i, word);
 	else if (*str && is_in_charset(*str, "|><"))
 	{
 		word[i++] = *str++;
@@ -108,16 +44,13 @@ char	*fill_tab(char **ptr)
 	}
 	else
 		while (!is_in_charset(*str, ISSEP))
-		{
-			word[i++] = *str;
-			str++;
-		}
+			word[i++] = *str++;
 	word[i] = 0;
 	*ptr = str;
 	return (word);
 }
 
-char **split_iscote(char *str)
+char	**split_iscote(char *str)
 {
 	int		len;
 	char	**new;
@@ -149,9 +82,11 @@ char	*re_clean(char *str, t_data *data)
 
 void	find_here_doc(char **here, t_data *data)
 {
-	int i = -1;
-	int count = 0;
+	int	i;
+	int	count;
 
+	i = -1;
+	count = 0;
 	if (!here || !*here)
 		return ;
 	while (here[++i])
@@ -160,35 +95,14 @@ void	find_here_doc(char **here, t_data *data)
 		{
 			i++;
 			if (ft_strchr(here[i], '"') || ft_strchr(here[i], '\''))
-				data->here_doc[count].expand = 1;
-			else
 				data->here_doc[count].expand = 0;
-			data->here_doc[count].limiter = re_clean(here[i], data);
+			else
+				data->here_doc[count].expand = 1;
+			data->here_doc[count].limiter = positive_stringchar(re_clean
+					(here[i], data));
 			count++;
 		}
 		if (!here[i])
 			break ;
 	}
 }
-
-
-// // "salut'bg'ok"
-
-// char	**re_change_delim(char **str, t_data *data)
-// {
-// 	int	i;
-// 	int	j;
-// 	char **res;
-
-// 	i = -1;
-// 	j = 0;
-// 	while (str[++i])
-// 	{
-// 		if (strcmp(str[i], "<<") == 0)
-// 		{
-// 			i++;
-// 			res = re_clean(str[i], data);
-// 		}
-// 	}
-// 	return (res);
-// }

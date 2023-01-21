@@ -43,6 +43,7 @@ INIT_DIR	= init
 BLTS_DIR	= builtins
 PARSE_DIR	= parse
 ENV_DIR		= $(PARSE_DIR)/env
+WILD_DIR		= $(PARSE_DIR)/wildcards
 EXPAND_DIR	= $(PARSE_DIR)/expand
 SIGNAL_DIR	= signal
 EXEC_DIR	= exec
@@ -56,12 +57,15 @@ INIT_DIRS	= $(INIT_DIR)\
 			$(SIGNAL_DIR)\
 			$(EXEC_DIR)\
 			$(FREE_DIR)\
+			$(WILD_DIR)\
 			
 
 SRC_FILES =	$(addprefix parse/, \
-				parse.c			parse_input.c		utils_parse_input.c			utils.c		parse_heredoc.c) \
+				parse.c			parse_input.c		utils_parse_input.c			utils.c		parse_heredoc.c		parse_here2.c) \
 			$(addprefix parse/env/, \
 				t_env_init.c	t_env.c				t_env_utils.c) \
+			$(addprefix parse/wildcards/, \
+				wildcards.c) \
 			$(addprefix parse/expand/, \
 				expand.c		splitquote.c		cleanstring.c				add_expand_to_str.c\
 				neg_chars.c) \
@@ -127,6 +131,7 @@ $(OBJS_DIR) :
 	mkdir $(OBJS_DIR)/$(SIGNAL_DIR)
 	mkdir $(OBJS_DIR)/$(EXEC_DIR)
 	mkdir $(OBJS_DIR)/$(FREE_DIR)
+	mkdir $(OBJS_DIR)/$(WILD_DIR)
 
 $(OBJS) : $(OBJS_DIR)/%.o : %.c
 	$(CC) $(CFLAGS) $(CDFLAGS) $(CIFLAGS) -c $< -o $@
