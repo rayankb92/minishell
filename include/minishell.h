@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/20 01:25:50 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/21 17:14:37 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <stdio.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+ #include <dirent.h>
 # include <unistd.h>
 
 # define ISSPACE "\t\v\n\r\f "
@@ -96,6 +97,7 @@ typedef struct s_data
 
 	char			**path;
 	char			**env;
+	t_list			*dir;
 
 	t_heredoc		*here_doc;
 	int				len_here;
