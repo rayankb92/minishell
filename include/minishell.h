@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/21 18:56:20 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/21 22:54:37 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ typedef struct s_data
 
 	char			**herecopy;
 	int				expand;
+	int				signal;
 
 	struct t_data	*next;
 }					t_data;
@@ -218,7 +219,7 @@ void				is_heredoc(t_data *data, t_cmd *cmd);
 int					find_pipe(t_heredoc *tab, const char *limiter, int len);
 void				close_pipes(t_heredoc *tab, int read, int write, int len);
 //	is_redirection.c
-void				is_redirection(t_data *data, t_cmd *ptr);
+int				is_redirection(t_data *data, t_cmd *ptr);
 //	valid_command.c
 char				*valid_command(const char *command, char **env);
 

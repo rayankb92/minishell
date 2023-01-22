@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   is_heredoc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 18:19:49 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/21 19:07:41 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/21 22:43:09 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ void	set_tabs(t_heredoc *tab, t_cmd *ptr)
 			if (tmp -> sequence[i] . index_redirect == DLESS)
 			{
 				tab[j].limiter = tmp->sequence[i].redirect;
-				ft_printf("DELIM = '%s'\n", tab[j].limiter);
 				pipe(tab[j++].pipe);
 			}
 			i++;
