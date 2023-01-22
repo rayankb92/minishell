@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 23:18:11 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/22 03:14:15 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/22 19:38:33 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	is_redirection(t_data *data, t_cmd *ptr)
 			if (fd < 0)
 			{
 				if (errno == 13)
-					ft_printf("bash: %s: PERMISSION DENIEDDDDDDDDDDDDDD\n", ptr -> sequence[i] . redirect);
+					ft_printf("bash: %s: PERMISSION DENIED\n", ptr -> sequence[i] . redirect);
 				else
 				ft_printf("bash: %s: No such file or directory\n", ptr -> sequence[i] . redirect);
 				if (data -> cmd && data -> cmd -> next)
