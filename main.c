@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 05:47:36 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/21 19:08:57 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/21 20:28:34 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,7 @@ void	quit(t_data *data)
 	exit(status);
 }
 
-// int list_dir(void);
 
-// int main()
-// {
-// 	list_dir();
-	
-// 	return 0;
-// }
 void	copy_files(char *find, t_data *data);
 
 
