@@ -104,7 +104,7 @@ LIB_DIR = libft
  #=============================================================================#
 
 CC = cc
-CFLAGS = -g3 -Wall -Wextra -Werror # -lreadline
+CFLAGS = -g3# -Wall -Wextra -Werror # -lreadline
 CDFLAGS = -MMD -MP
 CIFLAGS = -Iincludes -I$(LIB_DIR)/includes
 CLFLAGS = -L$(LIB_DIR) -lft -lreadline

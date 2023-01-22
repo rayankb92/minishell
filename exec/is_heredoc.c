@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   is_heredoc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 18:19:49 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/21 22:43:09 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/22 06:31:44 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../include/minishell.h"
 
-/*\*/
+extern void	*g_data;
+
 static
 int	len_here_doc(t_cmd *ptr)
 {
@@ -146,13 +147,26 @@ int		find_pipe(t_heredoc *tab, const char *limiter, int len)
 	return (tab[i].pipe[0]);
 }
 
+
+
+static
+void	exit_heredoc(int sig)
+{
+	if (sig == SIGINT)
+	{
+		update_status_code(((t_data *)g_data), 130);
+		free_shell(((t_data *)g_data));
+		close_pipes(((t_data *)g_data) -> here_doc, 1, 1, ((t_data *)g_data) -> len_here);
+		exit(130);
+	}
+}
+
 void	is_heredoc(t_data *data, t_cmd *ptr)
 {
 	pid_t		pid;
 	int		status;
 	
 	status = 0;
-	signal(SIGINT, SIG_IGN);
 	data -> len_here = len_here_doc(data -> cmd);
 	if (data->len_here == 0)
 		return ;
@@ -163,9 +177,11 @@ void	is_heredoc(t_data *data, t_cmd *ptr)
 	set_tabs(data -> here_doc, ptr);
 	// ft_arraydel(data->herecopy);
 	pid = fork();
+	if (pid == -1)
+		return ;
 	if (pid == 0)
 	{
-		signal(SIGINT, & ctrlc);
+		signal(SIGINT, & exit_heredoc);
 		data->expand = 0;
 		find_here_doc(data->herecopy, data);
 		data->expand = 1;

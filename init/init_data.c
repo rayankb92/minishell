@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_data.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 11:22:50 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/21 15:22:14 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/22 06:29:55 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,13 @@ int	init_data(t_data *data, char **env)
 			tenv_to_env(data, env);
 		}
 		else
-			data -> tenv = ft_calloc(sizeof(t_env), 1);
+		{
+			data -> tenv = new_env(ft_strdup("?"), ft_strdup("0"), 0);
+			char path[4096];
+			getcwd(path, 4096);
+			ft_strcpy(path, ft_strrchr(path, '/') + 1);
+			add_back_env(& data -> tenv, new_env(get_key("OLDPWD"), get_value(path), 1));
+		}
 		env_set++;
 	}
 	return (EXIT_SUCCESS);

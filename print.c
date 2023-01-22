@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 13:47:12 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/21 18:11:59 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/22 05:55:00 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ void	display_env(t_env *env)
 	t_env *temp;
 
 	temp = env;
+	if (temp)
+		temp = temp -> next;
 	while (temp)
 	{
 		if (temp -> key && temp -> value && temp->value[0])

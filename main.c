@@ -6,11 +6,13 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 05:47:36 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/22 04:23:00 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/22 06:57:43 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/minishell.h"
+
+void	*g_data;
 
 static
 void	quit(short status, t_data *data)
@@ -20,10 +22,6 @@ void	quit(short status, t_data *data)
 	ft_putendl_fd("exit", 2);
 	exit(status);
 }
-
-
-void	copy_files(char *find, t_data *data);
-
 
 int main(int ac, char **av, char **env)
 {
@@ -51,6 +49,7 @@ int main(int ac, char **av, char **env)
 			{
 				if (init_data(& data, env))
 					return (EXIT_FAILURE);
+				g_data = & data;
 				//copy_files("lala", &data);
 				data.expand = 1;
 				parse_input(input, data . cmd, & data);
@@ -69,8 +68,8 @@ int main(int ac, char **av, char **env)
 				data . herecopy = 0;
 				data . cmd = 0;
 			}
-			else
-				ft_putstr_fd("Syntax error\n", 2);
+			//else
+			//	ft_putstr_fd("Syntax error\n", 2);
 		}
 		else
 			update_status_code(& data, 2);
@@ -78,6 +77,9 @@ int main(int ac, char **av, char **env)
 	}
 	quit(status, & data);
 }
+
+//chemin absolu affiche pas command not found
+//revoirla fonction is_child pour la refacto
 
 //ls | < a > | ls : sytax error
 // "|||||||||||||||||||||||||||||||||||||||||||||||||||||||" - > command notfound like a vrai bash

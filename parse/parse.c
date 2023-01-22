@@ -6,13 +6,14 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:25:58 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/21 18:53:58 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/22 04:52:34 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-/*\*/
+#define SYNTAX_ERROR "bash: syntax error near unexpected token"
+
 int	check_quote(const char *str)
 {
 	int	i;
@@ -55,6 +56,11 @@ int	exist_after(const char *str, int index, int c, int search)
 			i++;
 			temp++;
 		}
+		if (str[i] == '|')
+		{
+			ft_printf("%s`%c'", SYNTAX_ERROR, '|');
+			return (EXIT_FAILURE);
+		}
 		if (str[i] != c && str[i] != search)
 			return (EXIT_SUCCESS);
 		if (((str[i] == c && temp != 0) || str[i] == search) || (temp > 0 && c == search))
@@ -64,8 +70,8 @@ int	exist_after(const char *str, int index, int c, int search)
 	return (EXIT_SUCCESS);
 }
 
-#define SYNTAX_ERROR "bash: syntax error near unexpected token"
-static int	check_chevron(const char *str, const char c)
+static
+int	check_chevron(const char *str, const char c)
 {
 	int	i;
 	int	j;
@@ -111,5 +117,3 @@ int	check_chevrons(const char *str)
 	return (check_chevron(str, '<') > 0 || check_chevron(str, '>') > 0
 		|| check_chevron(str, '|') > 0);
 }
-
-/*\*/

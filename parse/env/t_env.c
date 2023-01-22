@@ -6,13 +6,12 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 07:59:57 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/21 18:28:06 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/22 06:26:26 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../../include/minishell.h"
 
-static
 char	*get_key(char *str)
 {
 	int	i;
@@ -23,7 +22,7 @@ char	*get_key(char *str)
 	return (ft_substr(str, 0, i));
 }
 
-static
+
 char	*get_value(char *str)
 {
 	int	i;
@@ -42,10 +41,13 @@ t_env	*copy_tenv(char **env)
 
 	i = -1;
 	new = new_env(ft_strdup("?"), ft_strdup("0"), 0);
+	char path[4096];
+
+	getcwd(path, 4096);
+	ft_strcpy(path, ft_strrchr(path, '/') + 1);
+	add_back_env(& new, new_env(get_key("OLDPWD"), get_value(path), 1));
 	while (env[++i])
-	{
 		add_back_env(& new, new_env(get_key(env[i]), get_value(env[i]), 1));
-	}
 	return (new);
 }
 

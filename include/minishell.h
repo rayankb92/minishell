@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/21 22:54:37 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/22 06:13:07 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,9 @@ void				add_back_env(t_env **env, t_env *new);
 //	t_env.c
 void				tenv_to_env(t_data *data, char **env);
 t_env				*copy_tenv(char **env);
+char				*get_key(char *str);
+char				*get_value(char *str);
+
 //	t_env_utils.c
 char				*get_key_from_tenv(t_env *tenv, const char *key);
 void				set_path_from_tenv(t_data *data);

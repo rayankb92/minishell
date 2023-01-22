@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 13:52:31 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/22 03:19:44 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/22 06:18:33 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	is_child(t_data *data, t_cmd *ptr, int index_pid)
 	if (ptr -> command)
 		res = ft_strcmp(ptr -> command, "env");
 	if ((!command && ptr -> command && matching(ptr -> command) && !ft_strchr(ptr -> command, '/'))
-		|| (ptr -> command && !*(ptr -> command)))
+		|| (ptr -> command && ptr -> command[0] == '\0'))
 	{
 		update_status_code(data, 127);
 		ft_printf("%s: command not found\n", ptr -> command, tmp += 1);
