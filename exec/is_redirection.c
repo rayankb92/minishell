@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   is_redirection.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 23:18:11 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/21 18:00:08 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/22 03:14:15 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	dup_or_printerr(const int fd, const int redirect, const char *error)
 	}
 }
 
-void	is_redirection(t_data *data, t_cmd *ptr)
+int	is_redirection(t_data *data, t_cmd *ptr)
 {
 	static const int	indexs[3] = {
 		O_WRONLY | O_CREAT | O_TRUNC, 
@@ -54,9 +54,17 @@ void	is_redirection(t_data *data, t_cmd *ptr)
 			}
 			if (fd < 0)
 			{
+				if (errno == 13)
+					ft_printf("bash: %s: PERMISSION DENIEDDDDDDDDDDDDDD\n", ptr -> sequence[i] . redirect);
+				else
 				ft_printf("bash: %s: No such file or directory\n", ptr -> sequence[i] . redirect);
-				free_shell(data);
-				exit(EXIT_FAILURE);
+				if (data -> cmd && data -> cmd -> next)
+				{
+					free_shell(data);
+					exit(EXIT_FAILURE);
+				}
+				else
+					return 1;
 			}
 			if (index_redirect != LESS && index_redirect != DLESS)
 				dup_or_printerr(fd, STDOUT_FILENO, "Cannot open great / dgreat");
@@ -65,7 +73,8 @@ void	is_redirection(t_data *data, t_cmd *ptr)
 		}
 		i++;
 	}
-	update_status_code(data, 0);
+	// update_status_code(data, 0);
+	return (0);
 }
 
 /*

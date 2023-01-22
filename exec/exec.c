@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 13:52:31 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/21 18:52:35 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/22 03:19:44 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,15 @@ void	is_child(t_data *data, t_cmd *ptr, int index_pid)
 {
 	char	*command;
 	int		tmp;
+	int		res;
 
 	command = valid_command(ptr -> command, data -> path);
 	tmp = 0;
-	if (!command && ptr -> command && matching(ptr -> command) && !ft_strchr(ptr -> command, '/'))
+	res = 1;
+	if (ptr -> command)
+		res = ft_strcmp(ptr -> command, "env");
+	if ((!command && ptr -> command && matching(ptr -> command) && !ft_strchr(ptr -> command, '/'))
+		|| (ptr -> command && !*(ptr -> command)))
 	{
 		update_status_code(data, 127);
 		ft_printf("%s: command not found\n", ptr -> command, tmp += 1);
@@ -53,9 +58,9 @@ void	is_child(t_data *data, t_cmd *ptr, int index_pid)
 	{
 		pipe_redirection(data, index_pid);
 		is_redirection(data, ptr);
-		if (is_builtin(ptr) == EXIT_FAILURE || ft_strcmp(ptr -> command, "env") == 0)
+		if (is_builtin(ptr) == EXIT_FAILURE || res == 0)
 		{
-			if (ft_strcmp(ptr -> command, "env"))
+			if (res)
 			{
 				if (ptr -> command && ptr -> command[0])
 				{
@@ -74,13 +79,13 @@ void	is_child(t_data *data, t_cmd *ptr, int index_pid)
 	}
 	if (13 == errno && !tmp && ptr -> command && ptr -> args[1])
 	{
-		update_status_code(data, 13);
+		// update_status_code(data, 1);
 		ft_printf("%s: %s: Permission denied\n", ptr -> command, ptr -> args[1]); // status code 1
 	}
 	if (1 == errno && !tmp && ptr -> command && ptr -> args[1])
 	{
-		update_status_code(data, 1);
-		ft_printf("%s: %s: No such file or directory\n", ptr -> command, ptr -> args[1]); //status 1
+		// update_status_code(data, 1);
+		ft_printf("%s: %s: No su33ch file or directory\n", ptr -> command, ptr -> args[1]); //status 1
 	}
 	close_fd(& data -> pipes);
 	ft_memdel((void **)& command);
@@ -102,11 +107,10 @@ void	exec(t_data *data)
 {
 	t_cmd		*ptr;
 	int			index_pid;
-	int			status;
 	static int rayan = 0;
 
 	ptr = data -> cmd;
-	status = 0;
+	data->signal = 0;
 	index_pid = 0;
 	is_heredoc(data, ptr);
 	set_path_from_tenv(data);
@@ -115,7 +119,11 @@ void	exec(t_data *data)
 		if (! data -> cmd -> next && is_builtin(ptr) == EXIT_SUCCESS && ft_strcmp(ptr -> command, "env"))
 		{
 			int copy = dup(STDOUT_FILENO);
-			is_redirection(data, ptr);
+			if (is_redirection(data, ptr))
+			{
+				// free_shell(data);
+				return ;
+			}
 			do_builtin(ptr, data);
 			dup2(copy, STDOUT_FILENO);
 			close(copy);
@@ -138,7 +146,7 @@ void	exec(t_data *data)
 			is_child(data, ptr, index_pid);
 			//ft_printf("KEY: %s | %s\n", ft_strdup(get_key_from_tenv(data -> tenv, "?")), ft_strdup(get_key_from_tenv(data -> tenv, "$?")));
 			//int status = ft_atoi(get_key_from_tenv(data -> tenv, "?"));
-			exit(0);
+			exit(data->signal);
 		}
 		if (data -> pids[index_pid] > 0)
 		{
@@ -153,10 +161,10 @@ void	exec(t_data *data)
 		close_pipes(data -> here_doc, 1, 0, data -> len_here);
 	for (int i = 0; i < index_pid; i++)
 	{
-		waitpid(data -> pids[i], & status, 0);
-		if (WIFEXITED(status))
-			status = WEXITSTATUS(status);
-		if (status == 131 && !rayan)
+		waitpid(data -> pids[i], & data->signal, 0);
+		if (WIFEXITED(data->signal))
+			data->signal = WEXITSTATUS(data->signal);
+		if (data->signal == 131 && !rayan)
 		{
 			ft_putendl_fd("Quit (core dumped)", 2);
 			rayan++;
@@ -164,5 +172,13 @@ void	exec(t_data *data)
 	}
 	rayan = 0;
 	signal(SIGINT, & ctrlc);
-	update_status_code(data, 0);
+	// if ((ft_atoi(get_key_from_tenv(data->tenv, "?")) > 1))
+	update_status_code(data, data->signal);
+}
+
+
+t_data *singletonnn(void)
+{
+	static t_data *data;
+	return (data);
 }
