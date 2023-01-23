@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   valid_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 00:39:16 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/23 03:42:39 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/23 07:06:35 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ char	*valid_command(const char *command, char **env)
 		else
 			return (joined);
 	}
+	ft_memdel((void **)& joined);
 	while (command && env[++i])
 	{
 		joined = ft_strjoin(env[i], "/");

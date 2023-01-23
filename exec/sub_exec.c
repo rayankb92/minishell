@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sub_exec.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 13:16:58 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/23 05:23:00 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/23 07:07:20 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,17 @@ int	start_command(t_data *data, t_cmd *ptr, char *command, int index_pid)
 	}
 	if (ptr -> command && ptr -> command[0])
 	{
-		if (ft_strchr(ptr -> command, '/') && command)
-			execve(command , ptr->args, data -> env);
+		ft_printf("JM ========== %s   | ptr-> arg %p  | data -> env %p\n", ptr->command, ptr->args, data -> env);
+		if (ft_strchr(ptr -> command, '/'))
+		{
+			execve(ptr -> command , ptr -> args, data -> env);
+
+		}
 		else
+		{
+
 			execve(command, ptr -> args, data -> env);
+		}
 	}
 	close_fd(& data -> pipes);
 	return (EXIT_FAILURE);
