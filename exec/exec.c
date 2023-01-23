@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 12:52:38 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/23 04:11:42 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/23 06:29:19 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	wait_pids(t_data *data, int index_pid)
 	int			i;
 
 	i = -1;
-	while (++i < 1)
+	while (++i < index_pid)
 	{
 		waitpid(data -> pids[i], & data -> signal, 0);
 		if (WIFEXITED(data -> signal))
@@ -104,4 +104,5 @@ void	exec(t_data *data)
 	if (data -> len_here != 0)
 		close_pipes(data -> here_doc, 1, 0, data -> len_here);
 	wait_pids(data, index_pid);
+	close_fd(& data -> pipes);
 }

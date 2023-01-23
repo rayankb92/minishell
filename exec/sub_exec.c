@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 13:16:58 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/23 04:11:49 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/23 05:23:00 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,7 @@ void	pipe_redirection(t_data *data, const int index_pid)
 	}
 	if (index_pid != lstcount - 1)
 		dup2(data -> pipes[1], STDOUT_FILENO);
-	//close_fd(& data -> pipes);
-	close(data-> pipes[0]);
-	close(data-> pipes[1]);
+	close_fd(& data -> pipes);
 }
 
 static
@@ -41,13 +39,12 @@ int	start_command(t_data *data, t_cmd *ptr, char *command, int index_pid)
 	}
 	if (ptr -> command && ptr -> command[0])
 	{
-		if (ft_strchr(ptr -> command, '/'))
+		if (ft_strchr(ptr -> command, '/') && command)
 			execve(command , ptr->args, data -> env);
 		else
 			execve(command, ptr -> args, data -> env);
 	}
-	close(data -> pipes[0]);
-	close(data -> pipes[1]);
+	close_fd(& data -> pipes);
 	return (EXIT_FAILURE);
 }
 
@@ -65,15 +62,7 @@ void	is_child(t_data *data, t_cmd *ptr, int index_pid)
 		ft_printf("%s: command not found\n", ptr -> command);
 	}
 	else
-	{
 		start_command(data, ptr, command, index_pid);
-		//{
-		//	if (13 == errno)
-		//		ft_printf("%s: %s: Permission denied\n", ptr -> command, ptr -> args[1]); // status code 1
-		//	else
-		//		ft_printf("%s: No such file or directory\n", ptr -> command); //status 1
-		//}
-	}
 	ft_memdel((void **)& command);
 	free_shell(data);
 	close(data -> pipes[0]);
@@ -85,10 +74,13 @@ void	is_father(t_data *data, int index_pid)
 {
 	if (data -> pids[index_pid] > 0)
 	{
+		ft_printf("FD0: %d | FD1: %d | Prev %d\n", data ->pipes[0], data ->pipes[1], data ->prev_pipe);
 		close(data -> pipes[1]);
 		if (data -> prev_pipe != -1)
 			close(data -> prev_pipe);
 		data -> prev_pipe = data -> pipes[0];
 		signal(SIGQUIT, SIG_IGN);
 	}
+	//close_fd(& data -> pipes);
+
 }
