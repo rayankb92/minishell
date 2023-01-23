@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 11:22:50 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/22 08:53:09 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/23 04:05:23 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,11 @@ static
 int	set_no_env(t_data *data)
 {
 	t_env	*tenv;
-	char	path[4096];
 	char	*find;
 
 	data -> tenv = new_env(ft_strdup("?"), ft_strdup("0"), 0);
 	if (!data -> tenv)
 		return (EXIT_FAILURE);
-	getcwd(path, 4096);
-	if (!*path)
-		return (EXIT_FAILURE);
-	find = ft_strrchr(path, '/');
-	if (find)
-		ft_strcpy(path, find + 1);
-	tenv = new_env(get_key("OLDPWD"), get_value(path), 1);
-	if (!tenv)
-		return (EXIT_FAILURE);
-	add_back_env(& data -> tenv, tenv);
 	return (EXIT_SUCCESS);
 }
 

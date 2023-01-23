@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 00:39:16 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/23 03:31:04 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/23 03:42:39 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,13 @@ char	*valid_command(const char *command, char **env)
 	joined = 0;
 	if (ft_strchr(command, '/'))
 	{
-		
 		joined = ft_strdup(command);
+		if (access(joined, F_OK ) == -1) //("file exist")
+			ft_printf("%s: No such file or directory\n", command);
+		else if (access(joined, X_OK | R_OK) == -1)
+			ft_printf("%s: Permission denied\n", command);
+		else
+			return (joined);
 	}
 	while (command && env[++i])
 	{

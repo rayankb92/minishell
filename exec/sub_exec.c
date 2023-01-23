@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 13:16:58 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/23 00:39:44 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/23 04:11:49 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,13 +66,13 @@ void	is_child(t_data *data, t_cmd *ptr, int index_pid)
 	}
 	else
 	{
-		if (start_command(data, ptr, command, index_pid) == EXIT_FAILURE)
-		{
-			if (13 == errno)
-				ft_printf("%s: %s: Permission denied\n", ptr -> command, ptr -> args[1]); // status code 1
-			else
-				ft_printf("%s: %s: No such file or directory\n", ptr -> command, ptr -> args[1]); //status 1
-		}
+		start_command(data, ptr, command, index_pid);
+		//{
+		//	if (13 == errno)
+		//		ft_printf("%s: %s: Permission denied\n", ptr -> command, ptr -> args[1]); // status code 1
+		//	else
+		//		ft_printf("%s: No such file or directory\n", ptr -> command); //status 1
+		//}
 	}
 	ft_memdel((void **)& command);
 	free_shell(data);
@@ -85,7 +85,6 @@ void	is_father(t_data *data, int index_pid)
 {
 	if (data -> pids[index_pid] > 0)
 	{
-		ft_printf("FD 0: %d| FD1 %d | PREV%d\n", data -> pipes[0], data -> pipes[1], data -> prev_pipe);
 		close(data -> pipes[1]);
 		if (data -> prev_pipe != -1)
 			close(data -> prev_pipe);

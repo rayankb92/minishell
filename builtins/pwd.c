@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/31 12:33:46 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/20 13:20:58 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/23 04:01:23 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	pwd(void)
 		ft_putendl(path);
 }
 
-const char	*pwd_malloc(void)
+char	*pwd_malloc(void)
 {
 	char		*path;
 

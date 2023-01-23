@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 12:52:38 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/23 00:44:55 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/23 04:11:42 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ void	wait_pids(t_data *data, int index_pid)
 	i = -1;
 	while (++i < 1)
 	{
-		ft_putendl_fd("INDEX PID", 1);
 		waitpid(data -> pids[i], & data -> signal, 0);
 		if (WIFEXITED(data -> signal))
 			data -> signal = WEXITSTATUS(data -> signal);

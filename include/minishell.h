@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/22 13:19:52 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/23 04:01:12 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,7 +207,7 @@ int					matching(const char *match);
 void				is_exit(t_data *data, char **argument);
 //	pwd.c
 void				pwd(void);
-const char			*pwd_malloc(void);
+char				*pwd_malloc(void);
 //	cd.c
 void				cd(const char *path);
 //	unset.c

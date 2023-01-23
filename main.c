@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 05:47:36 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/23 00:48:04 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/23 03:33:11 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,18 +82,24 @@ int main(int ac, char **av, char **env)
 	quit(status, & data);
 }
 
+//chemin absolu affiche pas command not found   ---> Rayan -> pas compris mais sa a l'air de marcher comme bash
+//revoirla fonction is_child pour la refacto
+
 //ls | < a > | ls : sytax error
-// "|||||||||||||||||||||||||||||||||||||||||||||||||||||||" - > command notfound like a vrai bash
-// a/b -> not a directory si dossier existe pas
-// a/b -> not such file or directory si dossier existe
-// a/b -> permission denied si fichier existe dans dossier
+// -------------------------------------------REGLER--------------------"|||||||||||||||||||||||||||||||||||||||||||||||||||||||" - > command notfound like a vrai bash
+
+// _________________________________________________________
+// a/b -> not a directory si dossier existe pas				|
+// a/b -> not such file or directory si dossier existe		|
+// a/b -> permission denied si fichier existe dans dossier	| -------------> FAIT
+// _________________________________________________________|
 
 /*
 Fumier$ ./signal/
 ==479867== 
 ==479867== FILE DESCRIPTORS: 4 open (3 std) at exit.
 ==479867== Open file descriptor 3: /dev/pts/0
-==479867==    at 0x49DD19B: dup (syscall-template.S:120)
+==479867==    at 0x49DD19B: dup (syscall-template.S:120)				--->PAS FAIT Mais ya plus cette erreur
 ==479867==    by 0x405D7B: exec (exec.c:121)
 ==479867==    by 0x40720E: main (main.c:66)
 */
