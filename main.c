@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 05:47:36 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/23 03:33:11 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/23 05:11:07 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ Fumier$ ./signal/
 ==479867== 
 ==479867== FILE DESCRIPTORS: 4 open (3 std) at exit.
 ==479867== Open file descriptor 3: /dev/pts/0
-==479867==    at 0x49DD19B: dup (syscall-template.S:120)				--->PAS FAIT Mais ya plus cette erreur
+==479867==    at 0x49DD19B: dup (syscall-template.S:120)				--->PAS FAIT Mais ya plus cette erreur	
 ==479867==    by 0x405D7B: exec (exec.c:121)
 ==479867==    by 0x40720E: main (main.c:66)
 */
