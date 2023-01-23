@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanstring.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 01:26:17 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/23 06:49:45 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/23 07:46:58 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	**clean_string(char *str, t_data *data)
 	neg = negative_chars(str, data);
 	if (!neg)
 		return (NULL);
-	ope = putspace_between_operateur(neg);
+	ope = putspace_between_operateur(neg, 0);
 	if (!ope)
 	{
 		ft_memdel((void **)&neg);
@@ -54,14 +54,12 @@ int	count_ope(char *str)
 	return (count + i);
 }
 
-char	*putspace_between_operateur(char *str)
+char	*putspace_between_operateur(char *str, int j)
 {
 	int		i;
-	int		j;
 	char	*new;
 
 	i = 0;
-	j = 0;
 	new = malloc(sizeof(char) * (count_ope(str) + 1));
 	if (!new)
 		return (NULL);
@@ -70,8 +68,8 @@ char	*putspace_between_operateur(char *str)
 		if (str[i] && str[i] > 0 && is_in_charset(str[i], "|<>"))
 		{
 			new[j++] = ' ';
-			if ((ft_strncmp(str + i, ">>", 2) == 0 || ft_strncmp(str + i, "<<",
-						2) == 0) && str[i + 1])
+			if ((!ft_strncmp(&str[i], ">>", 2)
+					|| !ft_strncmp(str + i, "<<", 2)) && str[i + 1])
 				new[j++] = str[i++];
 			if (str[i])
 				new[j++] = str[i++];
@@ -101,4 +99,18 @@ void	positive_chars(char **str)
 				str[i][j] = (str[i][j] * -1);
 		}
 	}
+}
+
+int	find_char(char c)
+{
+	if (ft_isspace(c))
+		return (c * -1);
+	if (c == '|')
+		return (PIPE);
+	else if (c == '>')
+		return (CHEVLEFT);
+	else if (c == '<')
+		return (CHEVRIGHT);
+	else
+		return (c);
 }
