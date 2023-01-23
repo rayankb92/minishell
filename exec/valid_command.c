@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 00:39:16 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/18 00:30:17 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/23 03:31:04 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,15 @@ char	*valid_command(const char *command, char **env)
 		return (NULL);
 	i = -1;
 	joined = 0;
+	if (ft_strchr(command, '/'))
+	{
+		
+		joined = ft_strdup(command);
+	}
 	while (command && env[++i])
 	{
-		if (ft_strchr(command, '/'))
-			joined = ft_strdup(command);
-		else
-		{
-			joined = ft_strjoin(env[i], "/");
-			ft_realloc(& joined, command);
-		}
+		joined = ft_strjoin(env[i], "/");
+		ft_realloc(& joined, command);
 		if (access(joined, X_OK) == 0)
 			return (joined);
 		ft_memdel((void **)& joined);

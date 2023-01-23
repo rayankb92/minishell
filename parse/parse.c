@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/30 01:25:58 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/22 04:52:34 by jewancti         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../include/minishell.h"
 
 #define SYNTAX_ERROR "bash: syntax error near unexpected token"
@@ -76,6 +64,7 @@ int	check_chevron(const char *str, const char c)
 	int	i;
 	int	j;
 	int	len;
+	char quote;
 
 	len = 0;
 	i = 0;
@@ -84,6 +73,12 @@ int	check_chevron(const char *str, const char c)
 		j = 0;
 		while (ft_isspace(str[i]))
 			i++;
+		if (str[i] == '"' || str[i] == '\'')
+		{
+			quote = str[i++];
+			while (str[i] && str[i] != quote)
+				i++;
+		}
 		while (str[i + j] == c)
 		{
 			if ((i + j == 0 && c == '|') || (c == '|' && exist_after(str, i + j, c, '|')))

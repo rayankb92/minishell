@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/22 06:13:07 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/22 13:19:52 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,12 +133,17 @@ int					check_quote(const char *str);
 int					check_chevrons(const char *str);
 char				**split_iscote(char *str);
 //	parse_input.c
-void				parse_input(const char *input, t_cmd *cmd, t_data *data);
+int					parse_input(const char *input, t_cmd *cmd, t_data *data);
 //	utils_parse_input.c
 char				*array_to_string(char **array);
 void				ft_realloc(char **line, const char *s1);
 int					count_occurence(const char *str, const char c);
 int					get_length_args(char **ptr);
+int					get_index_redirect(const char *redirect);
+//	to_positive.c
+void				to_positive(t_cmd *cmd);
+char				*positive_stringchar(char *str);
+char				**positive_arraychars(char **str);
 //	utils.c
 int					ft_lstcount(t_cmd *cmd);
 int					is_in_charset(char c, char *charset);
@@ -155,10 +160,10 @@ void				find_here_doc(char **here, t_data *data);
 t_env				*new_env(char *key, char *value, int eq);
 void				add_back_env(t_env **env, t_env *new);
 //	t_env.c
-void				tenv_to_env(t_data *data, char **env);
 t_env				*copy_tenv(char **env);
 char				*get_key(char *str);
 char				*get_value(char *str);
+int					tenv_to_env(t_data *data, char **env);
 
 //	t_env_utils.c
 char				*get_key_from_tenv(t_env *tenv, const char *key);
@@ -217,12 +222,16 @@ void				export(t_data *data, const char *str, int force);
 */
 //	exec.c
 void				exec(t_data *data);
+void				close_fd(int (*fd)[2]);
+//	sub_exec.c
+void				is_child(t_data *data, t_cmd *ptr, int index_pid);
+void				is_father(t_data *data, int index_pid);
 //	is_heredoc.c
 void				is_heredoc(t_data *data, t_cmd *cmd);
 int					find_pipe(t_heredoc *tab, const char *limiter, int len);
 void				close_pipes(t_heredoc *tab, int read, int write, int len);
 //	is_redirection.c
-int				is_redirection(t_data *data, t_cmd *ptr);
+int					is_redirection(t_data *data, t_cmd *ptr);
 //	valid_command.c
 char				*valid_command(const char *command, char **env);
 

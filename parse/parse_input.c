@@ -6,61 +6,11 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 12:42:43 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/22 04:42:17 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/22 12:51:26 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-/*\*/
-char	*positive_stringchar(char *str)
-{
-	int	i;
-
-	i = -1;
-	while (str[++i])
-	{
-		if (str[i] == PIPE)
-			str[i] = '|';
-		if (str[i] == CHEVLEFT)
-			str[i] = '>';
-		if (str[i] == CHEVRIGHT)
-			str[i] = '<';
-		if (str[i] == SLASHBACK)
-			str[i] = '\0';
-	}
-	return (str);
-}
-
-static
-char	**positive_arraychars(char **str)
-{
-	int	i;
-
-	i = -1;
-	while (str[++i])
-		positive_stringchar(str[i]);
-	return (str);
-}
-
-static
-void	to_positive(t_cmd *cmd)
-{
-	t_cmd	*ptr;
-
-	ptr = cmd;
-	while (ptr)
-	{
-		if (ptr -> command)
-			positive_stringchar(ptr -> command);
-		if (ptr -> args)
-			positive_arraychars(ptr -> args);
-		for (int i = 0; i < ptr -> length_sequence; i++) {
-			positive_stringchar(ptr -> sequence[i] . redirect);
-		}
-		ptr = ptr -> next;
-	}
-}
 
 static
 void	attribute_args(int *start, int *index_args, char **parse, t_cmd *ptr)
@@ -82,18 +32,6 @@ void	attribute_args(int *start, int *index_args, char **parse, t_cmd *ptr)
 			ptr -> args[(*index_args)++] = ft_strdup(parse[(*start)++]);
 		}
 	}
-}
-
-static
-int	get_index_redirect(const char *redirect)
-{
-	int	i;
-
-	i = (redirect[0] == '>') + (redirect[1] == '>');
-	if (i != 0)
-		return (i);
-	i = 2 + (redirect[0] == '<') + (redirect[1] == '<');
-	return (i);
 }
 
 static
@@ -127,63 +65,102 @@ void attribute_sequence(int *start, int *index_ar, char **parse, t_cmd *ptr)
 	}
 }
 
-void	parse_input(const char *input, t_cmd *cmd, t_data *data)
+static
+void	set_sequence(t_cmd **ptr, char **arrays[2], int *index, int *index_args, int *index_split)
+{
+	char	**parse;
+	char	**split;
+
+	parse = arrays[0];
+	split = arrays[1];
+	if (parse[*index])
+	{
+		(*ptr) -> length_sequence = count_occurence(split[*index_split], '>')
+			+ count_occurence(split[*index_split], '<');
+		(*index_split)++;
+	}
+	else
+		(*ptr) -> length_sequence = 0;
+	if ((*ptr) -> length_sequence > 0)
+		attribute_sequence(index, index_args, parse, (*ptr));
+	while (parse[*index] && parse[*index][0] == '|')
+		(*index)++;
+	if (!(*ptr) -> command && (*ptr) -> args && (*ptr) -> args[0])
+		(*ptr) -> command = ft_strdup((*ptr) -> args[0]);
+	if (parse[*index])
+	{
+		(*ptr) -> next = ft_calloc(sizeof(t_cmd), 1);
+		(*ptr) = (*ptr) -> next;
+	}
+}
+
+static
+int	loop(t_data *data, t_cmd **cmd, char **parse, char **split)
+{
+	t_cmd	*ptr;
+	int		i;
+	int		index;
+	int		index_args;
+	int		index_split = 0;
+
+	ptr = *cmd;
+	index = 0;
+	while (parse[index])
+	{
+		i = 0;
+		index_args = 0;
+		while (parse[index][i] == '>' || parse[index][i] == '<')
+			i++;
+		if (parse[index][i] != '\0')
+		{
+			ptr -> command = ft_strdup(parse[index]);
+			if (!ptr -> command)
+				return (EXIT_FAILURE);
+		}
+		attribute_args(& index, & index_args, parse, ptr);
+		set_sequence(& ptr, (char **[2]){parse, split}, & index, & index_args, & index_split);
+	}
+	return (EXIT_SUCCESS);
+}
+
+//ft_displaydouble(parse); // bug sur ls|<a>f|ls
+int	parse_input(const char *input, t_cmd *cmd, t_data *data)
 {
 	t_cmd	*ptr;
 	char	**parse;
 	char	**split;
-	int		k = 0;
-	int		index_args = 0;
-	int		index_split = 0;
+	char	*tmp;
 
-	parse = clean_string((char *)input, data); // check malloc
-	ft_displaydouble(parse); // bug sur ls|<a>f|ls
+	parse = clean_string((char *)input, data);
+	if (!parse)
+		return (EXIT_FAILURE);
 	if (!parse || !parse[0])
 	{
 		if (!parse[0])
 			free(parse);
-		return ;
+		return (EXIT_SUCCESS);
 	}
-	char *tmp = array_to_string(parse);
-	split = ft_split(tmp, '|'); // check malloc
+	tmp = array_to_string(parse);
+	if (!tmp)
+	{
+		ft_arraydel(parse);
+		return (EXIT_FAILURE);
+	}
+	split = ft_split(tmp, '|');
 	ft_memdel((void **)& tmp);
 	if (!split)
-		return ;
-	ptr = cmd;
-	int e;
-	while (parse[k])
 	{
-		e = 0;
-		index_args = 0;
-		while (parse[k][e] == '>' || parse[k][e] == '<')
-			e++;
-		if (parse[k][e] != '\0')
-			ptr -> command = ft_strdup(parse[k]);
-		attribute_args(& k, & index_args, parse, ptr);
-		if (parse[k])
-		{
-			ptr -> length_sequence = count_occurence(
-				split[index_split], '>')
-					+ count_occurence(split[index_split], '<');
-			index_split++;
-		}
-		else
-			ptr -> length_sequence = 0;
-		if (ptr -> length_sequence > 0)
-			attribute_sequence(& k, & index_args, parse, ptr);
-		while (parse[k] && parse[k][0] == '|')
-			k++;
-		if (!ptr -> command && ptr -> args && ptr -> args[0])
-			ptr -> command = ft_strdup(ptr -> args[0]);
-		if (parse[k])
-		{
-			ptr -> next = ft_calloc(sizeof(t_cmd), 1);
-			ptr = ptr -> next;
-		}
+		ft_arraydel(parse);
+		return (EXIT_FAILURE);
+	}
+	ptr = cmd;
+	if (loop(data, & ptr, parse, split))
+	{
+		ft_arraydel(parse);
+		ft_arraydel(split);
 	}
 	to_positive(cmd);
 	ft_arraydel(parse);
 	ft_arraydel(split);
+	return (EXIT_SUCCESS);
 }
-
-/*\*/
