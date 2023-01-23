@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 01:26:17 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/20 02:24:28 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/23 05:19:00 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,8 @@ char	*putspace_between_operateur(char *str)
 				new[j++] = str[i++];
 			new[j++] = ' ';
 		}
-		new[j++] = str[i++];
+		// else
+			new[j++] = str[i++];
 	}
 	new[j] = 0;
 	return (new);

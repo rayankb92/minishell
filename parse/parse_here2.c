@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 01:23:23 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/20 02:36:51 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/23 05:13:26 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	lenword(char *str)
 			j++;
 	}
 	else
-		while (is_in_charset(str[i + j], "<>|"))
+		while (str[i + j] && is_in_charset(str[i + j], "<>|"))
 			j++;
 	return (j);
 }
