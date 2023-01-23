@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 00:39:16 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/23 08:30:30 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/23 11:34:38 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,6 @@ static char	*simple_cmd(const char *command, char **env)
 
 char	*valid_command(const char *command, char **env)
 {
-	char	*joined;
-
 	if (!command || !env)
 		return (NULL);
 	if (ft_strchr(command, '/'))

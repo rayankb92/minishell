@@ -28,8 +28,6 @@ SRC_FILES =	$(addprefix parse/, \
 				to_positive.c) \
 			$(addprefix parse/env/, \
 				t_env_init.c	t_env.c				t_env_utils.c) \
-			$(addprefix parse/wildcards/, \
-				wildcards.c) \
 			$(addprefix parse/expand/, \
 				expand.c		splitquote.c		cleanstring.c				add_expand_to_str.c\
 				neg_chars.c) \
