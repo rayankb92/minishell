@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 12:42:43 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/23 06:30:38 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/23 06:54:34 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,6 @@ int	loop(t_data *data, t_cmd **cmd, char **parse, char **split)
 	return (EXIT_SUCCESS);
 }
 
-//ft_displaydouble(parse); // bug sur ls|<a>f|ls
 int	parse_input(const char *input, t_cmd *cmd, t_data *data)
 {
 	t_cmd	*ptr;
@@ -131,8 +130,7 @@ int	parse_input(const char *input, t_cmd *cmd, t_data *data)
 	char	**split;
 	char	*tmp;
 
-parse = clean_string((char *)input, data);
-	ft_displaydouble(parse);
+	parse = clean_string((char *)input, data);
 	if (!parse)
 		return (EXIT_FAILURE);
 	if (!parse || !parse[0])

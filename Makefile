@@ -1,43 +1,6 @@
-# SRCS	=	$(addprefix parse/, parse.c utils.c ) main.c \
-# 			$(addprefix builtins/, pwd.c export.c unset.c exit.c) \
-# 			$(addprefix src/, set_data.c)
-
-# NAME	=	minishell
-
-# FLAGS	=	-g3  #-Wall -Werror -Wextra -lreadline
-
-# OBJS	=	${SRCS:.c=.o}
-
-# DEPS		=	${OBJS:.o=.d}
-
-# INC		= -I ./include
-
-# all:	${NAME}
-
-# ${NAME}:	${OBJS}
-# 		make -C ./libft/
-# 		cc ${FLAGS} ${INC} ${OBJS} -o ${NAME} ./libft/libft.a -lreadline
-
-# -include: ${DEPS}
-
-# %.o:%.c
-# 	cc ${FLAGS} -c -MMD -MP $< -o $@
-
-# clean:
-# 	make -C ./libft/ clean
-# 	rm -rf ${OBJS}
-
-# fclean:	clean
-# 	rm -rf ${NAME}
-
-# re:	fclean all
-
-# .PHONY:	all clean fclean re
-
-
- #=============================================================================#
+#===============================================================================#
 #								SOURCES											#
- #=============================================================================#
+#===============================================================================#
 
 INIT_DIR	= init
 BLTS_DIR	= builtins
@@ -78,7 +41,8 @@ SRC_FILES =	$(addprefix parse/, \
 			$(addprefix init/, \
 				init_data.c) \
 			$(addprefix exec/, \
-				exec.c			sub_exec.c			is_heredoc.c		is_redirection.c			valid_command.c) \
+				exec.c			sub_exec.c			is_heredoc.c		is_redirection.c			valid_command.c \
+				heredoc_utils.c) \
 			$(addprefix free/, \
 				free.c) \
 			main.c print.c

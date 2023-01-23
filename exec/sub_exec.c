@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sub_exec.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 13:16:58 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/23 07:07:20 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/23 08:11:39 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,17 +39,10 @@ int	start_command(t_data *data, t_cmd *ptr, char *command, int index_pid)
 	}
 	if (ptr -> command && ptr -> command[0])
 	{
-		ft_printf("JM ========== %s   | ptr-> arg %p  | data -> env %p\n", ptr->command, ptr->args, data -> env);
 		if (ft_strchr(ptr -> command, '/'))
-		{
-			execve(ptr -> command , ptr -> args, data -> env);
-
-		}
+			execve(ptr -> command, ptr -> args, data -> env);
 		else
-		{
-
 			execve(command, ptr -> args, data -> env);
-		}
 	}
 	close_fd(& data -> pipes);
 	return (EXIT_FAILURE);
@@ -62,8 +55,9 @@ void	is_child(t_data *data, t_cmd *ptr, int index_pid)
 	signal(SIGINT, & ctrlc);
 	signal(SIGQUIT, & reactiv);
 	command = valid_command(ptr -> command, data -> path);
-	if (ptr -> command && is_builtin(ptr) && ((!command && !ft_strchr(ptr -> command, '/'))
-		|| (ptr -> command[0] == '\0')))
+	if (ptr -> command && is_builtin(ptr)
+		&& ((!command && !ft_strchr(ptr -> command, '/'))
+			|| (ptr -> command[0] == '\0')))
 	{
 		update_status_code(data, 127);
 		ft_printf("%s: command not found\n", ptr -> command);
@@ -72,8 +66,7 @@ void	is_child(t_data *data, t_cmd *ptr, int index_pid)
 		start_command(data, ptr, command, index_pid);
 	ft_memdel((void **)& command);
 	free_shell(data);
-	close(data -> pipes[0]);
-	close(data -> pipes[1]);
+	close_fd(& data -> pipes);
 	exit(data -> signal);
 }
 
@@ -81,13 +74,11 @@ void	is_father(t_data *data, int index_pid)
 {
 	if (data -> pids[index_pid] > 0)
 	{
-		ft_printf("FD0: %d | FD1: %d | Prev %d\n", data ->pipes[0], data ->pipes[1], data ->prev_pipe);
 		close(data -> pipes[1]);
 		if (data -> prev_pipe != -1)
 			close(data -> prev_pipe);
 		data -> prev_pipe = data -> pipes[0];
 		signal(SIGQUIT, SIG_IGN);
 	}
-	//close_fd(& data -> pipes);
-
+	close_fd(& data -> pipes);
 }

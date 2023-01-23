@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_heredoc.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 00:27:26 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/20 01:31:56 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/23 07:35:35 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ void	find_here_doc(char **here, t_data *data)
 	count = 0;
 	if (!here || !*here)
 		return ;
+	data -> expand = 0;
 	while (here[++i])
 	{
 		if (ft_strcmp(here[i], "<<") == 0)
@@ -105,4 +106,5 @@ void	find_here_doc(char **here, t_data *data)
 		if (!here[i])
 			break ;
 	}
+	data -> expand = 1;
 }

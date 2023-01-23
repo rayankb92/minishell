@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 12:52:38 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/23 06:29:19 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/23 07:26:03 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,14 +86,13 @@ void	loop(t_data *data, int *index_pid)
 	close(data->pipes[0]);
 }
 
-
 void	exec(t_data *data)
 {
 	t_cmd		*ptr;
 	int			index_pid;
 
 	ptr = data -> cmd;
-	data -> signal = 0; // pt plus tot
+	data -> signal = 0;
 	index_pid = 0;
 	is_heredoc(data, ptr);
 	update_status_code(data, data -> signal);

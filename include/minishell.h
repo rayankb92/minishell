@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/23 06:33:06 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/23 07:28:00 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,8 +228,11 @@ void				is_child(t_data *data, t_cmd *ptr, int index_pid);
 void				is_father(t_data *data, int index_pid);
 //	is_heredoc.c
 void				is_heredoc(t_data *data, t_cmd *cmd);
-int					find_pipe(t_heredoc *tab, const char *limiter, int len);
+//	heredoc_utils.c
 void				close_pipes(t_heredoc *tab, int read, int write, int len);
+void				print_heredoc(char *str, int fd, int exp, t_data *data);
+int					find_pipe(t_heredoc *tab, const char *limiter, int len);
+
 //	is_redirection.c
 int					is_redirection(t_data *data, t_cmd *ptr);
 //	valid_command.c
