@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/23 07:28:00 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/23 08:14:08 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,7 +181,7 @@ size_t				is_variable(const char c, int opt);
 size_t				get_varname_len(const char *var);
 //	clean_string.c
 char				**clean_string(char *str, t_data *data);
-char				*putspace_between_operateur(char *str);
+char				*putspace_between_operateur(char *str, int j);
 void				positive_chars(char **str);
 //	split_quote.c
 char				**split_quote(char const *s, char *charset);

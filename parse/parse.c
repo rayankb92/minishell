@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:25:58 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/23 06:31:41 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/23 08:03:58 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,39 @@ int	exist_after(const char *str, int index, int c, int search)
 		}
 		if (str[i] != c && str[i] != search)
 			return (EXIT_SUCCESS);
-		if (((str[i] == c && temp != 0) || str[i] == search) || (temp > 0 && c == search))
+		if (((str[i] == c && temp != 0) || str[i] == search)
+			|| (temp > 0 && c == search))
 			return (EXIT_FAILURE);
 		i++;
 	}
+	return (EXIT_SUCCESS);
+}
+
+static int	check_chevron2(const char *str, const char c, int *i, int *j)
+{
+	char	quote;
+
+	*j = 0;
+	while (ft_isspace(str[*i]))
+		(*i)++;
+	if (str[*i] == '"' || str[*i] == '\'')
+	{
+		quote = str[(*i)++];
+		while (str[*i] && str[*i] != quote)
+			(*i)++;
+	}
+	while (str[*i + *j] == c)
+	{
+		if ((*i + *j == 0 && c == '|') || (c == '|'
+				&& exist_after(str, *i + *j, c, '|')))
+			return (ft_putendl_fd("Syntax error", 2));
+		if ((c == '>' && exist_after(str, *i + *j, c, '<'))
+			|| (c == '<' && exist_after(str, *i + *j, c, '>')))
+			return (ft_putendl_fd("Syntax error", 2));
+		(*j)++;
+	}
+	while (ft_isspace(str[*i + *j]))
+		(*i)++;
 	return (EXIT_SUCCESS);
 }
 
@@ -76,32 +105,13 @@ int	check_chevron(const char *str, const char c)
 	int	i;
 	int	j;
 	int	len;
-	char quote;
 
 	len = 0;
 	i = 0;
 	while (str[i])
 	{
-		j = 0;
-		while (ft_isspace(str[i]))
-			i++;
-		if (str[i] == '"' || str[i] == '\'')
-		{
-			quote = str[i++];
-			while (str[i] && str[i] != quote)
-				i++;
-		}
-		while (str[i + j] == c)
-		{
-			if ((i + j == 0 && c == '|') || (c == '|' && exist_after(str, i + j, c, '|')))
-				return (ft_putendl_fd("Syntax error", 2));
-			if ((c == '>' && exist_after(str, i + j, c, '<'))
-				|| (c == '<' && exist_after(str, i + j, c, '>')))
-				return (ft_putendl_fd("Syntax error", 2));
-			j++;
-		}
-		while (ft_isspace(str[i + j]))
-			i++;
+		if (check_chevron2(str, c, &i, &j))
+			return (EXIT_FAILURE);
 		if (j == 3)
 			return (ft_printf("%s '%c'\n", SYNTAX_ERROR, c));
 		else if (j >= 4)
