@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   is_heredoc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 18:19:49 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/23 07:46:39 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/23 13:06:23 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../include/minishell.h"
-
-extern void	*g_data;
 
 static
 int	len_here_doc(t_cmd *ptr)
@@ -90,13 +88,24 @@ static
 void	exit_heredoc(int sig)
 {
 	t_data	*data;
+	int		i;
 
-	data = (t_data *)g_data;
+	data = starton();
 	if (sig == SIGINT)
 	{
 		ft_putchar('\n');
+		i = -1;
+		while (++i < data -> len_here)
+		{
+			if (data -> here_doc[i].pipe[0] != -1)
+				close(data -> here_doc[i].pipe[0]);
+			if (data -> here_doc[i].pipe[1] != -1)
+				close(data -> here_doc[i].pipe[1]);
+			if (data -> here_doc[i].limiter != NULL)
+				ft_memdel((void **)& data -> here_doc[i] . limiter);
+		}
+		close_fd(& data -> pipes);
 		free_shell(data);
-		close_pipes(data -> here_doc, 1, 1, data -> len_here);
 		exit(130);
 	}
 }

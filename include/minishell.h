@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/23 08:14:08 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/23 12:58:05 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,10 @@ int					countlen(char *str);
 int					lenword(char *str);
 char				**split_iscote(char *str);
 void				find_here_doc(char **here, t_data *data);
+
+
+// STARTON
+t_data	*starton(void);
 
 /*
 	DIRECTORY: ./PARSE

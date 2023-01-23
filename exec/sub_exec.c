@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 13:16:58 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/23 10:59:53 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/23 13:14:02 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ int	start_command(t_data *data, t_cmd *ptr, char *command, int index_pid)
 		else
 			execve(command, ptr -> args, data -> env);
 	}
-	ft_memdel((void **)& command);
 	close_fd(& data -> pipes);
 	return (EXIT_FAILURE);
 }
@@ -64,9 +63,7 @@ void	is_child(t_data *data, t_cmd *ptr, int index_pid)
 		ft_printf("%s: command not found\n", ptr -> command);
 	}
 	else
-	{
 		start_command(data, ptr, command, index_pid);
-	}
 	ft_memdel((void **)& command);
 	free_shell(data);
 	close_fd(& data -> pipes);
