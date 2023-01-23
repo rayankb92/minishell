@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 07:59:57 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/22 06:26:26 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/22 08:26:50 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,16 +51,25 @@ t_env	*copy_tenv(char **env)
 	return (new);
 }
 
-void	tenv_to_env(t_data *data, char **env)
+int	tenv_to_env(t_data *data, char **env)
 {
 	int		i;
 
 	data -> env = ft_calloc(sizeof(char *), ft_arraylen(env) + 1);
+	if (!data -> env)
+		return (EXIT_FAILURE);
 	i = -1;
 	while (env[++i])
 	{
 		if (ft_strnstr(env[i], "PATH", 4))
+		{
 			data -> path = ft_split(env[i] + 5, ':');
+			if (!data -> path)
+				return (EXIT_FAILURE);
+		}
 		data -> env[i] = ft_strdup(env[i]);
+		if (!data -> env[i])
+			return (EXIT_FAILURE);
 	}
+	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 18:19:49 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/22 06:31:44 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/22 07:57:19 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ void	exit_heredoc(int sig)
 {
 	if (sig == SIGINT)
 	{
-		update_status_code(((t_data *)g_data), 130);
+		ft_putchar('\n');
 		free_shell(((t_data *)g_data));
 		close_pipes(((t_data *)g_data) -> here_doc, 1, 1, ((t_data *)g_data) -> len_here);
 		exit(130);
@@ -164,9 +164,7 @@ void	exit_heredoc(int sig)
 void	is_heredoc(t_data *data, t_cmd *ptr)
 {
 	pid_t		pid;
-	int		status;
-	
-	status = 0;
+
 	data -> len_here = len_here_doc(data -> cmd);
 	if (data->len_here == 0)
 		return ;
@@ -194,7 +192,9 @@ void	is_heredoc(t_data *data, t_cmd *ptr)
 		exit(EXIT_SUCCESS);
 	}
 	close_pipes(data -> here_doc, 0, 1, data -> len_here);
-	waitpid(pid, &status, 0);
+	waitpid(pid, & data->signal, 0);
+	if (WIFEXITED(data->signal))
+		data->signal = WEXITSTATUS(data->signal);
 	signal(SIGINT, SIG_IGN);
 	//ft_memdel((void **)& data-> here_doc[0]. limiter);
 	//free(data-> here_doc);

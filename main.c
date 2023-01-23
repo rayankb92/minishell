@@ -6,13 +6,13 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 05:47:36 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/22 21:09:40 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/23 05:11:07 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/minishell.h"
 
-void	*g_data;
+void *g_data;
 
 static
 void	quit(short status, t_data *data)
@@ -22,6 +22,10 @@ void	quit(short status, t_data *data)
 	ft_putendl_fd("exit", 2);
 	exit(status);
 }
+
+
+void	copy_files(char *find, t_data *data);
+
 
 int main(int ac, char **av, char **env)
 {
@@ -49,13 +53,13 @@ int main(int ac, char **av, char **env)
 			{
 				if (init_data(& data, env))
 					return (EXIT_FAILURE);
-				g_data = & data;
 				//copy_files("lala", &data);
 				data.expand = 1;
 				parse_input(input, data . cmd, & data);
 				data.herecopy = split_iscote((char *)input);
 				//print_cmd(data.cmd);
 				exec(& data);
+				g_data = & data;
 				//free_shell(& data);
 				status = ft_atoi(get_key_from_tenv(data . tenv, "?"));
 				free_heredoc(data . here_doc, data . len_here);
@@ -68,8 +72,8 @@ int main(int ac, char **av, char **env)
 				data . herecopy = 0;
 				data . cmd = 0;
 			}
-			//else
-			//	ft_putstr_fd("Syntax error\n", 2);
+			else
+				ft_putstr_fd("Syntax error\n", 2);
 		}
 		else
 			update_status_code(& data, 2);

@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 16:25:30 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/22 04:58:31 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/22 08:57:53 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,4 +111,15 @@ char	*array_to_string(char **array)
 		i++;
 	}
 	return (tostring);
+}
+
+int	get_index_redirect(const char *redirect)
+{
+	int	i;
+
+	i = (redirect[0] == '>') + (redirect[1] == '>');
+	if (i != 0)
+		return (i);
+	i = 2 + (redirect[0] == '<') + (redirect[1] == '<');
+	return (i);
 }
