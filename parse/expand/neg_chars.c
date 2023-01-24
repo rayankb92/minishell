@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 18:03:52 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/24 12:05:28 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/24 17:16:44 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,8 @@ static int	count_newlen(t_data *data, char *s)
 	{
 		if (s[i] && s[i] == '"')
 			count_newlen2(s, &i, &len, data);
-		else if (s[i] == '\'')
+		else if (s[i] == '\'' && len++)
 		{
-			len++;
 			while (s[++i] != '\'' && s[i])
 				len++;
 			i++;
@@ -48,8 +47,9 @@ static int	count_newlen(t_data *data, char *s)
 		else if ((i <= lenstr) && data->expand && (s[i] == '$') && (s[i + 1])
 			&& (is_variable(s[i + 1], 1)))
 				i += add_varlen_(data, &s[i + 1], &len) + 1;
-		else if (len++)
+		else
 			i++;
+		len++;
 	}
 	return (len);
 }
@@ -85,6 +85,7 @@ static void	simple_quote_check(char *str, char *new, int *j, int *i)
 			new[(*j)++] = find_char(str[*i]);
 	(*i)++;
 }
+
 
 char	*negative_chars(char *s, t_data *data)
 {
