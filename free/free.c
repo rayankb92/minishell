@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 17:41:08 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/23 13:01:57 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/24 11:51:28 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,17 @@ void	free_cmd(t_cmd *ptr)
 {
 	t_cmd	*cmd;
 	t_cmd	*cmd_tmp;
+	int		i;
 
+	i = -1;
 	cmd = ptr;
 	while (cmd)
 	{
 		cmd_tmp = cmd -> next;
 		ft_memdel((void **)& cmd -> command);
 		ft_arraydel(cmd -> args);
-		for (int i = 0; i < cmd -> length_sequence; i++)
-			ft_memdel((void **)& cmd -> sequence[i] . redirect);
+		while (++i < cmd -> length_sequence)
+			ft_memdel((void **)& cmd -> sequence[i].redirect);
 		ft_memdel((void **)& cmd -> sequence);
 		ft_memdel((void **)& cmd);
 		cmd = cmd_tmp;

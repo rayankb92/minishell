@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 08:55:41 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/22 08:59:19 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/24 11:54:41 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	to_positive(t_cmd *cmd)
 		if (ptr -> args)
 			positive_arraychars(ptr -> args);
 		while (++i < ptr -> length_sequence)
-			positive_stringchar(ptr -> sequence[i] . redirect);
+			positive_stringchar(ptr -> sequence[i].redirect);
 		ptr = ptr -> next;
 	}
 }
