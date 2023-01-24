@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 05:47:36 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/24 08:30:08 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/24 10:58:57 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int main(int ac, char **av, char **env)
 				data -> expand = 1;
 				parse_input(input, data -> cmd, data);
 				data -> herecopy = split_iscote((char *)input);
-				//print_cmd(data.cmd);
+				print_cmd(data->cmd);
 				exec(data);
 				//free_shell(data);
 				status = ft_atoi(get_key_from_tenv(data -> tenv, "?"));

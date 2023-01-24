@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_expand_to_str.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 18:17:14 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/21 18:52:14 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/24 10:18:22 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	add_value(char *new, char *str, t_data *data, int *j)
 	var = expand(data, str + 1);
 	if (!var || !*var)
 	{
-		new[(*j)++] = 'K';
+		new[(*j)++] = VARVIDE;
 		return (get_varname_len(str + 1));
 	}
 	while (var[++i])
@@ -52,7 +52,7 @@ int	add_value_nospace(char *new, char *str, t_data *data, int *j)
 	var = expand(data, str + 1);
 	if (!var || !*var)
 	{
-		new[(*j)++] = SLASHBACK;
+		new[(*j)++] = VARVIDE;
 		return (get_varname_len(str + 1));
 	}
 	var = ft_strtrim(var, ISSPACE);

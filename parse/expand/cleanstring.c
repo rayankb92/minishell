@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 01:26:17 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/23 07:46:58 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/24 09:47:06 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ char	**clean_string(char *str, t_data *data)
 	clean = split_quote(ope, ISSPACE);
 	ft_memdel((void **)&ope);
 	positive_chars(clean);
+	ft_displaydouble(clean);
 	return (clean);
 }
 
@@ -51,8 +52,9 @@ int	count_ope(char *str)
 			count += 2;
 		i++;
 	}
-	return (count + i);
+	return (count + i + 2);
 }
+
 
 char	*putspace_between_operateur(char *str, int j)
 {
@@ -114,3 +116,16 @@ int	find_char(char c)
 	else
 		return (c);
 }
+
+
+/*
+
+< Makefile cat | ls
+
+cat | ls > out
+
+ls > out -R | cat > out
+
+ls -R > out -l
+
+*/

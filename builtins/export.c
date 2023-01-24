@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/31 14:35:41 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/22 01:58:03 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/24 09:05:25 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	is_valid_name(const char *str)
 	i = 0;
 	if (!str)
 		return (0);
-	if (*str == '=')
+	if (*str == '=' || ft_isdigit(*str))
 		return (ft_printf("export: `%s' not a valid identifier\n", str) < 0);
 	while (str[i] && str[i] != '=')
 	{
