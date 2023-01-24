@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/24 16:17:58 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/24 19:52:39 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,7 +206,7 @@ int					is_builtin(t_cmd *cmd);
 void				do_builtin(t_cmd *cmd, t_data *data, int fd);
 int					matching(const char *match);
 //	is_exit.c
-void				is_exit(t_data *data, char **argument);
+int				is_exit(t_data *data, char **argument);
 //	pwd.c
 void				pwd(void);
 char				*pwd_malloc(void);
