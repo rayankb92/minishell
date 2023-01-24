@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 18:03:52 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/24 10:16:39 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/24 11:46:55 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 static void	count_newlen2(char *s, int *i, int *len, t_data *data)
 {
 	(*i)++;
-				ft_printf("LEN2 BEFORE str[%i] == '%c'\n", *i, s[*i]);
 	while (s[*i] && s[(*i)] != '"')
 	{
 		if ((s[*i] == '$') && (s[*i + 1]) && (is_variable(s[*i + 1], 1)))
@@ -24,7 +23,6 @@ static void	count_newlen2(char *s, int *i, int *len, t_data *data)
 		(*len)++;
 	}
 	(*i)++;
-				ft_printf("LEN2 AFTER str[%i] == '%c'\n", *i, s[*i]);
 }
 
 static int	count_newlen(t_data *data, char *s)
@@ -47,9 +45,10 @@ static int	count_newlen(t_data *data, char *s)
 				len++;
 			i++;
 		}
-		else if ((i <= len) && data->expand && (s[i] == '$') && (s[i + 1])
+		else if ((i <= lenstr) && data->expand && (s[i] == '$') && (s[i + 1])
 			&& (is_variable(s[i + 1], 1)))
-				i += add_varlen_(data, &s[i + 1], &len);
+				i += add_varlen_(data, &s[i + 1], &len) + 1;
+
 		else
 			i++;
 		len++;
