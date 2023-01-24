@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 20:30:25 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/04 04:52:01 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/24 11:42:31 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*ft_strndup(const char *s1, size_t n)
 		while (i < n && s1[i])
 		{
 			s[i] = s1[i];
-			i++;	
+			i++;
 		}
 		s[i] = 0;
 	}

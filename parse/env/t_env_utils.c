@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   t_env_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 08:06:30 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/22 01:55:56 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/24 11:22:25 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ void	update_status_code(t_data *data, short code)
 	char	*temp;
 	char	*to_string;
 
+	if (!data -> tenv)
+		return ;
 	temp = ft_strdup("?=");
 	data->signal = code;
 	to_string = ft_itoa(code);

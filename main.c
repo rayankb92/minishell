@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 05:47:36 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/24 10:58:57 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/24 11:21:40 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,10 @@ int main(int ac, char **av, char **env)
 				ft_putstr_fd("Syntax error\n", 2);
 		}
 		else
+		{
 			update_status_code(data, 2);
+			free_shell(data);
+		}
 		ft_memdel((void **)& input);
 	}
 	quit(status, data);

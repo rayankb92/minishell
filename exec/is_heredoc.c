@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 18:19:49 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/24 06:21:24 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/24 11:45:02 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void	exit_heredoc(int sig)
 			if (data -> here_doc[i].pipe[1] != -1)
 				close(data -> here_doc[i].pipe[1]);
 			if (data -> here_doc[i].limiter != NULL)
-				ft_memdel((void **)& data -> here_doc[i] . limiter);
+				ft_memdel((void **)& data -> here_doc[i].limiter);
 		}
 		close_fd(& data -> pipes);
 		free_shell(data);
