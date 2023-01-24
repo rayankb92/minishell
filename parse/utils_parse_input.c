@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_parse_input.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 16:25:30 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/24 11:54:16 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/24 20:41:19 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,9 @@ int	get_length_args(char **ptr)
 	size = 1;
 	i = 1;
 	length = ft_arraylen(ptr);
-	while (i < length && ptr[i])
+	while (i < length && ptr[i] && ptr[i][0] != VARVIDE)
 	{
+		ft_printf("---> %s\n", ptr[i]);
 		while (ptr[i])
 		{
 			if (ptr[i][1] == 0 && (ptr[i][0] == '>' || ptr[i][0] == '<'))

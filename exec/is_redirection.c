@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 23:18:11 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/24 15:53:56 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/24 20:15:39 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	open_file(t_data *data, t_cmd *ptr,
 
 	fd = -1;
 	index_redirect = ptr -> sequence[index_sequence].index_redirect;
-	if (index_redirect != DLESS)
+	if (index_redirect != DLESS && ptr -> sequence[index_sequence].redirect[0] != VARVIDE)
 		fd = open(ptr -> sequence[index_sequence].redirect, \
 			flags[index_redirect - 1], 0666);
 	if (index_redirect == DLESS && data -> len_here != 0)
@@ -45,7 +45,8 @@ int	open_file(t_data *data, t_cmd *ptr,
 			ptr -> sequence[index_sequence].redirect, data -> len_here);
 	if (fd < 0)
 	{
-		perror(ptr -> sequence[index_sequence].redirect);
+		if (ptr -> sequence[index_sequence].redirect[0] != VARVIDE)
+			perror(ptr -> sequence[index_sequence].redirect);
 		free_shell(data);
 		exit(EXIT_FAILURE);
 	}

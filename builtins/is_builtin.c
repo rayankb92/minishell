@@ -6,13 +6,13 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 17:05:34 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/24 16:34:26 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/24 19:38:40 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../include/minishell.h"
+#include "../include/minishell.h"
 
-# define SIZEMATCH	7
+#define SIZEMATCH	7
 
 int	matching(const char *match)
 {
@@ -29,6 +29,19 @@ int	matching(const char *match)
 		i++;
 	}
 	return (EXIT_FAILURE);
+}
+
+void	multiple_export_unset(t_cmd *cmd, t_data *data, int opt)
+{
+	int	i;
+
+	i = 1;
+	if (opt)
+		while (cmd -> args[i])
+			export(data, cmd -> args[i++], 0);
+	else
+		while (cmd -> args[i])
+			unset(data, cmd -> args[i++]);
 }
 
 void	do_builtin(t_cmd *cmd, t_data *data, int fd)
@@ -52,15 +65,9 @@ void	do_builtin(t_cmd *cmd, t_data *data, int fd)
 	else if (ft_strcmp("exit", cmd -> command) == 0)
 		is_exit(data, cmd -> args);
 	else if (ft_strcmp("export", cmd -> command) == 0)
-	{
-		for (int i = 1; cmd -> args[i]; i++)
-			export(data, cmd -> args[i], 0);
-	}
+		multiple_export_unset(cmd, data, 1);
 	else if (ft_strcmp("unset", cmd -> command) == 0)
-	{
-		for (int i = 1; cmd -> args[i]; i++)
-			unset(data, cmd -> args[i]);
-	}
+		multiple_export_unset(cmd, data, 1);
 	else if (ft_strcmp("env", cmd -> command) == 0)
 		display_env(data-> tenv, fd);
 	update_status_code(data, data -> signal);

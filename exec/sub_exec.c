@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 13:16:58 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/24 19:56:59 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/24 21:27:45 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,14 @@ int	start_command(t_data *data, t_cmd *ptr, char *command, int index_pid)
 	}
 	if (ptr -> command && ptr -> command[0])
 	{
+		ft_printf("commande = '%s' ----- ARGS = '%s'\n", command, ptr->args[0]);
 		if (ft_strchr(ptr -> command, '/'))
 			execve(ptr -> command, ptr -> args, data -> env);
 		else
 			execve(command, ptr -> args, data -> env);
 		if (errno == 13 && access(ptr -> command, X_OK | R_OK) != -1)
 			ft_printf("%s: Permission denied\n", ptr -> command);
+		ft_printf("ICI JM\n");
 		data -> signal = 127;
 	}
 	return (EXIT_FAILURE);

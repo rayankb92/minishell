@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/24 19:53:02 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/24 21:27:39 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,7 +209,7 @@ int					is_builtin(t_cmd *cmd);
 void				do_builtin(t_cmd *cmd, t_data *data, int fd);
 int					matching(const char *match);
 //	is_exit.c
-void				is_exit(t_data *data, char **argument);
+int				is_exit(t_data *data, char **argument);
 //	pwd.c
 void				pwd(void);
 char				*pwd_malloc(void);

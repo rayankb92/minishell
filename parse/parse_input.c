@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 12:42:43 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/24 19:24:38 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/24 21:27:35 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,12 @@ void	attribute_args(int *start, int *index_args, char **parse, t_cmd *ptr)
 	int		size_args;
 	char	*str;
 
+	int i = -1;
 	size_args = get_length_args(parse);
 	if (size_args > 0)
 	{
-		ptr -> args = ft_calloc(sizeof(char *), size_args + 1);
-		while (parse[*start])
+		ptr->args = ft_calloc(sizeof(char *), size_args + 1);
+		while (++i < size_args && parse[*start])
 		{
 			str = parse[*start];
 			if (((str[0] == '>' || str[0] == '<' || str[0] == '|')
@@ -108,6 +109,10 @@ int	loop(t_data *data, t_cmd **cmd, char **parse, char **split)
 	{
 		i = 0;
 		index_args = 0;
+		while (parse[index] && parse[index][0] == VARVIDE)
+			index++;
+		if (!parse[index])
+			break ;
 		while (parse[index][i] == '>' || parse[index][i] == '<')
 			i++;
 		if (parse[index][i] != '\0')
