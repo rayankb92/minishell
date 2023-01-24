@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 05:47:36 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/24 11:21:40 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/24 16:34:49 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_data	*starton(void)
 {
 	static t_data data = {0};
 
-	return (&data);
+	return (& data);
 }
 
 static
@@ -44,8 +44,8 @@ int main(int ac, char **av, char **env)
 	data = starton();
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, & ctrlc);
-	// if (!isatty(STDIN_FILENO))
-	// 	return (EXIT_FAILURE);
+	if (!isatty(STDIN_FILENO))
+		return (EXIT_FAILURE);
 	while (1)
 	{
 		input = readline("Fumier$ ");
@@ -65,7 +65,6 @@ int main(int ac, char **av, char **env)
 				data -> herecopy = split_iscote((char *)input);
 				print_cmd(data->cmd);
 				exec(data);
-				//free_shell(data);
 				status = ft_atoi(get_key_from_tenv(data -> tenv, "?"));
 				free_heredoc(data -> here_doc, data -> len_here);
 				data -> here_doc = 0;
@@ -81,14 +80,19 @@ int main(int ac, char **av, char **env)
 				ft_putstr_fd("Syntax error\n", 2);
 		}
 		else
-		{
 			update_status_code(data, 2);
-			free_shell(data);
-		}
 		ft_memdel((void **)& input);
 	}
 	quit(status, data);
 }
+
+
+// builtin exit status pas update 
+// NO such fle or directory EXIT code doit afficher 1
+// < Makefile cat < outfile < print.c
+// ya heja avec le pwd dans env mais pas heja avec commande env donc heja avec $PWD pas mis a jour
+// echo coucou | cd Documents/ | pwd > whereami -----> LEAKS
+
 
 //chemin absolu affiche pas command not found   ---> Rayan -> pas compris mais sa a l'air de marcher comme bash
 //revoirla fonction is_child pour la refacto

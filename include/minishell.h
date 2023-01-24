@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/24 11:50:10 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/24 16:17:58 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,7 +211,7 @@ void				is_exit(t_data *data, char **argument);
 void				pwd(void);
 char				*pwd_malloc(void);
 //	cd.c
-void				cd(const char *path);
+void				cd(t_data *data, const char *path);
 //	unset.c
 void				unset(t_data *data, const char *key);
 //	echo.c

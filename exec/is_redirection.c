@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   is_redirection.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 23:18:11 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/24 08:26:52 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/24 15:53:56 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,9 @@ int	open_file(t_data *data, t_cmd *ptr,
 			ptr -> sequence[index_sequence].redirect, data -> len_here);
 	if (fd < 0)
 	{
-		if (data -> cmd && data -> cmd -> next)
-		{
-			free_shell(data);
-			exit(EXIT_FAILURE);
-		}
-		return (-1);
+		perror(ptr -> sequence[index_sequence].redirect);
+		free_shell(data);
+		exit(EXIT_FAILURE);
 	}
 	return (fd);
 }
@@ -70,8 +67,6 @@ int	is_redirection(t_data *data, t_cmd *ptr)
 		if (ptr -> sequence[i].redirect != NULL)
 		{
 			fd = open_file(data, ptr, i, j);
-			if (fd < 0)
-				return (EXIT_FAILURE);
 			j++;
 			if (ptr -> sequence[i].index_redirect != LESS \
 				&& ptr -> sequence[i].index_redirect != DLESS)
