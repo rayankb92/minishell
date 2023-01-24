@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/31 12:50:48 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/23 16:02:19 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/24 09:42:55 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,5 @@ void	echo(const char **arg, int fd)
 		i++;
 	print(arg, i, fd);
 }
-
 
 // [-nnnnnnno] [woiejoiwe] [sdij]
