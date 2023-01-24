@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sub_exec.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 13:16:58 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/23 22:07:40 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/24 10:19:15 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,8 @@ void	is_child(t_data *data, t_cmd *ptr, int index_pid)
 			|| (ptr -> command[0] == '\0')))
 	{
 		update_status_code(data, 127);
-		ft_printf("%s: command not found\n", ptr -> command);
+		if (ptr->command[0] != VARVIDE)
+			ft_printf("%s: command not found\n", ptr -> command);
 	}
 	else
 		start_command(data, ptr, command, index_pid);

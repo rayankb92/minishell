@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 18:03:52 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/23 07:46:25 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/24 10:16:39 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,17 @@
 
 static void	count_newlen2(char *s, int *i, int *len, t_data *data)
 {
-	while (s[++(*i)] && s[(*i)] != '"')
+	(*i)++;
+				ft_printf("LEN2 BEFORE str[%i] == '%c'\n", *i, s[*i]);
+	while (s[*i] && s[(*i)] != '"')
 	{
 		if ((s[*i] == '$') && (s[*i + 1]) && (is_variable(s[*i + 1], 1)))
 			*i += add_varlen_(data, &s[*i + 1], len);
+		(*i)++;
 		(*len)++;
 	}
 	(*i)++;
+				ft_printf("LEN2 AFTER str[%i] == '%c'\n", *i, s[*i]);
 }
 
 static int	count_newlen(t_data *data, char *s)
@@ -29,10 +33,10 @@ static int	count_newlen(t_data *data, char *s)
 	int	len;
 	int	lenstr;
 
-	i = -1;
+	i = 0;
 	len = 0;
 	lenstr = ft_strlen(s);
-	while (++i < lenstr)
+	while (i < lenstr)
 	{
 		if (s[i] && s[i] == '"')
 			count_newlen2(s, &i, &len, data);
@@ -45,7 +49,9 @@ static int	count_newlen(t_data *data, char *s)
 		}
 		else if ((i <= len) && data->expand && (s[i] == '$') && (s[i + 1])
 			&& (is_variable(s[i + 1], 1)))
-			i += add_varlen_(data, &s[i + 1], &len);
+				i += add_varlen_(data, &s[i + 1], &len);
+		else
+			i++;
 		len++;
 	}
 	return (len);
@@ -58,7 +64,8 @@ static void	double_quote_check(char **dbl, int *i, int *j, t_data *data)
 
 	str = dbl[0];
 	new = dbl[1];
-	if (str[*i + 1] == '"')
+	if (str[*i + 1] == '"' && is_in_charset(str[*i + 2],
+			ISSPACE))
 		new[(*j)++] = SLASHBACK;
 	while (str[++(*i)] && str[*i] != '"')
 	{
@@ -102,6 +109,8 @@ char	*negative_chars(char *str, t_data *data)
 		else if (data->expand && str[i] == '$' && str[i + 1]
 			&& is_variable(str[i + 1], 1))
 			i += add_value_nospace(new, str + i, data, &j) + 1;
+		else if ((str[i] == '$' && str[i + 1]) && (str[i + 1] == '"' || str[i + 1] == '\''))
+			i++;
 		else
 			new[j++] = str[i++];
 	}
