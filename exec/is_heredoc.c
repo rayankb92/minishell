@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 18:19:49 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/24 11:45:02 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/24 12:11:34 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	write_to_pipe(t_heredoc *tab, int len, t_data *data)
 				break ;
 			print_heredoc(line, tab[i].pipe[1], tab[i].expand, data);
 		}
-		free((char *)tab[i].limiter);
+		ft_memdel((void **)& tab[i].limiter);
 		if (tab[i].pipe[1] != -1)
 			close(tab[i].pipe[1]);
 		if (tab[i].pipe[0] != -1)

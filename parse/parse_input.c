@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 12:42:43 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/24 08:11:02 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/24 11:55:32 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ void	attribute_args(int *start, int *index_args, char **parse, t_cmd *ptr)
 	size_args = get_length_args(parse);
 	if (size_args > 0)
 	{
-		ptr -> args = ft_calloc(sizeof(char *), size_args + 1); 
+		ptr -> args = ft_calloc(sizeof(char *), size_args + 1);
 		while (parse[*start])
 		{
 			str = parse[*start];
 			if (((str[0] == '>' || str[0] == '<' || str[0] == '|')
-				&& str[1] == '\0')
+					&& str[1] == '\0')
 				|| (ft_strcmp(str, ">>") == 0 || ft_strcmp(str, "<<") == 0))
 				break ;
 			ptr -> args[(*index_args)++] = ft_strdup(parse[(*start)++]);
@@ -35,7 +35,7 @@ void	attribute_args(int *start, int *index_args, char **parse, t_cmd *ptr)
 }
 
 static
-void attribute_sequence(int *start, int *index_ar, char **parse, t_cmd *ptr)
+void	attribute_sequence(int *start, int *index_ar, char **parse, t_cmd *ptr)
 {
 	int	index_sequence;
 
@@ -49,13 +49,12 @@ void attribute_sequence(int *start, int *index_ar, char **parse, t_cmd *ptr)
 		if (!parse[*start])
 			return ;
 		ptr->sequence[index_sequence].redirect
-			 = ft_strdup(parse[(*start)]);
+			= ft_strdup(parse[(*start)]);
 		ptr->sequence[index_sequence++].index_redirect
-			 = get_index_redirect(parse[(*start) - 1]);
+			= get_index_redirect(parse[(*start) - 1]);
 		if (parse[(*start)])
 			(*start)++;
-		while (parse[(*start)] &&
-			parse[(*start)][0] != '>' &&
+		while (parse[(*start)] && parse[(*start)][0] != '>' &&
 			parse[(*start)][0] != '<' &&
 			parse[(*start)][0] != '|')
 			ptr -> args[(*index_ar)++] = ft_strdup(parse[(*start)++]);

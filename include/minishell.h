@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/24 10:17:27 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/24 11:50:10 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,27 +25,26 @@
 # include <stdio.h>
 # include <sys/types.h>
 # include <sys/wait.h>
- #include <dirent.h>
 # include <unistd.h>
 
 # define ISSPACE "\t\v\n\r\f "
 # define VARVIDE 6
 
-enum				redirect_index
+enum				e_redirect_index
 {
-	GREAT = 1, // >
-	DGREAT,    // >>
-	LESS,      //<
-	DLESS,     //<<
+	GREAT = 1,
+	DGREAT,
+	LESS,
+	DLESS,
 };
 
-enum				operator
+enum				e_operator
 {
-	PIPE = -1,      // >
-	CHEVRIGHT = -2, // >
+	PIPE = -1,
+	CHEVRIGHT = -2,
 	CHEVLEFT = -3,
-	CHEVLEFTD = -4,  //<
-	CHEVRIGHTD = -5, //<<
+	CHEVLEFTD = -4,
+	CHEVRIGHTD = -5,
 	SLASHBACK = -6
 };
 
@@ -63,21 +62,21 @@ typedef struct t_file
 
 typedef struct s_cmd
 {
-
 	char			*command;
 	char			**args;
+
 	t_sequence		*sequence;
 	int				length_sequence;
 
 	struct s_cmd	*next;
-}	t_cmd;
+}					t_cmd;
 
-typedef struct	s_env
+typedef struct s_env
 {
-
 	char			*key;
 	char			*value;
 	int				equal;
+
 	struct s_env	*next;
 }					t_env;
 
@@ -90,7 +89,6 @@ typedef struct t_heredoc
 
 typedef struct s_data
 {
-
 	t_env			*tenv;
 	t_cmd			*cmd;
 	pid_t			pids[4096];
@@ -124,9 +122,8 @@ int					lenword(char *str);
 char				**split_iscote(char *str);
 void				find_here_doc(char **here, t_data *data);
 
-
 // STARTON
-t_data	*starton(void);
+t_data				*starton(void);
 
 /*
 	DIRECTORY: ./PARSE

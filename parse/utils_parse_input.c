@@ -6,13 +6,13 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 16:25:30 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/22 08:57:53 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/24 11:54:16 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int		count_occurence(const char *str, const char c)
+int	count_occurence(const char *str, const char c)
 {
 	size_t	i;
 	size_t	occur;
@@ -36,7 +36,7 @@ int		count_occurence(const char *str, const char c)
 	return (occur);
 }
 
-int		get_length_args(char **ptr)
+int	get_length_args(char **ptr)
 {
 	int	i;
 	int	length;
@@ -45,14 +45,15 @@ int		get_length_args(char **ptr)
 	size = 1;
 	i = 1;
 	length = ft_arraylen(ptr);
-	while (ptr[i])
+	while (i < length && ptr[i])
 	{
 		while (ptr[i])
 		{
 			if (ptr[i][1] == 0 && (ptr[i][0] == '>' || ptr[i][0] == '<'))
 				break ;
 			if (ptr[i][1] != 0
-				&& ((ptr[i][0] == '>' && ptr[i][1] == '<') || (ptr[i][0] == '<' && ptr[i][1] == '<'))
+				&& ((ptr[i][0] == '>' && ptr[i][1] == '<')
+					|| (ptr[i][0] == '<' && ptr[i][1] == '<'))
 				&& ptr[i][2] == 0)
 				break ;
 			size++;
@@ -60,8 +61,6 @@ int		get_length_args(char **ptr)
 		}
 		if (ptr[i] && (ptr[i][0] == '>' || ptr[i][0] == '<'))
 			i += 2;
-		if (i >= length)
-			break ;
 	}
 	return (size);
 }
@@ -94,6 +93,7 @@ void	ft_realloc(char **line, const char *s1)
 char	*array_to_string(char **array)
 {
 	char	*tostring;
+	char	*tmp;
 	int		i;
 
 	i = 0;
@@ -104,7 +104,7 @@ char	*array_to_string(char **array)
 			ft_realloc(& tostring, array[i]);
 		else
 		{
-			char *tmp = ft_strjoin(array[i], " ");
+			tmp = ft_strjoin(array[i], " ");
 			ft_realloc(& tostring, tmp);
 			ft_memdel((void **)& tmp);
 		}
