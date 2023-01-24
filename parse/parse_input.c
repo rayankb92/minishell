@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 12:42:43 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/24 14:02:18 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/24 18:17:29 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,9 @@ void	attribute_sequence(int *start, int *index_ar, char **parse, t_cmd *ptr)
 			= get_index_redirect(parse[(*start) - 1]);
 		if (parse[(*start)])
 			(*start)++;
-		while (parse[(*start)] && parse[(*start)][0] != '>' &&
-			parse[(*start)][0] != '<' &&
-			parse[(*start)][0] != '|')
+		while (parse[(*start)] && parse[(*start)][0] != '>'
+			&& parse[(*start)][0] != '<'
+			&& parse[(*start)][0] != '|')
 			ptr -> args[(*index_ar)++] = ft_strdup(parse[(*start)++]);
 		if (parse[(*start)] && (parse[(*start)][0] == '>'
 			|| parse[(*start)][0] == '<'))
@@ -65,31 +65,31 @@ void	attribute_sequence(int *start, int *index_ar, char **parse, t_cmd *ptr)
 }
 
 static
-void	set_sequence(t_cmd **ptr, char **arrays[2], int *index, int *index_args, int *index_split)
+void	set_sequence(t_cmd **ptr, char **arrays[2], int *index[3])
 {
 	char	**parse;
 	char	**split;
 
 	parse = arrays[0];
 	split = arrays[1];
-	if (parse[*index])
+	if (parse[*index[0]])
 	{
-		(*ptr) -> length_sequence = count_occurence(split[*index_split], '>')
-			+ count_occurence(split[*index_split], '<');
-		(*index_split)++;
+		(*ptr)->length_sequence = count_occurence(split[*index[2]], '>')
+			+ count_occurence(split[*index[2]], '<');
+		(*index[2])++;
 	}
 	else
-		(*ptr) -> length_sequence = 0;
-	if ((*ptr) -> length_sequence > 0)
-		attribute_sequence(index, index_args, parse, (*ptr));
-	while (parse[*index] && parse[*index][0] == '|')
-		(*index)++;
-	if (!(*ptr) -> command && (*ptr) -> args && (*ptr) -> args[0])
-		(*ptr) -> command = ft_strdup((*ptr) -> args[0]);
-	if (parse[*index])
+		(*ptr)->length_sequence = 0;
+	if ((*ptr)->length_sequence > 0)
+		attribute_sequence(& *index[0], & *index[1], parse, (*ptr));
+	while (parse[*index[0]] && parse[*index[0]][0] == '|')
+		(*index[0])++;
+	if (!(*ptr)->command && (*ptr)->args && (*ptr)->args[0])
+		(*ptr)->command = ft_strdup((*ptr)->args[0]);
+	if (parse[*index[0]])
 	{
-		(*ptr) -> next = ft_calloc(sizeof(t_cmd), 1);
-		(*ptr) = (*ptr) -> next;
+		(*ptr)->next = ft_calloc(sizeof(t_cmd), 1);
+		(*ptr) = (*ptr)->next;
 	}
 }
 
@@ -100,10 +100,11 @@ int	loop(t_data *data, t_cmd **cmd, char **parse, char **split)
 	int		i;
 	int		index;
 	int		index_args;
-	int		index_split = 0;
+	int		index_split;
 
 	ptr = *cmd;
 	index = 0;
+	index_split = 0;
 	while (parse[index])
 	{
 		i = 0;
@@ -117,7 +118,8 @@ int	loop(t_data *data, t_cmd **cmd, char **parse, char **split)
 				return (EXIT_FAILURE);
 		}
 		attribute_args(& index, & index_args, parse, ptr);
-		set_sequence(& ptr, (char **[2]){parse, split}, & index, & index_args, & index_split);
+		set_sequence(& ptr, (char **[2]){parse, split}, \
+			(int *[3]){& index, & index_args, & index_split});
 	}
 	return (EXIT_SUCCESS);
 }
