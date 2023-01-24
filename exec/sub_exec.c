@@ -6,11 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 13:16:58 by jewancti          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/01/24 18:18:23 by rferradi         ###   ########.fr       */
-=======
-/*   Updated: 2023/01/24 17:49:39 by jewancti         ###   ########.fr       */
->>>>>>> refs/remotes/origin/main
+/*   Updated: 2023/01/24 19:56:59 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +49,7 @@ void	pipe_redirection(t_data *data, const int index_pid)
 	}
 	if (index_pid != lstcount - 1)
 		dup2(data -> pipes[1], STDOUT_FILENO);
-	close(data -> pipes[0]);
-	close(data -> pipes[1]);
-	//close_fd(& data -> pipes);
+	close_fd(& data -> pipes);
 }
 
 static
@@ -99,9 +93,7 @@ void	is_child(t_data *data, t_cmd *ptr, int index_pid)
 	else
 		start_command(data, ptr, command, index_pid);
 	ft_memdel((void **)& command);
-	close(data -> pipes[0]);
-	close(data -> pipes[1]);
-	//close_fd(& data -> pipes);
+	close_fd(& data -> pipes);
 	free_shell(data);
 	exit(data -> signal);
 }
@@ -110,8 +102,6 @@ void	is_father(t_data *data, int index_pid)
 {
 	if (data -> pids[index_pid] > 0)
 	{
-		ft_printf("%d|%d|%d\n", data -> pipes[0],
-			data -> pipes[1], data -> prev_pipe);
 		close(data -> pipes[1]);
 		if (data -> prev_pipe != -1)
 			close(data -> prev_pipe);

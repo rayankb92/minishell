@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_here2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 01:23:23 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/23 05:13:26 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/24 19:24:07 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,28 @@ int	lenword(char *str)
 		while (str[i + j] && is_in_charset(str[i + j], "<>|"))
 			j++;
 	return (j);
+}
+
+int	sub_parse_input(t_data *data, t_cmd *cmd, char **parse, char *tmp)
+{
+	t_cmd	*ptr;
+	char	**split;
+
+	split = ft_split(tmp, '|');
+	ft_memdel((void **)& tmp);
+	if (!split)
+	{
+		ft_arraydel(parse);
+		return (EXIT_FAILURE);
+	}
+	ptr = cmd;
+	if (loop(data, &ptr, parse, split))
+	{
+		ft_arraydel(parse);
+		ft_arraydel(split);
+	}
+	to_positive(cmd);
+	ft_arraydel(parse);
+	ft_arraydel(split);
+	return (EXIT_SUCCESS);
 }

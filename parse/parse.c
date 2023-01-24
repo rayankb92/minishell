@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:25:58 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/23 08:03:58 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/24 21:26:52 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,7 @@ int	exist_after(const char *str, int index, int c, int search)
 			temp++;
 		}
 		if (str[i] == '|')
-		{
-			ft_printf("%s`%c'", SYNTAX_ERROR, '|');
 			return (EXIT_FAILURE);
-		}
 		if (str[i] != c && str[i] != search)
 			return (EXIT_SUCCESS);
 		if (((str[i] == c && temp != 0) || str[i] == search)
@@ -71,7 +68,8 @@ int	exist_after(const char *str, int index, int c, int search)
 	return (EXIT_SUCCESS);
 }
 
-static int	check_chevron2(const char *str, const char c, int *i, int *j)
+static
+int	check_chevron2(const char *str, const char c, int *i, int *j)
 {
 	char	quote;
 
@@ -88,10 +86,10 @@ static int	check_chevron2(const char *str, const char c, int *i, int *j)
 	{
 		if ((*i + *j == 0 && c == '|') || (c == '|'
 				&& exist_after(str, *i + *j, c, '|')))
-			return (ft_putendl_fd("Syntax error", 2));
+			return (ft_putendl_fd(SYNTAX_ERROR, 2));
 		if ((c == '>' && exist_after(str, *i + *j, c, '<'))
 			|| (c == '<' && exist_after(str, *i + *j, c, '>')))
-			return (ft_putendl_fd("Syntax error", 2));
+			return (ft_putendl_fd(SYNTAX_ERROR, 2));
 		(*j)++;
 	}
 	while (ft_isspace(str[*i + *j]))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/24 16:17:58 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/24 19:53:02 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,9 @@ int					check_chevrons(const char *str);
 char				**split_iscote(char *str);
 //	parse_input.c
 int					parse_input(const char *input, t_cmd *cmd, t_data *data);
+int					loop(t_data *data, t_cmd **cmd, char **parse, char **split);
+int					sub_parse_input(t_data *data, t_cmd *cmd, \
+										char **parse, char *tmp);
 //	utils_parse_input.c
 char				*array_to_string(char **array);
 void				ft_realloc(char **line, const char *s1);

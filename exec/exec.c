@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 12:52:38 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/24 18:19:51 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/24 19:25:33 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	wait_pids(t_data *data, int index_pid)
 }
 
 static
-void	loop(t_data *data, int *index_pid)
+void	loop_exec(t_data *data, int *index_pid)
 {
 	t_cmd	*ptr;
 
@@ -99,7 +99,7 @@ void	exec(t_data *data)
 	set_path_from_tenv(data);
 	if (is_builtin_and_only_command(data) == EXIT_SUCCESS)
 		return ;
-	loop(data, & index_pid);
+	loop_exec(data, & index_pid);
 	if (data -> len_here != 0)
 		close_pipes(data -> here_doc, 1, 0, data -> len_here);
 	wait_pids(data, index_pid);

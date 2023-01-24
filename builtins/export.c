@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/31 14:35:41 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/24 16:15:18 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/24 19:59:24 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ int	isset_var(t_env *temp, char *name, char *value)
 	return (1);
 }
 
-static void	make_export(t_data *data, char *name, char *value, int eq)
+static
+void	make_export(t_data *data, char *name, char *value, int eq)
 {
 	t_env	*temp;
 
@@ -64,7 +65,6 @@ static void	make_export(t_data *data, char *name, char *value, int eq)
 		return ;
 	add_back_env(&data->tenv, new_env(name, value, eq));
 }
-
 
 void	export(t_data *data, const char *str, int force)
 {
