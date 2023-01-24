@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 18:03:52 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/24 17:29:40 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/24 17:59:29 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ static void	simple_quote_check(char *str, char *new, int *j, int *i)
 			new[(*j)++] = find_char(str[*i]);
 	(*i)++;
 }
-
 
 char	*negative_chars(char *s, t_data *data)
 {

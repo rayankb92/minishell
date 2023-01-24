@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 13:16:58 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/24 15:48:19 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/24 18:18:23 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,8 @@ void	is_father(t_data *data, int index_pid)
 {
 	if (data -> pids[index_pid] > 0)
 	{
-		ft_printf("%d|%d|%d\n", data -> pipes[0], data -> pipes[1], data -> prev_pipe);
+		ft_printf("%d|%d|%d\n", data -> pipes[0],
+			data -> pipes[1], data -> prev_pipe);
 		close(data -> pipes[1]);
 		if (data -> prev_pipe != -1)
 			close(data -> prev_pipe);
