@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 12:42:43 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/24 21:27:35 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/24 21:29:51 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	set_sequence(t_cmd **ptr, char **arrays[2], int *index[3])
 		(*index[0])++;
 	if (!(*ptr)->command && (*ptr)->args && (*ptr)->args[0])
 		(*ptr)->command = ft_strdup((*ptr)->args[0]);
-	if (parse[*index[0]])
+	if (parse[*index[0]] && parse[*index[0]][0] != VARVIDE)
 	{
 		(*ptr)->next = ft_calloc(sizeof(t_cmd), 1);
 		(*ptr) = (*ptr)->next;
