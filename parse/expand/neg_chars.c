@@ -6,11 +6,14 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 18:03:52 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/24 17:16:44 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/24 17:29:40 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../../include/minishell.h"
+#ifndef ISSPACEOPE
+# define ISSPACEOPE "\t\v\n\r\f <>|"
+#endif
 
 static void	count_newlen2(char *s, int *i, int *len, t_data *data)
 {
@@ -62,7 +65,7 @@ static void	double_quote_check(char **dbl, int *i, int *j, t_data *data)
 	str = dbl[0];
 	new = dbl[1];
 	if (str[*i + 1] == '"' && is_in_charset(str[*i + 2],
-			ISSPACE))
+			ISSPACEOPE))
 		new[(*j)++] = SLASHBACK;
 	while (str[++(*i)] && str[*i] != '"')
 	{
@@ -78,7 +81,7 @@ static void	double_quote_check(char **dbl, int *i, int *j, t_data *data)
 static void	simple_quote_check(char *str, char *new, int *j, int *i)
 {
 	if (str[*i + 1] == '\'' && str[*i + 2] && is_in_charset(str[*i + 2],
-			ISSPACE))
+			ISSPACEOPE))
 		new[(*j)++] = SLASHBACK;
 	else
 		while (str[++(*i)] && str[*i] != '\'')
