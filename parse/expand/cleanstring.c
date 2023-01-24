@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 01:26:17 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/24 09:47:06 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/24 11:52:45 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ int	count_ope(char *str)
 	}
 	return (count + i + 2);
 }
-
 
 char	*putspace_between_operateur(char *str, int j)
 {
@@ -116,7 +115,6 @@ int	find_char(char c)
 	else
 		return (c);
 }
-
 
 /*
 

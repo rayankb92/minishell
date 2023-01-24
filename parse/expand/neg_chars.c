@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 18:03:52 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/24 11:46:55 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/24 12:05:28 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,8 @@ static int	count_newlen(t_data *data, char *s)
 		else if ((i <= lenstr) && data->expand && (s[i] == '$') && (s[i + 1])
 			&& (is_variable(s[i + 1], 1)))
 				i += add_varlen_(data, &s[i + 1], &len) + 1;
-
-		else
+		else if (len++)
 			i++;
-		len++;
 	}
 	return (len);
 }
@@ -88,7 +86,7 @@ static void	simple_quote_check(char *str, char *new, int *j, int *i)
 	(*i)++;
 }
 
-char	*negative_chars(char *str, t_data *data)
+char	*negative_chars(char *s, t_data *data)
 {
 	int		i;
 	int		j;
@@ -96,22 +94,22 @@ char	*negative_chars(char *str, t_data *data)
 
 	i = 0;
 	j = 0;
-	new = malloc(sizeof(char) * (count_newlen(data, str) + 2));
+	new = malloc(sizeof(char) * (count_newlen(data, s) + 2));
 	if (!new)
 		return (NULL);
-	while (str[i])
+	while (s[i])
 	{
-		if (str[i] == '"')
-			double_quote_check((char *[2]){str, new}, &i, &j, data);
-		else if (str[i] == '\'')
-			simple_quote_check(str, new, &j, &i);
-		else if (data->expand && str[i] == '$' && str[i + 1]
-			&& is_variable(str[i + 1], 1))
-			i += add_value_nospace(new, str + i, data, &j) + 1;
-		else if ((str[i] == '$' && str[i + 1]) && (str[i + 1] == '"' || str[i + 1] == '\''))
+		if (s[i] == '"')
+			double_quote_check((char *[2]){s, new}, &i, &j, data);
+		else if (s[i] == '\'')
+			simple_quote_check(s, new, &j, &i);
+		else if (data->expand && s[i] == '$' && s[i + 1]
+			&& is_variable(s[i + 1], 1))
+			i += add_value_nospace(new, s + i, data, &j) + 1;
+		else if ((s[i] == '$' && s[i + 1]) && is_in_charset(s[i + 1], "\"'"))
 			i++;
 		else
-			new[j++] = str[i++];
+			new[j++] = s[i++];
 	}
 	new[j] = 0;
 	return (new);
