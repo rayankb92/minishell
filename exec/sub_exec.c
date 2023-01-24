@@ -3,16 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   sub_exec.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 13:16:58 by jewancti          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/01/24 18:18:23 by rferradi         ###   ########.fr       */
+=======
+/*   Updated: 2023/01/24 17:49:39 by jewancti         ###   ########.fr       */
+>>>>>>> refs/remotes/origin/main
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../include/minishell.h"
 
-static void	printenv(t_env *env)
+static
+void	printenv(t_env *env)
 {
 	t_env	*temp;
 
@@ -48,7 +53,9 @@ void	pipe_redirection(t_data *data, const int index_pid)
 	}
 	if (index_pid != lstcount - 1)
 		dup2(data -> pipes[1], STDOUT_FILENO);
-	close_fd(& data -> pipes);
+	close(data -> pipes[0]);
+	close(data -> pipes[1]);
+	//close_fd(& data -> pipes);
 }
 
 static
@@ -69,6 +76,7 @@ int	start_command(t_data *data, t_cmd *ptr, char *command, int index_pid)
 			execve(command, ptr -> args, data -> env);
 		if (errno == 13 && access(ptr -> command, X_OK | R_OK) != -1)
 			ft_printf("%s: Permission denied\n", ptr -> command);
+		data -> signal = 127;
 	}
 	return (EXIT_FAILURE);
 }
@@ -91,8 +99,10 @@ void	is_child(t_data *data, t_cmd *ptr, int index_pid)
 	else
 		start_command(data, ptr, command, index_pid);
 	ft_memdel((void **)& command);
+	close(data -> pipes[0]);
+	close(data -> pipes[1]);
+	//close_fd(& data -> pipes);
 	free_shell(data);
-	close_fd(& data -> pipes);
 	exit(data -> signal);
 }
 
