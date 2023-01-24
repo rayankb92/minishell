@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 01:38:06 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/22 03:37:59 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/23 14:12:14 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	unset(t_data *data, const char *key)
 
 	tmp = data -> tenv;
 	copy = data -> tenv;
-	if (key[0] == '?')
+	if (key && key[0] == '?')
 		return ;
 	while (copy)
 	{

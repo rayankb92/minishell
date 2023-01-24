@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 21:14:28 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/21 17:59:14 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/23 14:12:28 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 #define LLMAX	9223372036854775807LL
 #define LLMIN	-9223372036854775807LL
-
-extern int g_exit_status;
 
 void	is_exit(t_data *data, char **argument)
 {

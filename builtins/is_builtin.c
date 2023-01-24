@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   is_builtin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 17:05:34 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/22 01:54:49 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/24 06:13:08 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	matching(const char *match)
 	return (EXIT_FAILURE);
 }
 
-void	do_builtin(t_cmd *cmd, t_data *data)
+void	do_builtin(t_cmd *cmd, t_data *data, int fd)
 {
 	if (ft_strcmp("cd", cmd -> command) == 0)
 	{
@@ -45,24 +45,24 @@ void	do_builtin(t_cmd *cmd, t_data *data)
 		else
 			cd("~");
 	}
-	if (ft_strcmp("echo", cmd -> command) == 0)
-		echo((const char **)cmd -> args + 1, 1);
-	if (ft_strcmp("pwd", cmd -> command) == 0)
+	else if (ft_strcmp("echo", cmd -> command) == 0)
+		echo((const char **)cmd -> args + 1, fd);
+	else if (ft_strcmp("pwd", cmd -> command) == 0)
 		pwd();
-	if (ft_strcmp("exit", cmd -> command) == 0)
+	else if (ft_strcmp("exit", cmd -> command) == 0)
 		is_exit(data, cmd -> args);
-	if (ft_strcmp("export", cmd -> command) == 0)
+	else if (ft_strcmp("export", cmd -> command) == 0)
 	{
 		for (int i = 1; cmd -> args[i]; i++)
 			export(data, cmd -> args[i], 0);
 	}
-	if (ft_strcmp("unset", cmd -> command) == 0)
+	else if (ft_strcmp("unset", cmd -> command) == 0)
 	{
 		for (int i = 1; cmd -> args[i]; i++)
 			unset(data, cmd -> args[i]);
 	}
-	if (ft_strcmp("env", cmd -> command) == 0)
-		display_env(data -> tenv);
+	else if (ft_strcmp("env", cmd -> command) == 0)
+		display_env(data-> tenv, fd);
 	update_status_code(data, 0);
 }
 

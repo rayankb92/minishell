@@ -3,21 +3,46 @@
 /*                                                        :::      ::::::::   */
 /*   sub_exec.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 13:16:58 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/23 13:14:02 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/23 22:07:40 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../include/minishell.h"
 
+static void	printenv(t_env *env)
+{
+	t_env	*temp;
+	int fd;
+
+	fd = 1;
+	temp = env;
+	if (temp)
+		temp = temp -> next;
+	while (temp)
+	{
+		if (temp -> key && temp -> value && temp->value[0])
+		{
+			ft_putstr_fd(temp -> key, fd);
+			ft_putchar_fd('=', fd);
+			ft_putendl_fd(temp -> value, fd);
+		}
+		else if (temp -> key && temp -> equal == 0)
+		{
+			ft_putstr_fd(temp -> key, fd);
+			ft_putendl_fd("=", fd);
+		}
+		temp = temp -> next;
+	}
+}
+
 static
 void	pipe_redirection(t_data *data, const int index_pid)
 {
 	const int	lstcount = ft_lstcount(data -> cmd);
-
-	if (index_pid != 0 && data -> prev_pipe != -1)
+	if (index_pid != 0 && data->prev_pipe != - 1)
 	{
 		dup2(data -> prev_pipe, STDIN_FILENO);
 		close(data -> prev_pipe);
@@ -34,7 +59,8 @@ int	start_command(t_data *data, t_cmd *ptr, char *command, int index_pid)
 	is_redirection(data, ptr);
 	if (is_builtin(ptr) == EXIT_SUCCESS)
 	{
-		do_builtin(ptr, data);
+		do_builtin(ptr, data, data -> pipes[1]);
+		//close_fd(& data -> pipes);
 		return (EXIT_SUCCESS);
 	}
 	if (ptr -> command && ptr -> command[0])
@@ -44,7 +70,7 @@ int	start_command(t_data *data, t_cmd *ptr, char *command, int index_pid)
 		else
 			execve(command, ptr -> args, data -> env);
 	}
-	close_fd(& data -> pipes);
+	//close_fd(& data -> pipes);
 	return (EXIT_FAILURE);
 }
 
@@ -74,11 +100,12 @@ void	is_father(t_data *data, int index_pid)
 {
 	if (data -> pids[index_pid] > 0)
 	{
+		fprintf(stderr,"%i|%i|%i\n", data->pipes[0], data->pipes[1], data->prev_pipe);
 		close(data -> pipes[1]);
 		if (data -> prev_pipe != -1)
 			close(data -> prev_pipe);
 		data -> prev_pipe = data -> pipes[0];
 		signal(SIGQUIT, SIG_IGN);
 	}
-	close_fd(& data -> pipes);
+	//close_fd(& data -> pipes);
 }
