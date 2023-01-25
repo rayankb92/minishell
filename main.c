@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 05:47:36 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/24 19:52:16 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/25 07:35:00 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,13 @@ int	main(int ac, char **av, char **env)
 	if (check(ac))
 		return (EXIT_FAILURE);
 	data = starton();
+	//if (init_data(data, env))
+	//	return (EXIT_FAILURE);
+	//data -> expand = 1;
+	//parse_input("$de $leklkde $kfelle $fmelfekle $dejelfj ls|$dkldkkded| $de $leklkde $kfelle $fmelfekle $dejelfj ls|$rrr grep f", data -> cmd, data);
+	//print_cmd(data->cmd);
+	//free_shell(data);
+	//exit(0);
 	while (1)
 	{
 		input = readline("Fumier$ ");
