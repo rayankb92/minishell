@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 13:16:58 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/25 00:11:40 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/25 11:27:17 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,9 @@ void	is_child(t_data *data, t_cmd *ptr, int index_pid)
 		start_command(data, ptr, command, index_pid);
 	ft_memdel((void **)& command);
 	close_fd(& data -> pipes);
+	ft_printf("--- BEFORE ---\n");
 	free_shell(data);
+	ft_printf("--- AFTER ---\n");
 	exit(data -> signal);
 }
 

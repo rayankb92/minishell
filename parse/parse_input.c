@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 12:42:43 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/25 07:26:51 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/25 11:24:20 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,10 +132,10 @@ int	loop(t_data *data, t_cmd **cmd, char **parse, char **split)
 			ptr -> command = ft_strdup(parse[index]);
 			if (!ptr -> command)
 				return (EXIT_FAILURE);
-			attribute_args(& index, & index_args, parse, ptr);
-			set_sequence(& ptr, (char **[2]){parse, split}, \
-			(int *[3]){& index, & index_args, & index_split});
 		}
+		attribute_args(& index, & index_args, parse, ptr);
+		set_sequence(& ptr, (char **[2]){parse, split}, \
+		(int *[3]){& index, & index_args, & index_split});
 	}
 	return (EXIT_SUCCESS);
 }
