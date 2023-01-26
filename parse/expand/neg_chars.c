@@ -1,20 +1,17 @@
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   neg_chars.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 18:03:52 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/26 16:17:27 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/26 18:50:36 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../../include/minishell.h"
-#ifndef ISSPACEOPE
-# define ISSPACEOPE "\t\v\n\r\f <>|"
-#endif
+#define ISSPACEOPE "\t\v\n\r\f <>|"
 
 static void	count_newlen2(char *s, int *i, int *len, t_data *data)
 {
@@ -90,16 +87,14 @@ static void	simple_quote_check(char *str, char *new, int *j, int *i)
 	(*i)++;
 }
 
-char	*negative_chars(char *s, t_data *data)
+char	*negative_chars(char *s, t_data *data, int size)
 {
 	int		i;
 	int		j;
-	int		size;
 	char	*new;
 
 	i = 0;
 	j = 0;
-	size = ft_strlen(s);
 	new = malloc(sizeof(char) * (count_newlen(data, s) + 2));
 	if (!new || !s)
 		return (NULL);

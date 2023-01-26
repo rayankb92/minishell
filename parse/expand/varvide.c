@@ -3,24 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   varvide.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 01:32:19 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/26 16:32:17 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/26 18:28:06 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../../include/minishell.h"
 
-//ldes  $ok | ls"
-
-
 static int	many_nb(char *str)
 {
-	int count = 0;
-	int i = 0;
-	int chev = 0;
-	
+	int	count;
+	int	i;
+
+	count = 0;
+	i = 0;
 	while (str[i] && str[i] != '|')
 	{
 		while (str[i] && !is_in_charset(str[i], "<>|") && ft_isspace(str[i]))
@@ -35,12 +33,15 @@ static int	many_nb(char *str)
 
 static char	*epurstr(char *str)
 {
-	int len = ft_strlen(str);
-	char *s, *new;
+	int		len;
+	int		j;
+	char	*s;
+	char	*new;
 
+	len = ft_strlen(str);
 	s = str;
 	new = malloc(sizeof(char) * ft_strlen(str) + 1);
-	int j = 0;
+	j = 0;
 	while (len && ft_isspace(s[len - 1]))
 		--len;
 	while (len && ft_isspace(*s) && *s++)
@@ -55,70 +56,66 @@ static char	*epurstr(char *str)
 	return (new);
 }
 
-static char *retransform(char *str)
+static void	subretransform(char *epur, char *new, int *i, int *j)
 {
-	char *new;
-	char *epur;
-	int i;
-	int j;
+	if (epur[*i] && is_in_charset(epur[*i], "<>") && epur[*i + 1]
+		&& epur[*i + 2] && is_in_charset(epur[*i + 2], "<>"))
+	{
+		new[(*j)++] = epur[(*i)++];
+		new[(*j)++] = ' ';
+		new[(*j)++] = SLASHBACK;
+		new[(*j)++] = ' ';
+	}
+	else if (epur[*i] && is_in_charset(epur[*i], "<>") && !epur[*i + 1])
+	{
+		new[(*j)++] = epur[(*i)++];
+		new[(*j)++] = ' ';
+		new[(*j)++] = SLASHBACK;
+	}
+	else
+		new[(*j)++] = epur[(*i)++];
+}
 
-	new = malloc(sizeof(char) * ft_strlen(str) + 1);
+static char	*retransform(char *str)
+{
+	char	*new;
+	char	*epur;
+	int		i;
+	int		j;
+
+	new = malloc(sizeof(char) * ft_strlen(str) + 2);
 	epur = epurstr(str);
 	i = 0;
 	j = 0;
 	free(str);
 	while (epur[i])
-	{
-		if (epur[i] && is_in_charset(epur[i], "<>") && epur[i + 1] && epur[i + 2] && is_in_charset(epur[i + 2], "<>"))
-		{
-			new[j++] = epur[i++];
-			new[j++] = ' ';
-			new[j++] = SLASHBACK;
-			new[j++] = ' ';
-		}
-		else if (epur[i] && is_in_charset(epur[i], "<>") && !epur[i + 1])
-		{
-			new[j++] = epur[i++];
-			new[j++] = ' ';
-			new[j++] = SLASHBACK;
-
-		}
-		else
-			new[j++] = epur[i++];
-	}
+		subretransform(epur, new, &i, &j);
 	new[j] = 0;
 	free(epur);
 	return (new);
 }
 
-char *transform_string(char *str)
+char	*transform_string(char *str, int i, int j)
 {
 	char	*new;
-	int		j;
-	int		i;
-	int nbword;
+	int		nbword;
 
-
-	i = 0;
-	j = 0;
-	new = malloc(sizeof(char) * (ft_strlen(str) + 1));
+	new = malloc(sizeof(char) * (ft_strlen(str) + 2));
 	nbword = many_nb(str);
 	while (str[i])
 	{
-			if (str[i] && is_in_charset(str[i], "|"))
-				nbword = many_nb(&str[i] + 1);
-			if (str[i] == VARVIDE && nbword == 0)
-			{
-				new[j++] = VARVIDE;
-				i++;
-			}
-			else if (str[i] == VARVIDE)
-				i++;
-			else if (str[i])
-				new[j++] = str[i++];
-		// i++;
+		if (str[i] && is_in_charset(str[i], "|"))
+			nbword = many_nb(&str[i] + 1);
+		if (str[i] == VARVIDE && nbword == 0)
+		{
+			new[j++] = VARVIDE;
+			i++;
+		}
+		else if (str[i] == VARVIDE)
+			i++;
+		else if (str[i])
+			new[j++] = str[i++];
 	}
 	new[j] = 0;
-	//ft_printf("NEW ='%s'\n", new);
 	return (retransform(new));
 }

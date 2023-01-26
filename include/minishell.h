@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/26 16:39:29 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/26 18:50:28 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,7 +185,7 @@ size_t				get_varvalue_len(t_data *data, const char *var);
 size_t				is_variable(const char c, int opt);
 size_t				get_varname_len(const char *var);
 // varvide.c
-char				*transform_string(char *str);
+char				*transform_string(char *str, int i, int j);
 //	clean_string.c
 char				**clean_string(char *str, t_data *data);
 char				*putspace_between_operateur(char *str, int j);
@@ -198,7 +198,7 @@ int					add_value(char *new, char *str, t_data *data, int *j);
 int					add_value_nospace(char *new, char *str, t_data *data,
 						int *j);
 //	neg_chars.c
-char				*negative_chars(char *str, t_data *data);
+char				*negative_chars(char *str, t_data *data, int size);
 int					find_char(char c);
 
 char				*positive_stringchar(char *str);

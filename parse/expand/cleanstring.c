@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanstring.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 01:26:17 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/26 16:43:22 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/26 18:50:07 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	**clean_string(char *str, t_data *data)
 	char	*ope;
 	char	*trans;
 
-	neg = negative_chars(str, data);
+	neg = negative_chars(str, data, ft_strlen(str));
 	if (!neg)
 		return (NULL);
 	ope = putspace_between_operateur(neg, 0);
@@ -29,12 +29,12 @@ char	**clean_string(char *str, t_data *data)
 		ft_memdel((void **)&neg);
 		return (NULL);
 	}
-	trans = transform_string(ope);
+	trans = transform_string(ope, 0, 0);
 	ft_memdel((void **)&ope);
 	clean = split_quote(trans, ISSPACE);
 	ft_memdel((void **)&trans);
 	positive_chars(clean);
-	//ft_displaydouble(clean);
+	ft_displaydouble(clean);
 	return (clean);
 }
 
@@ -69,7 +69,8 @@ char	*putspace_between_operateur(char *str, int j)
 		return (NULL);
 	while (str[i])
 	{
-		if (str[i] && (str[i] > 0 || str[i] == VARVIDE) && is_in_charset(str[i], "|<>"))
+		if (str[i] && (str[i] > 0 || str[i] == VARVIDE)
+			&& is_in_charset(str[i], "|<>"))
 		{
 			new[j++] = ' ';
 			if ((!ft_strncmp(&str[i], ">>", 2)

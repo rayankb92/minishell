@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   is_builtin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 17:05:34 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/26 16:37:15 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/26 17:24:18 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	do_builtin(t_cmd *cmd, t_data *data)
 		for (int i = 1; cmd -> args[i]; i++)
 			unset(data, cmd -> args[i]);
 	}
-	else if (ft_strcmp("env", cmd -> command) == 0)
+	else if (ft_strcmp("env", cmd -> command) == 0 && !cmd -> args[1])
 		display_env(data-> tenv);
 	update_status_code(data, data -> signal);
 }

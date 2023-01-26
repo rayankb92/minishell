@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 15:15:38 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/24 09:03:36 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/26 18:34:57 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ size_t	get_varname_len(const char *var)
 	i = 0;
 	if (!var || !*var)
 		return (0);
+	if (ft_isdigit(var[0]))
+		return (1);
 	while (var[i] && is_variable(var[i], 1))
 		i++;
 	return (i);
