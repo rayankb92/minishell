@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 12:42:43 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/26 13:23:24 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/26 19:25:47 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	attribute_sequence(int *start, int *index_ar, char **parse, t_cmd *ptr)
 }
 
 static
-void	set_sequence(t_cmd **ptr, char **arrays[2], int *index[3])
+void	setseq(t_cmd **ptr, char **arrays[2], int *index[3])
 {
 	char	**parse;
 	char	**split;
@@ -97,28 +97,27 @@ int	loop(t_data *data, t_cmd **cmd, char **parse, char **split)
 {
 	t_cmd	*ptr;
 	int		i;
-	int		index;
-	int		index_args;
-	int		index_split;
+	int		ind;
+	int		arg;
+	int		spl;
 
 	ptr = *cmd;
-	index = 0;
-	index_split = 0;
-	while (parse[index])
+	ind = 0;
+	spl = 0;
+	while (parse[ind])
 	{
 		i = 0;
-		index_args = 0;
-		while (parse[index][i] == '>' || parse[index][i] == '<')
+		arg = 0;
+		while (parse[ind][i] == '>' || parse[ind][i] == '<')
 			i++;
-		if (parse[index][i] != '\0')
+		if (parse[ind][i] != '\0')
 		{
-			ptr -> command = ft_strdup(parse[index]);
+			ptr -> command = ft_strdup(parse[ind]);
 			if (!ptr -> command)
 				return (EXIT_FAILURE);
 		}
-		attribute_args(& index, & index_args, parse, ptr);
-		set_sequence(& ptr, (char **[2]){parse, split}, \
-			(int *[3]){& index, & index_args, & index_split});
+		attribute_args(& ind, & arg, parse, ptr);
+		setseq(&ptr, (char **[2]){parse, split}, (int *[3]){&ind, &arg, &spl});
 	}
 	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/26 18:50:28 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/26 19:42:30 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -267,6 +267,8 @@ void				free_shell(t_data *data);
 void				free_cmd(t_cmd *ptr);
 void				free_tenv(t_env *ptr);
 void				free_heredoc(t_heredoc *heredoc, const int size);
+
+void	ascii_start(void);
 
 t_cmd				*lstlast(t_cmd *cmd);
 

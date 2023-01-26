@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_data.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 11:22:50 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/23 04:05:23 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/26 19:00:26 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,3 +57,10 @@ int	init_data(t_data *data, char **env)
 	data -> path = 0;
 	return (set_env(data, env, & env_set));
 }
+
+
+/*
+je suis un! bateau
+bateau un! suis je
+
+*/

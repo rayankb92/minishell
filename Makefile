@@ -43,7 +43,7 @@ SRC_FILES =	$(addprefix parse/, \
 				heredoc_utils.c) \
 			$(addprefix free/, \
 				free.c) \
-			main.c print.c
+			main.c print.c playstation.c
 
 
 #INIT = $(addsuffix .c, $(SRC_FILES))
