@@ -1,12 +1,13 @@
+
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   neg_chars.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 18:03:52 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/24 17:59:29 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/26 16:17:27 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +81,7 @@ static void	double_quote_check(char **dbl, int *i, int *j, t_data *data)
 
 static void	simple_quote_check(char *str, char *new, int *j, int *i)
 {
-	if (str[*i + 1] == '\'' && str[*i + 2] && is_in_charset(str[*i + 2],
+	if (str[*i + 1] == '\'' && is_in_charset(str[*i + 2],
 			ISSPACEOPE))
 		new[(*j)++] = SLASHBACK;
 	else
@@ -93,14 +94,16 @@ char	*negative_chars(char *s, t_data *data)
 {
 	int		i;
 	int		j;
+	int		size;
 	char	*new;
 
 	i = 0;
 	j = 0;
+	size = ft_strlen(s);
 	new = malloc(sizeof(char) * (count_newlen(data, s) + 2));
-	if (!new)
+	if (!new || !s)
 		return (NULL);
-	while (s[i])
+	while (i < size && s[i])
 	{
 		if (s[i] == '"')
 			double_quote_check((char *[2]){s, new}, &i, &j, data);

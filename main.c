@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 05:47:36 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/24 19:52:16 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/26 16:14:30 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,7 @@ void	quit(short status, t_data *data)
 static
 int	check(int ac)
 {
-	if (ac != 1)
-		return (EXIT_FAILURE);
-	if (!isatty(STDIN_FILENO))
+	if (ac != 1 || !isatty(STDIN_FILENO))
 		return (EXIT_FAILURE);
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, & ctrlc);
@@ -50,7 +48,7 @@ int	sub_main(t_data *data, const char *input, char **env, short *status)
 		data -> expand = 1;
 		parse_input(input, data -> cmd, data);
 		data -> herecopy = split_iscote((char *)input);
-		print_cmd(data->cmd);
+		//print_cmd(data->cmd);
 		exec(data);
 		*status = ft_atoi(get_key_from_tenv(data -> tenv, "?"));
 		free_heredoc(data -> here_doc, data -> len_here);
@@ -67,7 +65,7 @@ int	sub_main(t_data *data, const char *input, char **env, short *status)
 		ft_putstr_fd("Syntax error\n", 2);
 	return (EXIT_SUCCESS);
 }
-//double messge error parsing
+
 int	main(int ac, char **av, char **env)
 {
 	const char			*input;

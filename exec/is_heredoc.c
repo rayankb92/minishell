@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 18:19:49 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/24 12:11:34 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/26 09:50:36 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	len_here_doc(t_cmd *ptr)
 }
 
 static
-void	set_tabs(t_heredoc *tab, t_cmd *ptr)
+int	set_tabs(t_heredoc *tab, t_cmd *ptr)
 {
 	t_cmd	*tmp;
 	int		i;
@@ -52,12 +52,14 @@ void	set_tabs(t_heredoc *tab, t_cmd *ptr)
 			if (tmp -> sequence[i].index_redirect == DLESS)
 			{
 				tab[j].limiter = tmp->sequence[i].redirect;
-				pipe(tab[j++].pipe);
+				if (pipe(tab[j++].pipe) == -1)
+					return (EXIT_FAILURE);
 			}
 			i++;
 		}
 		tmp = tmp -> next;
 	}
+	return (EXIT_SUCCESS);
 }
 
 static
@@ -119,7 +121,8 @@ void	is_heredoc(t_data *data, t_cmd *ptr)
 	if (!data -> here_doc)
 		return ;
 	signal(SIGINT, SIG_IGN);
-	set_tabs(data -> here_doc, ptr);
+	if (set_tabs(data -> here_doc, ptr))
+		return ;
 	pid = fork();
 	if (pid == -1)
 		return ;

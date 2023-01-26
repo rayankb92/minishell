@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/26 07:21:24 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/26 16:39:29 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,7 +208,7 @@ char				*positive_stringchar(char *str);
 */
 //	is_builtin.c
 int					is_builtin(t_cmd *cmd);
-void				do_builtin(t_cmd *cmd, t_data *data, int fd);
+void				do_builtin(t_cmd *cmd, t_data *data);
 int					matching(const char *match);
 //	is_exit.c
 void				is_exit(t_data *data, char **argument);
@@ -220,7 +220,7 @@ void				cd(t_data *data, const char *path);
 //	unset.c
 void				unset(t_data *data, const char *key);
 //	echo.c
-void				echo(const char **arg, int fd);
+void				echo(const char **arg);
 //	export.c
 void				export(t_data *data, const char *str, int force);
 
@@ -258,7 +258,7 @@ void				reactiv(int sig);
 //	print.c
 void				print_cmd(t_cmd *cmd);
 void				display_lst(t_list *lst);
-void				display_env(t_env *env, int fd);
+void				display_env(t_env *env);
 /*
 	DIRECTORY: ./free
 */

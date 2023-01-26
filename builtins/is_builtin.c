@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   is_builtin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 17:05:34 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/26 00:02:55 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/26 16:37:15 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	matching(const char *match)
 	return (EXIT_FAILURE);
 }
 
-void	do_builtin(t_cmd *cmd, t_data *data, int fd)
+void	do_builtin(t_cmd *cmd, t_data *data)
 {
 	if (ft_strcmp("cd", cmd -> command) == 0)
 	{
@@ -46,7 +46,7 @@ void	do_builtin(t_cmd *cmd, t_data *data, int fd)
 			cd(data, "~");
 	}
 	else if (ft_strcmp("echo", cmd -> command) == 0)
-		echo((const char **)cmd -> args + 1, 1);
+		echo((const char **)cmd -> args + 1);
 	else if (ft_strcmp("pwd", cmd -> command) == 0)
 		pwd();
 	else if (ft_strcmp("exit", cmd -> command) == 0)
@@ -62,7 +62,7 @@ void	do_builtin(t_cmd *cmd, t_data *data, int fd)
 			unset(data, cmd -> args[i]);
 	}
 	else if (ft_strcmp("env", cmd -> command) == 0)
-		display_env(data-> tenv, 1);
+		display_env(data-> tenv);
 	update_status_code(data, data -> signal);
 }
 

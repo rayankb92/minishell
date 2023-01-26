@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 12:52:38 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/24 19:25:33 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/26 16:39:56 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	is_builtin_and_only_command(t_data *data)
 		copy = dup(STDOUT_FILENO);
 		if (is_redirection(data, data -> cmd))
 			return (EXIT_FAILURE);
-		do_builtin(data -> cmd, data, 1);
+		do_builtin(data -> cmd, data);
 		dup2(copy, STDOUT_FILENO);
 		close(copy);
 		return (EXIT_SUCCESS);

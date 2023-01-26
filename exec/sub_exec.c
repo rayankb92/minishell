@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sub_exec.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 13:16:58 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/26 00:19:16 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/26 16:40:11 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	start_command(t_data *data, t_cmd *ptr, char *command, int index_pid)
 	}
 	if (is_builtin(ptr) == EXIT_SUCCESS)
 	{
-		do_builtin(ptr, data, 1	);
+		do_builtin(ptr, data);
 		return (EXIT_SUCCESS);
 	}
 	if (ptr -> command && ptr -> command[0])

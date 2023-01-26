@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 23:18:11 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/26 07:29:57 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/26 09:57:20 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,6 @@ int	open_file(t_data *data, t_cmd *ptr,
 	}
 	return (fd);
 }
-
-// < a > b >> c << d
 
 int	is_redirection(t_data *data, t_cmd *ptr)
 {

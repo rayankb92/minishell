@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   varvide.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 01:32:19 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/26 01:37:55 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/26 16:32:17 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,19 @@ static char *retransform(char *str)
 	free(str);
 	while (epur[i])
 	{
-		if (epur[i] && is_in_charset(epur[i], "<>") && epur[i + 2] && is_in_charset(epur[i + 2], "<>"))
+		if (epur[i] && is_in_charset(epur[i], "<>") && epur[i + 1] && epur[i + 2] && is_in_charset(epur[i + 2], "<>"))
 		{
 			new[j++] = epur[i++];
 			new[j++] = ' ';
 			new[j++] = SLASHBACK;
 			new[j++] = ' ';
+		}
+		else if (epur[i] && is_in_charset(epur[i], "<>") && !epur[i + 1])
+		{
+			new[j++] = epur[i++];
+			new[j++] = ' ';
+			new[j++] = SLASHBACK;
+
 		}
 		else
 			new[j++] = epur[i++];
@@ -112,6 +119,6 @@ char *transform_string(char *str)
 		// i++;
 	}
 	new[j] = 0;
-	ft_printf("NEW ='%s'\n", new);
+	//ft_printf("NEW ='%s'\n", new);
 	return (retransform(new));
 }

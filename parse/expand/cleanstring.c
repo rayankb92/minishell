@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanstring.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 01:26:17 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/26 01:33:36 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/26 16:43:22 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	**clean_string(char *str, t_data *data)
 	clean = split_quote(trans, ISSPACE);
 	ft_memdel((void **)&trans);
 	positive_chars(clean);
-	ft_displaydouble(clean);
+	//ft_displaydouble(clean);
 	return (clean);
 }
 

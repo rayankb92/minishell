@@ -3,20 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 13:47:12 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/24 08:01:51 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/26 16:38:37 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/minishell.h"
 
-void	display_env(t_env *env, int fd)
+void	display_env(t_env *env)
 {
 	t_env	*temp;
 
-	fd = 1;
 	temp = env;
 	if (temp)
 		temp = temp -> next;
@@ -24,14 +23,14 @@ void	display_env(t_env *env, int fd)
 	{
 		if (temp -> key && temp -> value && temp->value[0])
 		{
-			ft_putstr_fd(temp -> key, fd);
-			ft_putchar_fd('=', fd);
-			ft_putendl_fd(temp -> value, fd);
+			ft_putstr(temp -> key);
+			ft_putchar('=');
+			ft_putendl(temp -> value);
 		}
 		else if (temp -> key && temp -> equal == 0)
 		{
-			ft_putstr_fd(temp -> key, fd);
-			ft_putendl_fd("=", fd);
+			ft_putstr(temp -> key);
+			ft_putendl("=");
 		}
 		temp = temp -> next;
 	}

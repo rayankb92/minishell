@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/31 12:50:48 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/24 09:42:55 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/26 16:39:07 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	is_valid_option(const char *opt)
 	return (1);
 }
 
-void print(const char **arg, int i, int fd)
+void print(const char **arg, int i)
 {
 	int boolean;
 
@@ -39,24 +39,24 @@ void print(const char **arg, int i, int fd)
 	{
 		if (arg[i + 1])
 		{
-			ft_putstr_fd(arg[i], fd);
-			ft_putstr_fd(" ", fd);
+			ft_putstr(arg[i]);
+			ft_putstr(" ");
 		}
 		else
-			ft_putstr_fd(arg[i], fd);
+			ft_putstr(arg[i]);
 		i++;
 	}
 	if (!boolean)
-		ft_putstr_fd("\n", fd);
+		ft_putstr("\n");
 }
 
-void	echo(const char **arg, int fd)
+void	echo(const char **arg)
 {
 	int i = 0;
 	
 	while (arg[i] && is_valid_option(arg[i]))
 		i++;
-	print(arg, i, fd);
+	print(arg, i);
 }
 
 // [-nnnnnnno] [woiejoiwe] [sdij]
