@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/26 01:37:26 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/26 07:21:24 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,13 +116,13 @@ typedef struct s_data
 //	init_data.c
 int					init_data(t_data *data, char **env);
 
-// PARSE HEREDOC
+//	PARSE HEREDOC
 int					countlen(char *str);
 int					lenword(char *str);
 char				**split_iscote(char *str);
 void				find_here_doc(char **here, t_data *data);
 
-// STARTON
+//	STARTON
 t_data				*starton(void);
 
 /*

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   is_redirection.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 23:18:11 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/25 22:50:16 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/26 07:29:57 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	open_file(t_data *data, t_cmd *ptr,
 
 	fd = -1;
 	index_redirect = ptr -> sequence[index_sequence].index_redirect;
-	if (index_redirect != DLESS)
+	if (index_redirect != DLESS && ptr -> sequence[index_sequence].redirect[0] != VARVIDE)
 		fd = open(ptr -> sequence[index_sequence].redirect, \
 			flags[index_redirect - 1], 0666);
 	if (index_redirect == DLESS && data -> len_here != 0)
