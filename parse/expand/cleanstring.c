@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 01:26:17 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/24 17:29:06 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/26 01:33:36 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,22 @@ char	**clean_string(char *str, t_data *data)
 	char	**clean;
 	char	*neg;
 	char	*ope;
+	char	*trans;
 
 	neg = negative_chars(str, data);
 	if (!neg)
 		return (NULL);
 	ope = putspace_between_operateur(neg, 0);
+	ft_memdel((void **)&neg);
 	if (!ope)
 	{
 		ft_memdel((void **)&neg);
 		return (NULL);
 	}
-	ft_memdel((void **)&neg);
-	clean = split_quote(ope, ISSPACE);
+	trans = transform_string(ope);
 	ft_memdel((void **)&ope);
+	clean = split_quote(trans, ISSPACE);
+	ft_memdel((void **)&trans);
 	positive_chars(clean);
 	ft_displaydouble(clean);
 	return (clean);
@@ -66,7 +69,7 @@ char	*putspace_between_operateur(char *str, int j)
 		return (NULL);
 	while (str[i])
 	{
-		if (str[i] && str[i] > 0 && is_in_charset(str[i], "|<>"))
+		if (str[i] && (str[i] > 0 || str[i] == VARVIDE) && is_in_charset(str[i], "|<>"))
 		{
 			new[j++] = ' ';
 			if ((!ft_strncmp(&str[i], ">>", 2)

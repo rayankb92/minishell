@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/24 21:27:39 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/26 01:37:26 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,6 +184,8 @@ char				*expand(t_data *data, const char *var);
 size_t				get_varvalue_len(t_data *data, const char *var);
 size_t				is_variable(const char c, int opt);
 size_t				get_varname_len(const char *var);
+// varvide.c
+char				*transform_string(char *str);
 //	clean_string.c
 char				**clean_string(char *str, t_data *data);
 char				*putspace_between_operateur(char *str, int j);
@@ -209,7 +211,7 @@ int					is_builtin(t_cmd *cmd);
 void				do_builtin(t_cmd *cmd, t_data *data, int fd);
 int					matching(const char *match);
 //	is_exit.c
-int				is_exit(t_data *data, char **argument);
+void				is_exit(t_data *data, char **argument);
 //	pwd.c
 void				pwd(void);
 char				*pwd_malloc(void);

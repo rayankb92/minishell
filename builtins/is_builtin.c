@@ -6,13 +6,13 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 17:05:34 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/24 19:38:40 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/01/26 00:02:55 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+# include "../include/minishell.h"
 
-#define SIZEMATCH	7
+# define SIZEMATCH	7
 
 int	matching(const char *match)
 {
@@ -31,19 +31,6 @@ int	matching(const char *match)
 	return (EXIT_FAILURE);
 }
 
-void	multiple_export_unset(t_cmd *cmd, t_data *data, int opt)
-{
-	int	i;
-
-	i = 1;
-	if (opt)
-		while (cmd -> args[i])
-			export(data, cmd -> args[i++], 0);
-	else
-		while (cmd -> args[i])
-			unset(data, cmd -> args[i++]);
-}
-
 void	do_builtin(t_cmd *cmd, t_data *data, int fd)
 {
 	if (ft_strcmp("cd", cmd -> command) == 0)
@@ -59,17 +46,23 @@ void	do_builtin(t_cmd *cmd, t_data *data, int fd)
 			cd(data, "~");
 	}
 	else if (ft_strcmp("echo", cmd -> command) == 0)
-		echo((const char **)cmd -> args + 1, fd);
+		echo((const char **)cmd -> args + 1, 1);
 	else if (ft_strcmp("pwd", cmd -> command) == 0)
 		pwd();
 	else if (ft_strcmp("exit", cmd -> command) == 0)
 		is_exit(data, cmd -> args);
 	else if (ft_strcmp("export", cmd -> command) == 0)
-		multiple_export_unset(cmd, data, 1);
+	{
+		for (int i = 1; cmd -> args[i]; i++)
+			export(data, cmd -> args[i], 0);
+	}
 	else if (ft_strcmp("unset", cmd -> command) == 0)
-		multiple_export_unset(cmd, data, 1);
+	{
+		for (int i = 1; cmd -> args[i]; i++)
+			unset(data, cmd -> args[i]);
+	}
 	else if (ft_strcmp("env", cmd -> command) == 0)
-		display_env(data-> tenv, fd);
+		display_env(data-> tenv, 1);
 	update_status_code(data, data -> signal);
 }
 

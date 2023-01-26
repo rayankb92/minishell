@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sub_exec.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 13:16:58 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/25 11:27:17 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/26 00:19:16 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,14 @@ static
 int	start_command(t_data *data, t_cmd *ptr, char *command, int index_pid)
 {
 	pipe_redirection(data, index_pid);
-	is_redirection(data, ptr);
+	if (is_redirection(data, ptr))
+	{
+		ft_memdel((void **)& command);
+		exit(EXIT_FAILURE);
+	}
 	if (is_builtin(ptr) == EXIT_SUCCESS)
 	{
-		do_builtin(ptr, data, data -> pipes[1]);
+		do_builtin(ptr, data, 1	);
 		return (EXIT_SUCCESS);
 	}
 	if (ptr -> command && ptr -> command[0])
@@ -94,9 +98,7 @@ void	is_child(t_data *data, t_cmd *ptr, int index_pid)
 		start_command(data, ptr, command, index_pid);
 	ft_memdel((void **)& command);
 	close_fd(& data -> pipes);
-	ft_printf("--- BEFORE ---\n");
 	free_shell(data);
-	ft_printf("--- AFTER ---\n");
 	exit(data -> signal);
 }
 

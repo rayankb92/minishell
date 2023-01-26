@@ -30,7 +30,7 @@ SRC_FILES =	$(addprefix parse/, \
 				t_env_init.c	t_env.c				t_env_utils.c) \
 			$(addprefix parse/expand/, \
 				expand.c		splitquote.c		cleanstring.c				add_expand_to_str.c\
-				neg_chars.c) \
+				neg_chars.c		varvide.c) \
 			$(addprefix builtins/, \
 				cd.c			pwd.c				export.c					unset.c \
 				echo.c			exit.c				is_builtin.c) \

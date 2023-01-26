@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 16:25:30 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/25 07:35:26 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/24 11:54:16 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ int	count_occurence(const char *str, const char c)
 	return (occur);
 }
 
-//heja sur la taille
 int	get_length_args(char **ptr)
 {
 	int	i;
@@ -48,10 +47,8 @@ int	get_length_args(char **ptr)
 	length = ft_arraylen(ptr);
 	while (i < length && ptr[i])
 	{
-		//ft_printf("LENGTHH: %d | %s\n", length, ptr[i]);
 		while (ptr[i])
 		{
-			//ft_printf("LENGTHH: %d | %s\n", length, ptr[i]);
 			if (ptr[i][1] == 0 && (ptr[i][0] == '>' || ptr[i][0] == '<'))
 				break ;
 			if (ptr[i][1] != 0
@@ -59,14 +56,12 @@ int	get_length_args(char **ptr)
 					|| (ptr[i][0] == '<' && ptr[i][1] == '<'))
 				&& ptr[i][2] == 0)
 				break ;
-			if (ptr[i][0] != VARVIDE)
-				size++;
+			size++;
 			i++;
 		}
 		if (ptr[i] && (ptr[i][0] == '>' || ptr[i][0] == '<'))
 			i += 2;
 	}
-	//ft_printf("SIZEEE: %d\n", size);
 	return (size);
 }
 

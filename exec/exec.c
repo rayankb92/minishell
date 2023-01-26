@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 12:52:38 by jewancti          #+#    #+#             */
-/*   Updated: 2023/01/24 22:26:45 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/01/24 19:25:33 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,6 @@ void	loop_exec(t_data *data, int *index_pid)
 			is_father(data, *index_pid);
 		(*index_pid)++;
 		ptr = ptr -> next;
-		while (ptr && ptr -> command == NULL)
-			ptr = ptr -> next;
 	}
 	close(data->pipes[0]);
 }
