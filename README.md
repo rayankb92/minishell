@@ -6,11 +6,8 @@ The objective of this project is to recode a shell like Bash. A shell is the int
 
 ## Demo
 
-./demo.mp4
+https://github.com/rayankb92/minishell/assets/90380810/3ecf7faf-227d-4c64-ad09-2364b841acf9
 
-[![Demo] 
-(https://www.linuxadictos.com/wp-content/uploads/bash-1.png]
-(./demo.mp4)
 ## Features
 
 - Basic command-line interpreter
