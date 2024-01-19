@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 05:47:36 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/26 19:36:41 by rferradi         ###   ########.fr       */
+/*   Updated: 2024/01/19 02:18:02 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	main(int ac, char **av, char **env)
 	data = starton();
 	while (1)
 	{
-		input = readline("Fumier$ ");
+		input = readline(build_prompt(&status));
 		if (!input)
 			quit(status, data);
 		if (*input)

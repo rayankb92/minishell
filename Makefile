@@ -11,6 +11,7 @@ EXPAND_DIR	= $(PARSE_DIR)/expand
 SIGNAL_DIR	= signal
 EXEC_DIR	= exec
 FREE_DIR	= free
+PROMPT_DIR	= prompt
 
 INIT_DIRS	= $(INIT_DIR)\
 			$(BLTS_DIR)\
@@ -21,6 +22,7 @@ INIT_DIRS	= $(INIT_DIR)\
 			$(EXEC_DIR)\
 			$(FREE_DIR)\
 			$(WILD_DIR)\
+			$(PROMPT_DIR)\
 			
 
 SRC_FILES =	$(addprefix parse/, \
@@ -43,6 +45,7 @@ SRC_FILES =	$(addprefix parse/, \
 				heredoc_utils.c) \
 			$(addprefix free/, \
 				free.c) \
+			$(addprefix prompt/, prompt.c)\
 			main.c print.c playstation.c
 
 
@@ -95,6 +98,7 @@ $(OBJS_DIR) :
 	mkdir $(OBJS_DIR)/$(EXEC_DIR)
 	mkdir $(OBJS_DIR)/$(FREE_DIR)
 	mkdir $(OBJS_DIR)/$(WILD_DIR)
+	mkdir $(OBJS_DIR)/$(PROMPT_DIR)
 
 $(OBJS) : $(OBJS_DIR)/%.o : %.c
 	$(CC) $(CFLAGS) $(CDFLAGS) $(CIFLAGS) -c $< -o $@

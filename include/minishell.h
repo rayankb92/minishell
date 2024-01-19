@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 01:26:47 by rferradi          #+#    #+#             */
-/*   Updated: 2023/01/26 19:42:30 by rferradi         ###   ########.fr       */
+/*   Updated: 2024/01/19 02:19:24 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,16 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# define BB "\001\033[1;34m\002"
+# define CB "\001\033[1;36m\002"
+# define WB "\001\033[1;37m\002"
+# define GR "\001\033[1;92m\002"
+# define RB "\001\033[1;31m\002"
+# define GB "\001\033[1;32m\002"
+# define BRB "\001\033[1;33m\002"
+# define EB "\001\033[0m\002"
+# define ARROW "\001→ \002"
+
 
 # define ISSPACE "\t\v\n\r\f "
 # define VARVIDE 6
@@ -108,6 +118,9 @@ typedef struct s_data
 
 	struct t_data	*next;
 }					t_data;
+
+
+char	*build_prompt(short *status);
 
 /*
 	DIRECTORY: ./SRC
